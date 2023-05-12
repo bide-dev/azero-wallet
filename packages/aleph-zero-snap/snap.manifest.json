@@ -1,0 +1,35 @@
+{
+  "version": "0.3.0",
+  "description": "Aleph Zero Snap",
+  "proposedName": "Aleph Zero Snap",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/piotr-roslaniec/aleph-zero-snap"
+  },
+  "source": {
+    "shasum": "dDmLVWJVKdomxKilCG2xn8MIbhjkIBnaOhaLPMa8YtM=",
+    "location": {
+      "npm": {
+        "filePath": "dist/index.js",
+        "iconPath": "images/icon.svg",
+        "packageName": "aleph-zero-snap",
+        "registry": "https://registry.npmjs.org/"
+      }
+    }
+  },
+  "initialPermissions": {
+    "endowment:network-access": {},
+    "endowment:webassembly": {},
+    "snap_manageState": {},
+    "snap_getBip44Entropy": [
+      {
+        "coinType": 434
+      }
+    ],
+    "endowment:rpc": {
+      "dapps": true,
+      "snaps": false
+    }
+  },
+  "manifestVersion": "0.1"
+}
