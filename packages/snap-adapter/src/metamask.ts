@@ -29,6 +29,10 @@ export async function requestSnap<T extends RpcParams, U>(
     method: T['method'],
     params?: T['params'],
 ): Promise<U> {
+  console.log({
+    snapId: SNAP_ID,
+    request: {method, params},
+  });
     return await request('wallet_invokeSnap', {
         snapId: SNAP_ID,
         request: {method, params},
@@ -64,4 +68,3 @@ export const connect = async (
         throw error;
     }
 };
-  
