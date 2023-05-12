@@ -68,7 +68,7 @@ export const sendTxTransferToSelf = async () => {
   const transfer = api.tx.balances.transfer(account, 12345);
   console.log({ transfer });
 
-  await azeroSnap.sendTxTransferToSelf(account);
+  // await azeroSnap.sendTxTransferToSelf(account);
 
 };
 

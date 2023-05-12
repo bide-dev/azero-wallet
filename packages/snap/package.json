@@ -61,6 +61,7 @@
     "@metamask/snaps-types": "^0.32.2",
     "@metamask/snaps-ui": "^0.32.2",
     "@metamask/snaps-webpack-plugin": "^0.32.2",
+    "@polkadot/types": "^10.6.1",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
     "babel-loader": "^9.1.2",
