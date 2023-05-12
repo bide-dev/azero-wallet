@@ -1,33 +1,69 @@
+import { ethErrors } from 'eth-rpc-errors';
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
-import { panel, text } from '@metamask/snaps-ui';
+import { initWasm } from '@polkadot/wasm-crypto/initOnlyAsm';
 
-/**
- * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
- *
- * @param args - The request handler args as object.
- * @param args.origin - The origin of the request, e.g., the website that
- * invoked the snap.
- * @param args.request - A validated JSON-RPC request object.
- * @returns The result of `snap_dialog`.
- * @throws If the request method is not valid for this snap.
- */
-export const onRpcRequest: OnRpcRequestHandler = ({ origin, request }) => {
-  switch (request.method) {
-    case 'hello':
-      return snap.request({
-        method: 'snap_dialog',
-        params: {
-          type: 'confirmation',
-          content: panel([
-            text(`Hello, **${origin}**!`),
-            text('This custom confirmation is just for display purposes.'),
-            text(
-              'But you can edit the snap source code to make it do something, if you want to!',
-            ),
-          ]),
-        },
-      });
+import { KeyPairFactory } from './account';
+import * as handlers from './handlers';
+import { SnapState } from './state';
+import { Bip44Node } from './types';
+import { SubstrateApi } from './substrate-api';
+
+let entropy: Bip44Node;
+let state: SnapState;
+let api: SubstrateApi;
+
+initWasm().catch((err) => console.error(err));
+
+export const onRpcRequest: OnRpcRequestHandler = async ({
+  origin,
+  request,
+}): Promise<any> => {
+  console.info({
+    origin: JSON.stringify(origin),
+    request: JSON.stringify(request),
+  });
+  const { method, params } = request;
+
+  if (!entropy) {
+    console.info('Requesting entropy');
+    // Disabling lint because we want to have control over when wasm is initialized
+    // eslint-disable-next-line require-atomic-updates
+    entropy = await snap.request({
+      method: `snap_getBip44Entropy`,
+      params: {
+        coinType: KeyPairFactory.COIN_TYPE,
+      },
+    });
+    console.info('Received entropy');
+  }
+
+  if (!api) {
+    console.info('Initializing Substrate API');
+    api = new SubstrateApi();
+    await api.init();
+    console.info('Initialized Substrate API');
+  }
+
+  console.info('Creating SnapState from persisted data');
+  state = await SnapState.fromPersisted(entropy);
+  console.info('Created SnapState from persisted data');
+
+  switch (method) {
+    case 'getAccountFromSeed':
+      return await handlers.getAccountFromSeed(state, params);
+
+    case 'generateNewAccount':
+      return await handlers.generateAccount(state, entropy);
+
+    case 'signTransaction':
+      return await handlers.signTransaction(state, params, api);
+
+    case 'getAccounts':
+      return handlers.getAccounts(state);
+
     default:
-      throw new Error('Method not found.');
+      throw ethErrors.rpc.methodNotFound({
+        data: { request: { method, params } },
+      });
   }
 };

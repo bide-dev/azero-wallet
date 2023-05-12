@@ -37,25 +37,31 @@ export async function requestSnap<T extends RpcParams, U>(
 
 /**
  * Connect to snap. Attempts to install the snap if needed.
- * @throws If fails to connect
+ * @param snapId - The ID of the snap.
+ * @param params - The params to pass with the snap to connect.
+ * @returns
+ * @throws If fails to connect to snap or install the snap.
  */
-export const connect = async () => {
+export const connect = async (
+    snapId: string = SNAP_ID,
+    params: Record<'version' | string, unknown> = {},
+) => {
+    console.log({snapId, params});
     try {
         await window.ethereum.request({
             method: 'wallet_requestSnaps',
             params: {
-                [SNAP_ID]: {},
+              [snapId]: params,
             },
         });
     } catch (error) {
         // The `wallet_requestSnaps` call will throw if the requested permissions are rejected.
         if ((error as any).code === 4001) {
             console.error('The user rejected the request.');
-            alert('The user rejected the request.');
         } else {
             console.error(error);
-            alert('Error: ' + (error as any).message || error);
         }
         throw error;
     }
 };
+  

@@ -1,37 +1,56 @@
 {
-  "name": "snap",
-  "version": "0.1.0",
-  "private": true,
-  "description": "The 'Hello, world!' of MetaMask Snaps, now written in TypeScript.",
+  "name": "aleph-zero-snap",
+  "version": "0.3.0",
+  "description": "Aleph Zero Snap",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MetaMask/template-snap-monorepo.git"
+    "url": "https://github.com/piotr-roslaniec/aleph-zero-snap"
   },
-  "license": "(MIT-0 OR Apache-2.0)",
-  "main": "src/index.ts",
+  "license": "GPL-3.0",
+  "author": "Piotr Roslaniec <p.roslaniec@gmail.com>",
+  "main": "src/index.js",
   "files": [
     "dist/",
     "images/",
     "snap.manifest.json"
   ],
   "scripts": {
-    "build": "mm-snap build",
-    "build:clean": "yarn clean && yarn build",
-    "build:website": "node ./scripts/build-website.js",
-    "clean": "rimraf dist",
+    "build": "yarn clean && yarn build:fix-deps && yarn build:snap && yarn build:fix-bundle && cp snap.manifest.json dist/",
+    "build:clean": "rm -rf node_modules/wasm-bundler && yarn install --check-files && yarn clean && yarn build",
+    "build:fix-bundle": "node scripts/fix-bundle.js && mm-snap manifest --fix && mm-snap eval --verboseErrors --bundle dist/index.js && cp snap.manifest.json ../site/",
+    "build:fix-deps": "node scripts/fix-smoldot.js",
+    "build:snap": "yarn webpack",
+    "build:webpack": "webpack",
+    "clean": "rimraf dist build",
+    "dev": "nodemon --watch src/ --ext ts --ignore src/wasm.ts --exec 'yarn start'",
     "lint": "yarn lint:eslint && yarn lint:misc --check",
     "lint:eslint": "eslint . --cache --ext js,ts",
     "lint:fix": "yarn lint:eslint --fix && yarn lint:misc --write",
     "lint:misc": "prettier '**/*.json' '**/*.md' '!CHANGELOG.md' --ignore-path .gitignore",
     "serve": "mm-snap serve",
-    "start": "mm-snap watch"
+    "start": "yarn build && yarn serve"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   },
   "dependencies": {
-    "@metamask/snaps-types": "^0.32.2",
-    "@metamask/snaps-ui": "^0.32.2",
-    "buffer": "^6.0.3"
+    "@metamask/browser-passworder": "^3.0.0",
+    "@metamask/key-tree": "^3.0.1",
+    "@polkadot/api": "^9.9.4",
+    "@polkadot/keyring": "^10.1.14",
+    "@polkadot/util": "^10.1.14",
+    "async-mutex": "^0.3.2",
+    "azero-snap-adapter": "workspace:*",
+    "eth-rpc-errors": "^4.0.3",
+    "sha3": "^2.1.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.21.3",
+    "@babel/plugin-syntax-import-assertions": "^7.20.0",
+    "@babel/preset-env": "^7.21.5",
+    "@babel/preset-typescript": "^7.21.0",
     "@lavamoat/allow-scripts": "^2.0.3",
     "@metamask/auto-changelog": "^2.6.0",
     "@metamask/eslint-config": "^10.0.0",
@@ -39,8 +58,12 @@
     "@metamask/eslint-config-nodejs": "^10.0.0",
     "@metamask/eslint-config-typescript": "^10.0.0",
     "@metamask/snaps-cli": "^0.32.2",
+    "@metamask/snaps-types": "^0.32.2",
+    "@metamask/snaps-ui": "^0.32.2",
+    "@metamask/snaps-webpack-plugin": "^0.32.2",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
+    "babel-loader": "^9.1.2",
     "eslint": "^8.21.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.26.0",
@@ -48,18 +71,30 @@
     "eslint-plugin-jsdoc": "^39.2.9",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.2.1",
+    "eslint-webpack-plugin": "^4.0.1",
+    "fork-ts-checker-webpack-plugin": "^8.0.0",
+    "mkdirp": "^1.0.4",
+    "nodemon": "^2.0.16",
+    "prettier": "^2.3.2",
     "prettier-plugin-packagejson": "^2.2.11",
     "rimraf": "^3.0.2",
-    "through2": "^4.0.2",
-    "typescript": "^4.7.4"
+    "standard-version": "^9.5.0",
+    "typescript": "^4.7.4",
+    "webpack": "^5.82.0",
+    "webpack-cli": "^5.1.0",
+    "webpack-merge": "^5.8.0",
+    "webpackbar": "^5.0.2"
   },
-  "packageManager": "yarn@3.2.1",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=14.18.0"
   },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "standard-version": {
+    "scripts": {
+      "postbump": "yarn manifest:fix"
+    }
   }
 }

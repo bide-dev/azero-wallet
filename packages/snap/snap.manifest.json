@@ -1,24 +1,31 @@
 {
-  "version": "0.1.0",
-  "description": "An example Snap written in TypeScript.",
-  "proposedName": "TypeScript Example Snap",
+  "version": "0.3.0",
+  "description": "Aleph Zero Snap",
+  "proposedName": "Aleph Zero Snap",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MetaMask/template-snap-monorepo.git"
+    "url": "https://github.com/piotr-roslaniec/aleph-zero-snap"
   },
   "source": {
-    "shasum": "usoZPr0F4J12BaVbuDQRCCIW2cj/N5gZD7ccOJfDZV8=",
+    "shasum": "FAPq2KgPvrVSo+D8vIsoHCH/bwRZIjRsp3S2U+gqJyk=",
     "location": {
       "npm": {
-        "filePath": "dist/bundle.js",
+        "filePath": "dist/index.js",
         "iconPath": "images/icon.svg",
-        "packageName": "snap",
+        "packageName": "aleph-zero-snap",
         "registry": "https://registry.npmjs.org/"
       }
     }
   },
   "initialPermissions": {
-    "snap_dialog": {},
+    "endowment:network-access": {},
+    "endowment:webassembly": {},
+    "snap_manageState": {},
+    "snap_getBip44Entropy": [
+      {
+        "coinType": 434
+      }
+    ],
     "endowment:rpc": {
       "dapps": true,
       "snaps": false

@@ -3,17 +3,6 @@ import { PublicAccount } from "./types";
 import { SignerPayloadJSON } from '@polkadot/types/types';
 
 /**
- * Check whether the user has installed the snap.
- */
-export const isEnabled = async (): Promise<boolean> => {
-    try {
-        return await requestSnap("isEnabled");
-    } catch {
-        return false;
-    }
-};
-
-/**
  * Recreate an account from a seed, persist it, and return the account info.
  * @param seed The hex-encoded account seed bytes.
  * @returns Recovered account public info.
