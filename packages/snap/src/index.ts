@@ -42,9 +42,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
 
     // TODO: Remove before deployment
     const proxyUrl = 'http://localhost:3000/';
-    const targetUrl = 'https://test.azero.dev/';
 
-    api = new SubstrateApi(proxyUrl + targetUrl);
+    api = new SubstrateApi(proxyUrl);
     await api.init();
     console.info('Initialized Substrate API');
   }

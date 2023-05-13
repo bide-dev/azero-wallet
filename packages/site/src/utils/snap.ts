@@ -27,7 +27,8 @@ export const connectSnap = async (
   snapId: string = defaultSnapOrigin,
   params: Record<'version' | string, unknown> = {},
 ) => {
-  await azeroSnap.connect(snapId, params);
+  // await azeroSnap.connect(snapId, params);
+  await azeroSnap.connect();
 };
 
 // TODO: Add to snap adapter
