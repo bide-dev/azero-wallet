@@ -1,9 +1,7 @@
 import { ApiPromise } from '@polkadot/api';
+import * as azeroSnap from 'azero-snap-adapter';
 import { defaultSnapOrigin } from '../config';
 import { GetSnapsResponse, Snap } from '../types';
-
-import * as azeroSnap from 'azero-snap-adapter';
-
 
 // TODO: Add to snap adapter
 /**
@@ -42,6 +40,8 @@ export const getSnap = async (version?: string): Promise<Snap | undefined> => {
   console.log('getSnap', version);
   try {
     const snaps = await getSnaps();
+    console.log({ snaps });
+    console.log({ defaultSnapOrigin });
 
     return Object.values(snaps).find(
       (snap) =>
@@ -70,7 +70,6 @@ export const sendTxTransferToSelf = async () => {
   console.log({ transfer });
 
   // await azeroSnap.sendTxTransferToSelf(account);
-
 };
 
 export const isLocalSnap = (snapId: string) => snapId.startsWith('local:');
