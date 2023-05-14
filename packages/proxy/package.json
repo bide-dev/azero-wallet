@@ -5,8 +5,7 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "cors": "^2.8.5",
-    "http-proxy": "^1.18.1",
-    "http-proxy-middleware": "^2.0.6"
+    "fast-proxy": "^2.1.0",
+    "restana": "^4.9.7"
   }
 }

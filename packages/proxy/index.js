@@ -1,28 +1,25 @@
-const http = require('http');
-const { createProxyMiddleware } = require('http-proxy-middleware');
-const cors = require('cors');
+const { proxy, close } = require('fast-proxy')({
+  base: 'https://test.azero.dev',
+});
+const gateway = require('restana')();
 
-const options = {
-  target: 'https://test.azero.dev',
-  changeOrigin: true,
-  onProxyReq(_proxyReq, req, res) {
-    // eslint-disable-next-line no-empty-function
-    cors()(req, res, () => {});
-  },
-  onError(_err, _req, res) {
-    res.writeHead(500, { 'Content-Type': 'text/plain' });
-    res.end(
-      'Something went wrong. And we are reporting a custom error message.',
-    );
-  },
-};
+// Middleware function for logging incoming requests
+function logRequest(req, res, next) {
+  console.log(`Request: ${req.method} ${req.url}`);
+  const originalResEnd = res.end;
+  res.end = function () {
+    console.log(`Response: ${res.statusCode} - ${req.method} ${req.url}`);
+    originalResEnd.apply(this, arguments);
+  };
+  next();
+}
 
-const proxy = createProxyMiddleware(options);
+gateway.use(logRequest); // Add the logging middleware
 
-const server = http.createServer((req, res) => {
-  proxy(req, res);
+gateway.all('/', function (req, res) {
+  proxy(req, res, req.url, {});
 });
 
-server.listen(3000, () => {
+gateway.start(3000, () => {
   console.log('Proxy server listening on http://localhost:3000');
 });

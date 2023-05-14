@@ -2,7 +2,7 @@ import { resolve } from 'path';
 import SnapsWebpackPlugin from '@metamask/snaps-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import { Configuration, ProvidePlugin } from 'webpack';
+import { Configuration, ProvidePlugin, DefinePlugin } from 'webpack';
 import { merge } from 'webpack-merge';
 import WebpackBarPlugin from 'webpackbar';
 
@@ -20,11 +20,15 @@ const common: Configuration = {
   },
   resolve: {
     extensions: ['.ts', '.js'],
-    // fallback: {
-    //   stream: false,
+    fallback: {
     //   buffer: require.resolve('buffer/'),
     //   crypto: require.resolve('crypto-browserify/'),
-    // },
+    //   http: false,
+    //   path: false,
+    //   stream: false,
+    //   zlib: false,
+    //   https: false,
+    },
   },
   module: {
     rules: [
