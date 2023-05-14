@@ -3,10 +3,16 @@ import { OnRpcRequestHandler } from '@metamask/snaps-types';
 import { initWasm } from '@polkadot/wasm-crypto/initOnlyAsm';
 
 import { KeyPairFactory } from './account';
-import * as handlers from './handlers';
 import { SnapState } from './state';
 import { Bip44Node } from './types';
 import { SubstrateApi } from './substrate-api';
+import {
+  generateAccountHandler,
+  getAccountFromSeedHandler,
+  getAccountsHandler,
+  // signAndSendExtrinsicTransactionHandler,
+  signExtrinsicPayloadHandler,
+} from './handlers';
 
 let entropy: Bip44Node;
 let state: SnapState;
@@ -54,17 +60,19 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   console.info('Created SnapState from persisted data');
 
   switch (method) {
+    // Account methods
     case 'getAccountFromSeed':
-      return await handlers.getAccountFromSeed(state, params);
-
+      return await getAccountFromSeedHandler(state, params);
     case 'generateNewAccount':
-      return await handlers.generateAccount(state, entropy);
-
-    case 'signTransaction':
-      return await handlers.signTransaction(state, params, api);
-
+      return await generateAccountHandler(state, entropy);
     case 'getAccounts':
-      return handlers.getAccounts(state);
+      return getAccountsHandler(state);
+
+    // Transaction methods
+    case 'signExtrinsicPayload':
+      return await signExtrinsicPayloadHandler(state, params);
+    // case 'signAndSendExtrinsicTransaction':
+    //   return await signAndSendExtrinsicTransactionHandler(state, params, api);
 
     default:
       throw ethErrors.rpc.methodNotFound({

@@ -21,13 +21,13 @@ const common: Configuration = {
   resolve: {
     extensions: ['.ts', '.js'],
     fallback: {
-    //   buffer: require.resolve('buffer/'),
-    //   crypto: require.resolve('crypto-browserify/'),
-    //   http: false,
-    //   path: false,
-    //   stream: false,
-    //   zlib: false,
-    //   https: false,
+      //   buffer: require.resolve('buffer/'),
+      //   crypto: require.resolve('crypto-browserify/'),
+      //   http: false,
+      //   path: false,
+      //   stream: false,
+      //   zlib: false,
+      //   https: false,
     },
   },
   module: {

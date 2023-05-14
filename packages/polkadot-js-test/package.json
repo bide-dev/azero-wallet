@@ -1,0 +1,12 @@
+{
+  "name": "polkadot-js-test",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@polkadot/api": "^9.9.4",
+    "@polkadot/keyring": "^10.1.14",
+    "@polkadot/util": "^10.1.14"
+  },
+  "packageManager": "yarn@3.2.1"
+}

@@ -6,17 +6,30 @@ import { ethErrors } from 'eth-rpc-errors';
 import { SnapState } from 'state';
 import { SubstrateApi } from 'substrate-api';
 
+import { GenericExtrinsicPayload } from '@polkadot/types';
 import { Bip44Node } from './types';
 
-export type PayloadToSign = SignerPayloadJSON;
-
-export interface PrivateAccount extends PublicAccount {
+export type PrivateAccount = {
   seed: string;
-}
+} & PublicAccount;
 
-export interface PublicAccount {
+export type PublicAccount = {
   address: string;
   publicKey: string;
+};
+
+export class KeyPairFactory {
+  static SS58FORMAT = 42; // default
+
+  static COIN_TYPE = 434; // kusama
+
+  static fromSeed(seed: Uint8Array): KeyringPair {
+    const keyring = new Keyring({
+      ss58Format: KeyPairFactory.SS58FORMAT,
+      type: 'sr25519',
+    });
+    return keyring.addFromSeed(seed);
+  }
 }
 
 export const persistAccount = async (
@@ -65,10 +78,9 @@ export const generateAccountFromEntropy = async (
   return publicAccount;
 };
 
-export const signTx = async (
+export const signExtrinsicPayload = async (
   state: SnapState,
-  transaction: PayloadToSign,
-  api: SubstrateApi,
+  payload: GenericExtrinsicPayload,
 ) => {
   const accounts = Object.values(state.wallet.accountMap);
   if (accounts.length < 1) {
@@ -79,21 +91,21 @@ export const signTx = async (
 
   const account = accounts[0];
   const keyPair = KeyPairFactory.fromSeed(hexToU8a(account.seed));
-
-  const toSign = api.createTxPayload(transaction);
-
-  return toSign.sign(keyPair);
+  return payload.sign(keyPair);
 };
 
-export class KeyPairFactory {
-  static SS58FORMAT = 42; // default
-  static COIN_TYPE = 434; // kusama
-
-  static fromSeed(seed: Uint8Array): KeyringPair {
-    const keyring = new Keyring({
-      ss58Format: KeyPairFactory.SS58FORMAT,
-      type: 'sr25519',
-    });
-    return keyring.addFromSeed(seed);
-  }
-}
+// export const signAndSendExtrinsicTransaction = async (
+//   state: SnapState,
+//   payload: SignerPayloadJSON,
+//   api: SubstrateApi,
+// ) => {
+//   const extrinsicPayload = api.inner.registry.createType(
+//     'ExtrinsicPayload',
+//     payload,
+//     {
+//       version: payload.version,
+//     },
+//   );
+//   const signed = await signExtrinsicPayload(state, extrinsicPayload);
+//   return api.inner.sendSignedTransaction(signed);
+// };

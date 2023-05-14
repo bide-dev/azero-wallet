@@ -1,6 +1,7 @@
 import { requestSnap } from "./metamask";
 import { PublicAccount } from "./types";
 import { SignerPayloadJSON } from '@polkadot/types/types';
+import {GenericExtrinsicPayload} from "@polkadot/types";
 
 /**
  * Recreate an account from a seed, persist it, and return the account info.
@@ -19,9 +20,14 @@ export const generateNewAccount = async (): Promise<PublicAccount> => {
     return await requestSnap("generateNewAccount");
 }
 
-export const signTransaction = async (payload: SignerPayloadJSON): Promise<{ signature: string }> => {
-    return await requestSnap("signTransaction", [payload as unknown as string]);
+// export const signAndSendExtrinsicTransaction = async (payload: SignerPayloadJSON): Promise<{ signature: string }> => {
+//     return await requestSnap("signAndSendExtrinsicTransaction", [payload as unknown as string]);
+// }
+
+export const signExtrinsicPayload = async (jsonPayload: string): Promise<{ signature: string }> => {
+  return await requestSnap("signExtrinsicPayload", [jsonPayload]);
 }
+
 
 export const getAccounts = async (): Promise<string[]> => {
     return await requestSnap("getAccounts");
