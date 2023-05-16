@@ -4,7 +4,9 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "fast-proxy": "^2.1.0",
+    "http-proxy-middleware": "^2.0.6",
     "restana": "^4.9.7"
   },
   "packageManager": "yarn@3.2.1"

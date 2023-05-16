@@ -21,7 +21,11 @@ export async function generateTransactionPayload(
   api: ApiPromise,
   to: string,
   amount: string | number,
-): Promise<TxPayload> {
+): Promise<{
+  tx: string;
+  payload: SignerPayloadJSON;
+  payloadRaw: SignerPayloadRaw;
+}> {
   // fetch last signed block and account address
   const [signedBlock, address] = await Promise.all([
     api.rpc.chain.getBlock(),
@@ -55,9 +59,9 @@ export async function generateTransactionPayload(
     signedExtensions: [],
     transactionVersion: transaction.version,
   });
-
   return {
     payload: signerPayload.toPayload(),
+    payloadRaw: signerPayload.toRaw(),
     tx: transaction.toHex(),
   };
 }
@@ -154,16 +158,17 @@ const run = async () => {
     1,
   );
 
-  const signature = await signPayloadJSON(api, payload.payload);
+  // const signature = await signPayloadJSON(api, payload.payload);
+  const signature = await signPayloadRaw(payload.payloadRaw);
   if (!signature) {
     throw new Error('Signature is empty');
   }
 
   const tx = await send(api, signature.signature as any, payload);
-
   console.log({ tx });
 
   await api.disconnect();
+  await wsProvider.disconnect();
 };
 
 run();
