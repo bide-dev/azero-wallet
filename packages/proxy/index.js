@@ -4,6 +4,12 @@ const { proxy, close } = require('fast-proxy')({
 const gateway = require('restana')();
 
 // Middleware function for logging incoming requests
+/**
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
 function logRequest(req, res, next) {
   console.log(`Request: ${req.method} ${req.url}`);
   const originalResEnd = res.end;

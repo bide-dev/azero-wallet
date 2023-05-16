@@ -78,15 +78,25 @@ export const sendTxTransferToSelf = async () => {
   });
 
   // Step 2: Sign the transfer payload
-  const { signatureJson } = await azeroSnap.signExtrinsicPayload(transferPayloadJson);
+  const { signatureJson } = await azeroSnap.signExtrinsicPayload(
+    transferPayloadJson,
+  );
 
   const deserializedSignature = JSON.parse(signatureJson).signature;
   const deserializedPayloadData = JSON.parse(payloadJson);
-  const deserializedPayload = api.createType('ExtrinsicPayload', hexToU8a(deserializedPayloadData.payload), { version: deserializedPayloadData.version });
+  const deserializedPayload = api.createType(
+    'ExtrinsicPayload',
+    hexToU8a(deserializedPayloadData.payload),
+    { version: deserializedPayloadData.version },
+  );
 
   // Step 3: Send the signed transfer transaction
   const extrinsic = api.tx.balances.transfer(recipient, transferValue);
-  extrinsic.addSignature(recipient.address, hexToU8a(deserializedSignature), deserializedPayload);
+  extrinsic.addSignature(
+    recipient.address,
+    hexToU8a(deserializedSignature),
+    deserializedPayload,
+  );
 
   const unsub = await extrinsic.send((result) => {
     console.log(`Transaction status: ${result.status}`);

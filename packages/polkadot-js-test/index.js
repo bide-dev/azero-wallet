@@ -1,12 +1,12 @@
-const { readFileSync } = require('fs');
-const { ApiPromise, WsProvider, HttpProvider } = require('@polkadot/api');
-const { Keyring } = require('@polkadot/keyring');
-const { u8aToHex, hexToU8a } = require('@polkadot/util');
+const {readFileSync} = require('fs');
+const {ApiPromise, WsProvider} = require('@polkadot/api');
+const {Keyring} = require('@polkadot/keyring');
+const {hexToU8a, u8aToHex} = require('@polkadot/util');
 
 function getKeyPair() {
   const json = readFileSync('./test-account.json', 'utf8');
   const jsonAccount = JSON.parse(json);
-  const keyring = new Keyring({ type: 'sr25519' });
+  const keyring = new Keyring({type: 'sr25519'});
   const sender = keyring.addFromJson(jsonAccount);
   sender.unlock('alamakota1');
   return sender;
@@ -43,12 +43,12 @@ async function generateTransactionPayload(api, to, amount, senderAddress) {
 
   return {
     payload: signerPayload.toPayload(),
-    tx: transaction.toHex(),
+    tx: transaction
   };
 }
 
-async function signPayloadJSON(api, payload) {
-  const keyPair = await getKeyPair();
+async function signPayloadJSON(extrinsicPayload) {
+  const keyringPair = await getKeyPair();
   // const confirmation = await showConfirmationDialog(
   //   snap,
   //   {
@@ -70,10 +70,10 @@ async function signPayloadJSON(api, payload) {
   //   }
   // );
   // if (confirmation) {
-  const extrinsic = api.registry.createType('ExtrinsicPayload', payload, {
-    version: payload.version,
-  });
-  return extrinsic.sign(keyPair);
+  // const extrinsicSignature = keyringPair.sign(hexToU8a(extrinsicPayloadHex));
+  const extrinsicSignature = keyringPair.sign(extrinsicPayload);
+  return u8aToHex(extrinsicSignature.signature);
+
   // }
 }
 
@@ -85,27 +85,26 @@ async function send(api, signature, txPayload) {
   extrinsic.addSignature(sender, signature, txPayload.payload);
 
   const amount = extrinsic.args[1].toJSON();
-  const paymentInfo = await api.tx.balances
-    .transfer(destination, Number(amount.toString()))
-    .paymentInfo(sender);
+  // const paymentInfo = await api.tx.balances
+  //   .transfer(destination, Number(amount.toString()))
+  //   .paymentInfo(sender);
 
   const txHash = await api.rpc.author.submitExtrinsic(extrinsic);
 
-  const tx = {
+  return {
     amount: amount,
     block: txHash.toHex(),
     destination: destination,
-    fee: paymentInfo.partialFee.toJSON(),
+    // fee: paymentInfo.partialFee.toJSON(),
     hash: extrinsic.hash.toHex(),
     sender: sender,
   };
-  return tx;
 }
 
 const run = async () => {
   // Connect to the Polkadot node
   const wsProvider = new WsProvider('wss://ws.test.azero.dev/');
-  const api = await ApiPromise.create({ provider: wsProvider });
+  const api = await ApiPromise.create({provider: wsProvider});
 
   const sender = getKeyPair();
 
@@ -117,12 +116,17 @@ const run = async () => {
     transferValue,
     sender.address,
   );
+  const extrinsicPayload = api.registry.createType('ExtrinsicPayload', txPayload.payload, {
+    version: txPayload.payload.version,
+  });
+  // const extrinsicPayloadHex = extrinsicPayload.toHex();
 
-  console.log({ txPayload });
-  const signed = await signPayloadJSON(api, txPayload.payload);
+  // In snap
+  const signatureHex = await signPayloadJSON(extrinsicPayload);
 
-  const tx = await send(api, signed.signature, txPayload);
-  console.log({ tx });
+  // Back to website
+  const txHash = send(api, signatureHex, txPayload);
+  console.log({txHash});
 };
 
 run();

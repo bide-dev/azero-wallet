@@ -1,13 +1,11 @@
 import { Keyring } from '@polkadot/api';
 import { KeyringPair } from '@polkadot/keyring/types';
-import { SignerPayloadJSON } from '@polkadot/types/types';
 import { hexToU8a, stringToU8a, u8aToHex } from '@polkadot/util';
-import { ethErrors } from 'eth-rpc-errors';
 import { SnapState } from 'state';
-import { SubstrateApi } from 'substrate-api';
 
 import { GenericExtrinsicPayload } from '@polkadot/types';
 import { Bip44Node } from './types';
+import { getBip44Entropy } from './metamask';
 
 export type PrivateAccount = {
   seed: string;
@@ -56,42 +54,24 @@ export const recoverAccount = async (
   return publicAccount;
 };
 
-export const generateAccountFromEntropy = async (
-  state: SnapState,
+export const generateKeyringFromEntropy = async (
   bip44Node: Bip44Node,
-): Promise<PublicAccount> => {
-  // generate keys
-  console.log({ bip44Node: JSON.stringify(bip44Node) });
-  console.log({ bip44NodeKey: JSON.stringify(bip44Node.key) });
+): Promise<KeyringPair> => {
   const seed = bip44Node.key.slice(0, 32);
   const binSeed = stringToU8a(seed);
+  return KeyPairFactory.fromSeed(binSeed);
+};
 
-  const pair = KeyPairFactory.fromSeed(binSeed);
-
-  const publicAccount: PublicAccount = {
-    address: pair.address,
-    publicKey: u8aToHex(pair.publicKey),
-  };
-
-  await persistAccount({ ...publicAccount, seed: u8aToHex(binSeed) }, state);
-
-  return publicAccount;
+export const getDefaultKeyringPair = async (): Promise<KeyringPair> => {
+  const entropy = await getBip44Entropy(KeyPairFactory.COIN_TYPE);
+  return await generateKeyringFromEntropy(entropy);
 };
 
 export const signExtrinsicPayload = async (
-  state: SnapState,
   payload: GenericExtrinsicPayload,
 ) => {
-  const accounts = Object.values(state.wallet.accountMap);
-  if (accounts.length < 1) {
-    throw ethErrors.rpc.resourceNotFound(
-      'No default account to sign transaction with',
-    );
-  }
-
-  const account = accounts[0];
-  const keyPair = KeyPairFactory.fromSeed(hexToU8a(account.seed));
-  return payload.sign(keyPair);
+  const keyringPair = await getDefaultKeyringPair();
+  return payload.sign(keyringPair);
 };
 
 // export const signAndSendExtrinsicTransaction = async (

@@ -1,19 +1,15 @@
 import { ethErrors } from 'eth-rpc-errors';
-import { SubstrateApi } from 'substrate-api';
-import { Bip44Node } from 'types';
 
 import {
-  generateAccountFromEntropy,
+  getDefaultKeyringPair,
   recoverAccount,
-  signAndSendExtrinsicTransaction,
   signExtrinsicPayload,
 } from './account';
 import { SnapState } from './state';
-import {GenericExtrinsicPayload} from "@polkadot/types";
 
 type HandlerParams = unknown[] | Record<string, unknown>;
 
-export const getAccountFromSeedHandler = (
+export const importAccountFromSeedHandler = (
   state: SnapState,
   params: HandlerParams,
 ) => {
@@ -29,21 +25,11 @@ export const getAccountFromSeedHandler = (
   }
 };
 
-export const generateAccountHandler = async (
-  state: SnapState,
-  entropy: Bip44Node,
-) => {
-  try {
-    return generateAccountFromEntropy(state, entropy);
-  } catch (e) {
-    console.error('Failed to generate account', e);
-    return null;
-  }
-};
-
 export const getAccountsHandler = (state: SnapState) => {
   try {
-    return Object.values(state.wallet.accountMap).map((a) => a.address);
+    const imported = Object.values(state.wallet.accountMap).map((a) => a.address);
+    const default = getDefaultKeyringPair().address;
+    return {imported, default};
   } catch (e) {
     console.error('Failed to get accounts', e);
     return null;
@@ -51,7 +37,6 @@ export const getAccountsHandler = (state: SnapState) => {
 };
 
 export const signExtrinsicPayloadHandler = async (
-  state: SnapState,
   params: HandlerParams,
 ) => {
   const payloadJson = params[0];
@@ -59,10 +44,8 @@ export const signExtrinsicPayloadHandler = async (
     throw ethErrors.rpc.invalidParams('Missing parameter: payloadJson');
   }
 
-  const payload = GenericExtrinsicPayload.fromJson(payloadJson);
-
   try {
-    return await signExtrinsicPayload(state, payloadJson);
+    return await signExtrinsicPayload(payloadJson);
   } catch (e) {
     console.error('Failed to sign transaction', e);
     return null;

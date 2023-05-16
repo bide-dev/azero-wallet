@@ -7,7 +7,7 @@ exports.onCreateWebpackConfig = ({ actions }) => {
       new webpack.NormalModuleReplacementPlugin(/node:/, (resource) => {
         resource.request = resource.request.replace(/^node:/, '');
       }),
-    new NodePolyfillPlugin()
+      new NodePolyfillPlugin(),
     ],
     resolve: {
       fallback: {

@@ -1,11 +1,11 @@
 {
   "name": "proxy",
-  "packageManager": "yarn@3.2.1",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
     "fast-proxy": "^2.1.0",
     "restana": "^4.9.7"
-  }
+  },
+  "packageManager": "yarn@3.2.1"
 }
