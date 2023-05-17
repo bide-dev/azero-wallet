@@ -1,4 +1,6 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
+import { EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/v4/Extrinsic';
+
 
 import { Keyring } from '@polkadot/keyring';
 
@@ -53,7 +55,7 @@ const makeExtrinsicPayload = async (
   };
 
   return api.registry.createType('ExtrinsicPayload', unsignedPayload, {
-    version: api.runtimeVersion.transactionVersion,
+    version: EXTRINSIC_VERSION,
   });
 };
 
@@ -61,6 +63,7 @@ const run = async () => {
   const address = getKeyPair().address;
 
   const extrinsicPayload = await makeExtrinsicPayload(address, address);
+  console.log(extrinsicPayload);
 
 };
 
