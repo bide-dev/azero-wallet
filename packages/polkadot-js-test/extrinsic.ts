@@ -71,17 +71,13 @@ export const signExtrinsicPayload = async (extrinsicPayloadHex: string) => {
 export const send = async (
   extrinsicPayload: GenericExtrinsicPayload,
   signatureBytesHex: string,
+  signerPk: Uint8Array,
 ) => {
   const api = await getApi();
-  const sender = getKeyPair().address;
-  const signerPk = getKeyPair().publicKey;
 
   const signatureAsHex = api.registry
     .createType('Signature', signatureBytesHex)
     .toHex();
-
-  // const signedExtrinsic = api.createType('Extrinsic', extrinsicPayload.tx);
-  // signedExtrinsic.addSignature(sender, signatureAsHex, txPayload.payload);
 
   const signedExtrinsic = api.registry.createType('Extrinsic', {
     method: extrinsicPayload.method,
@@ -95,15 +91,14 @@ export const send = async (
 
 const run = async () => {
   const address = getKeyPair().address;
+  const signerPk = getKeyPair().publicKey;
 
   const extrinsicPayload = await makeExtrinsicPayload(address, address);
-  console.log('Created extrinsic payload: ', extrinsicPayload.toHex());
-
   const payloadAsHex = extrinsicPayload.toHex();
 
   const signatureBytesHex = await signExtrinsicPayload(payloadAsHex);
 
-  await send(extrinsicPayload, signatureBytesHex);
+  await send(extrinsicPayload, signatureBytesHex, signerPk);
 };
 
 run();
