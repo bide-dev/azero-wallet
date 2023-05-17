@@ -1,7 +1,7 @@
 {
   "name": "proxy",
   "scripts": {
-    "start": "node index.js"
+    "start": "echo 'disabled for now'"
   },
   "dependencies": {
     "cors": "^2.8.5",

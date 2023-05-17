@@ -1,21 +1,10 @@
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { Transaction, TxPayload } from '@chainsafe/metamask-polkadot-types';
-import { ApiPromise, WsProvider } from '@polkadot/api';
+import { ApiPromise} from '@polkadot/api';
 import { SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
 import { hexToU8a, u8aToHex } from '@polkadot/util';
 
-import { Keyring } from '@polkadot/keyring';
-
-import { readFileSync } from 'fs';
-
-function getKeyPair() {
-  const json = readFileSync('./test-account.json', 'utf8');
-  const jsonAccount = JSON.parse(json);
-  const keyring = new Keyring({ type: 'sr25519' });
-  const sender = keyring.addFromJson(jsonAccount);
-  sender.unlock('alamakota1');
-  return sender;
-}
+import {getApi, getKeyPair} from "./utils"
 
 export async function generateTransactionPayload(
   api: ApiPromise,
@@ -149,8 +138,7 @@ export async function send(
 
 const run = async () => {
   // Connect to the Polkadot node
-  const wsProvider = new WsProvider('wss://ws.test.azero.dev/');
-  const api = await ApiPromise.create({ provider: wsProvider });
+  const api = getApi();
 
   const payload = await generateTransactionPayload(
     api,

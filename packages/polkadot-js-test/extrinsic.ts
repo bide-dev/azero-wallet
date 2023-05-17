@@ -1,25 +1,9 @@
-import { ApiPromise, WsProvider } from '@polkadot/api';
-import { EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/v4/Extrinsic';
+import {EXTRINSIC_VERSION} from '@polkadot/types/extrinsic/v4/Extrinsic';
 
-import { Keyring } from '@polkadot/keyring';
+import {hexToU8a, u8aToHex} from '@polkadot/util';
+import {GenericExtrinsicPayload} from '@polkadot/types';
 
-import { readFileSync } from 'fs';
-import { hexToU8a, u8aToHex } from '@polkadot/util';
-import { GenericExtrinsicPayload } from '@polkadot/types';
-
-const getKeyPair = () => {
-  const json = readFileSync('./test-account.json', 'utf8');
-  const jsonAccount = JSON.parse(json);
-  const keyring = new Keyring({ type: 'sr25519' });
-  const sender = keyring.addFromJson(jsonAccount);
-  sender.unlock('alamakota1');
-  return sender;
-};
-
-const getApi = async () => {
-  const wsProvider = new WsProvider('wss://ws.test.azero.dev/');
-  return ApiPromise.create({ provider: wsProvider });
-};
+import {getApi, getKeyPair} from "./utils"
 
 const makeExtrinsicPayload = async (
   recipientAddress: string,

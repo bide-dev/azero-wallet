@@ -1,80 +1,46 @@
-import { ApiPromise, Keyring, WsProvider } from '@polkadot/api';
-import {
-  construct,
-  decode,
-  deriveAddress,
-  getRegistry,
-  methods,
-  PolkadotSS58Format,
-} from '@substrate/txwrapper-polkadot';
 
-import { readFileSync } from 'fs';
+import { getRegistry, createMetadata } from '@substrate/txwrapper-polkadot';
 
-const getKeyPair = () => {
-  const json = readFileSync('./test-account.json', 'utf8');
-  const jsonAccount = JSON.parse(json);
-  const keyring = new Keyring({ type: 'sr25519' });
-  const sender = keyring.addFromJson(jsonAccount);
-  sender.unlock('alamakota1');
-  return sender;
-};
 
-const getApi = async () => {
-  const wsProvider = new WsProvider('wss://ws.test.azero.dev/');
-  return ApiPromise.create({ provider: wsProvider });
-};
-
-const constructTransfer = async (
-  senderAddress: string,
-  receiverAddress: string,
-) => {
+import {getApi, getKeyPair} from "./utils"
+const constructTransfer = async (sender: any) => {
   const api = await getApi();
+  const registry = getRegistry({ chainName: 'Azero', specName:'azero' });
+  registry.setMetadata(createMetadata(registry, await api.rpc.state.getMetadata()));
 
-  const unsigned = api.tx.balances.transfer(receiverAddress, 1);
+  const { address, meta: { nonce } } = await api.query.system.account(sender.address);
 
-  const signedBlock = await api.rpc.chain.getBlock();
+  const tx = registry.createType('Call', {
+    args: {
+      dest: 'DESTINATION_ADDRESS',
+      value: 10,
+    },
+    function: 'Balances.transferKeepAlive',
+  });
 
-  const blockHash = signedBlock.block.header.hash;
-  const blockNumber = signedBlock.block.header.number;
-  const nonce = (await api.derive.balances.account(senderAddress)).accountNonce;
-  const genesisHash = await api.rpc.chain.getBlockHash(0);
-  const runtimeVersion = await api.rpc.state.getRuntimeVersion();
-  const tip = 0; // Replace with the desired tip value (in the smallest currency denomination)
-
-  const payload = {
-    address: senderAddress,
-    blockHash,
-    blockNumber,
-    era: api.registry.createType('ExtrinsicEra', {
-      current: blockNumber,
-      period: 1,
-    }),
-    genesisHash,
-    method: unsigned.method.toHex(),
+  const unsignedTx = {
+    address,
+    blockHash: api.genesisHash.toHex(),
+    blockNumber: registry.createType('BlockNumber', 0).toHex(),
+    eraPeriod: 2400,
+    expiry: registry.createType('BlockNumber', 2400).toHex(),
+    genesisHash: api.genesisHash.toHex(),
+    method: tx.toHex(),
     nonce,
-    runtimeVersion: runtimeVersion.specVersion,
-    signedExtensions: [],
-    tip,
-    transactionVersion: runtimeVersion.transactionVersion,
+    specVersion: 1,
+    tip: 0,
+    transactionVersion: 1,
   };
 
-  // const decodedUnsigned = decode(unsigned, {
-  //   metadataRpc,
-  //   api.registry,
-  // });
+  return { api, unsignedTx };
 };
 
 const signTransaction = async (transactionData: any, signer: any) => {
   const { api, unsignedTx } = transactionData;
 
-  const { signature } = api.registry
-    .createType('ExtrinsicPayload', unsignedTx, { version: 4 })
-    .sign(signer);
+  const { signature } = api.registry.createType('ExtrinsicPayload', unsignedTx, { version: 4 }).sign(signer);
 
-  const signedTx = api.registry.createType('Extrinsic', {
-    ...unsignedTx,
-    signature,
-  });
+  const signedTx = api.registry.createType('Extrinsic', { ...unsignedTx, signature });
 
   return signedTx.toHex();
 };
@@ -87,10 +53,7 @@ const submitSignedTransaction = async (serializedTx: string) => {
 
 const run = async () => {
   const sender = getKeyPair();
-  const senderAddress = sender.address;
-
-  // Send to self
-  const unsignedTx = await constructTransfer(senderAddress, senderAddress);
+  const unsignedTx = await constructTransfer(sender);
   const serializedUnsignedTx = JSON.stringify(unsignedTx);
 
   const transactionData = JSON.parse(serializedUnsignedTx);

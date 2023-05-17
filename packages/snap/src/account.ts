@@ -4,8 +4,10 @@ import { hexToU8a, stringToU8a, u8aToHex } from '@polkadot/util';
 import { SnapState } from 'state';
 
 import { GenericExtrinsicPayload } from '@polkadot/types';
+import { SignerPayloadJSON } from '@polkadot/types/types';
 import { Bip44Node } from './types';
 import { getBip44Entropy } from './metamask';
+import { SubstrateApi } from './substrate-api';
 
 export type PrivateAccount = {
   seed: string;
@@ -89,3 +91,16 @@ export const signExtrinsicPayload = async (
 //   const signed = await signExtrinsicPayload(state, extrinsicPayload);
 //   return api.inner.sendSignedTransaction(signed);
 // };
+
+export const signSignerPayload = async (
+  signerPayload: SignerPayloadJSON,
+  api: SubstrateApi,
+) => {
+  const keyringPair = await getDefaultKeyringPair();
+  const toSign = api.inner.registry.createType(
+    'ExtrinsicPayload',
+    signerPayload,
+    { version: signerPayload.version },
+  );
+  return toSign.sign(keyringPair);
+};

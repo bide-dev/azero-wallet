@@ -14,9 +14,9 @@ import { requestSnap } from "./metamask";
 //     return await requestSnap("signAndSendExtrinsicTransaction", [payload as unknown as string]);
 // }
 
-export const signExtrinsicPayload = async (jsonPayload: string): Promise<{ signature: string }> => {
-  return await requestSnap("signExtrinsicPayload", [jsonPayload]);
-}
+// export const signExtrinsicPayload = async (jsonPayload: string): Promise<{ signature: string }> => {
+//   return await requestSnap("signExtrinsicPayload", [jsonPayload]);
+// }
 
 
 export const getAccounts = async (): Promise<string[]> => {

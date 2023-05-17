@@ -4,8 +4,10 @@ import {
   getDefaultKeyringPair,
   recoverAccount,
   signExtrinsicPayload,
+  signSignerPayload,
 } from './account';
 import { SnapState } from './state';
+import { SubstrateApi } from './substrate-api';
 
 type HandlerParams = unknown[] | Record<string, unknown>;
 
@@ -25,20 +27,20 @@ export const importAccountFromSeedHandler = (
   }
 };
 
-export const getAccountsHandler = (state: SnapState) => {
+export const getAccountsHandler = async (state: SnapState) => {
   try {
-    const imported = Object.values(state.wallet.accountMap).map((a) => a.address);
-    const default = getDefaultKeyringPair().address;
-    return {imported, default};
+    const imported = Object.values(state.wallet.accountMap).map(
+      (a) => a.address,
+    );
+    const { address } = await getDefaultKeyringPair();
+    return { imported, address };
   } catch (e) {
     console.error('Failed to get accounts', e);
     return null;
   }
 };
 
-export const signExtrinsicPayloadHandler = async (
-  params: HandlerParams,
-) => {
+export const signExtrinsicPayloadHandler = async (params: HandlerParams) => {
   const payloadJson = params[0];
   if (!payloadJson) {
     throw ethErrors.rpc.invalidParams('Missing parameter: payloadJson');
@@ -47,7 +49,24 @@ export const signExtrinsicPayloadHandler = async (
   try {
     return await signExtrinsicPayload(payloadJson);
   } catch (e) {
-    console.error('Failed to sign transaction', e);
+    console.error('Failed to sign payload', e);
+    return null;
+  }
+};
+
+export const signSignerPayloadHandler = async (
+  params: HandlerParams,
+  api: SubstrateApi,
+) => {
+  const transaction = params[0];
+  if (!transaction) {
+    throw ethErrors.rpc.invalidParams('Missing parameter: transaction');
+  }
+
+  try {
+    return await signSignerPayload(params[0], api);
+  } catch (e) {
+    console.error('Failed to sign payload', e);
     return null;
   }
 };
