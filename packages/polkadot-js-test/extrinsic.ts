@@ -1,10 +1,11 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/v4/Extrinsic';
 
-
 import { Keyring } from '@polkadot/keyring';
 
 import { readFileSync } from 'fs';
+import { hexToU8a, u8aToHex } from '@polkadot/util';
+import { GenericExtrinsicPayload } from '@polkadot/types';
 
 const getKeyPair = () => {
   const json = readFileSync('./test-account.json', 'utf8');
@@ -26,7 +27,7 @@ const makeExtrinsicPayload = async (
 ) => {
   const api = await getApi();
 
-  const extrinsic = api.tx.balances.transfer(recipientAddress, 1);
+  const extrinsicTx = api.tx.balances.transfer(recipientAddress, 1);
 
   const signedBlock = await api.rpc.chain.getBlock();
   const blockHash = signedBlock.block.header.hash;
@@ -46,7 +47,7 @@ const makeExtrinsicPayload = async (
       period: 1,
     }),
     genesisHash,
-    method: extrinsic.method.toHex(),
+    method: extrinsicTx.method.toHex(),
     nonce,
     runtimeVersion: runtimeVersion.specVersion,
     signedExtensions: [],
@@ -59,12 +60,50 @@ const makeExtrinsicPayload = async (
   });
 };
 
+export const signExtrinsicPayload = async (extrinsicPayloadHex: string) => {
+  const keyPair = getKeyPair();
+
+  const payloadAsU8a = hexToU8a(extrinsicPayloadHex);
+  const payloadSignature = keyPair.sign(payloadAsU8a);
+  return u8aToHex(payloadSignature);
+};
+
+export const send = async (
+  extrinsicPayload: GenericExtrinsicPayload,
+  signatureBytesHex: string,
+) => {
+  const api = await getApi();
+  const sender = getKeyPair().address;
+  const signerPk = getKeyPair().publicKey;
+
+  const signatureAsHex = api.registry
+    .createType('Signature', signatureBytesHex)
+    .toHex();
+
+  // const signedExtrinsic = api.createType('Extrinsic', extrinsicPayload.tx);
+  // signedExtrinsic.addSignature(sender, signatureAsHex, txPayload.payload);
+
+  const signedExtrinsic = api.registry.createType('Extrinsic', {
+    method: extrinsicPayload.method,
+    signature: api.registry.createType('Signature', hexToU8a(signatureAsHex)),
+    signer: signerPk,
+  });
+
+  const txHash = await api.rpc.author.submitExtrinsic(signedExtrinsic);
+  console.log('txHash: ', txHash.toHex());
+};
+
 const run = async () => {
   const address = getKeyPair().address;
 
   const extrinsicPayload = await makeExtrinsicPayload(address, address);
-  console.log(extrinsicPayload);
+  console.log('Created extrinsic payload: ', extrinsicPayload.toHex());
 
+  const payloadAsHex = extrinsicPayload.toHex();
+
+  const signatureBytesHex = await signExtrinsicPayload(payloadAsHex);
+
+  await send(extrinsicPayload, signatureBytesHex);
 };
 
 run();
