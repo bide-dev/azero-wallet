@@ -42,6 +42,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     // TODO: Remove before deployment
     // Using localproxy didin't work for me
     // const proxyUrl = 'http://localhost:3000/';
+    // Now using localproxy with a local RPC node
+    // const proxyUrl = 'http://localhost:80/';
     // Using corsproxy.io doesn't work either
     // const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(
     //   SubstrateApi.AZERO_DEV_URL,
