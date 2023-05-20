@@ -71,20 +71,20 @@ export const signSignerPayloadHandler = async (
   }
 };
 
-// export const signAndSendExtrinsicTransactionHandler = async (
-//   state: SnapState,
-//   params: HandlerParams,
-//   api: SubstrateApi,
-// ) => {
-//   const transaction = params[0];
-//   if (!transaction) {
-//     throw ethErrors.rpc.invalidParams('Missing parameter: transaction');
-//   }
-//
-//   try {
-//     return await signAndSendExtrinsicTransaction(state, params[0], api);
-//   } catch (e) {
-//     console.error('Failed to sign transaction', e);
-//     return null;
-//   }
-// };
+export const signAndSendExtrinsicTransactionHandler = async (
+  state: SnapState,
+  params: HandlerParams,
+  api: SubstrateApi,
+) => {
+  const transaction = params[0];
+  if (!transaction) {
+    throw ethErrors.rpc.invalidParams('Missing parameter: transaction');
+  }
+
+  try {
+    return await signAndSendExtrinsicTransaction(state, params[0], api);
+  } catch (e) {
+    console.error('Failed to sign transaction', e);
+    return null;
+  }
+};

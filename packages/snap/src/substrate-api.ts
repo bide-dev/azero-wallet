@@ -1,12 +1,15 @@
 import { ApiPromise, HttpProvider } from '@polkadot/api';
-import { SignerPayloadJSON } from '@polkadot/types/types';
 
 export class SubstrateApi {
   static AZERO_DEV_URL = 'https://test.azero.dev/';
 
   public inner: ApiPromise;
 
-  constructor(public readonly url: string) {}
+  public readonly url: string;
+
+  constructor(url: string) {
+    this.url = url;
+  }
 
   async init() {
     const provider = new HttpProvider(this.url);

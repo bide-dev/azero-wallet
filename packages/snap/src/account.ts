@@ -8,6 +8,7 @@ import { SignerPayloadJSON } from '@polkadot/types/types';
 import { Bip44Node } from './types';
 import { getBip44Entropy } from './metamask';
 import { SubstrateApi } from './substrate-api';
+import {signExtrinsicPayload} from "polkadot-js-test/extrinsic";
 
 export type PrivateAccount = {
   seed: string;
@@ -69,28 +70,21 @@ export const getDefaultKeyringPair = async (): Promise<KeyringPair> => {
   return await generateKeyringFromEntropy(entropy);
 };
 
-export const signExtrinsicPayload = async (
-  payload: GenericExtrinsicPayload,
+export const signAndSendExtrinsicTransaction = async (
+  state: SnapState,
+  payload: SignerPayloadJSON,
+  api: SubstrateApi,
 ) => {
-  const keyringPair = await getDefaultKeyringPair();
-  return payload.sign(keyringPair);
+  const extrinsicPayload = api.inner.registry.createType(
+    'ExtrinsicPayload',
+    payload,
+    {
+      version: payload.version,
+    },
+  );
+  const signed = await signExtrinsicPayload(state, extrinsicPayload);
+  return api.inner.sendSignedTransaction(signed);
 };
-
-// export const signAndSendExtrinsicTransaction = async (
-//   state: SnapState,
-//   payload: SignerPayloadJSON,
-//   api: SubstrateApi,
-// ) => {
-//   const extrinsicPayload = api.inner.registry.createType(
-//     'ExtrinsicPayload',
-//     payload,
-//     {
-//       version: payload.version,
-//     },
-//   );
-//   const signed = await signExtrinsicPayload(state, extrinsicPayload);
-//   return api.inner.sendSignedTransaction(signed);
-// };
 
 export const signSignerPayload = async (
   signerPayload: SignerPayloadJSON,
