@@ -1,10 +1,10 @@
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { Transaction, TxPayload } from '@chainsafe/metamask-polkadot-types';
-import { ApiPromise} from '@polkadot/api';
+import { ApiPromise } from '@polkadot/api';
 import { SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
 import { hexToU8a, u8aToHex } from '@polkadot/util';
 
-import {getApi, getKeyPair} from "./utils"
+import { getApi, getKeyPair } from './utils';
 
 export async function generateTransactionPayload(
   api: ApiPromise,

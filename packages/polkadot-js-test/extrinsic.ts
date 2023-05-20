@@ -1,9 +1,9 @@
-import {EXTRINSIC_VERSION} from '@polkadot/types/extrinsic/v4/Extrinsic';
+import { EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/v4/Extrinsic';
 
-import {hexToU8a, u8aToHex} from '@polkadot/util';
-import {GenericExtrinsicPayload} from '@polkadot/types';
+import { hexToU8a, u8aToHex } from '@polkadot/util';
+import { GenericExtrinsicPayload } from '@polkadot/types';
 
-import {getApi, getKeyPair} from "./utils"
+import { getApi, getKeyPair } from './utils';
 
 const makeExtrinsicPayload = async (
   recipientAddress: string,
@@ -74,7 +74,7 @@ export const send = async (
 };
 
 const run = async () => {
-  const address = getKeyPair().address;
+  const { address } = getKeyPair();
   const signerPk = getKeyPair().publicKey;
 
   const extrinsicPayload = await makeExtrinsicPayload(address, address);

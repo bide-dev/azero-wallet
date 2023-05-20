@@ -1,14 +1,17 @@
-
 import { getRegistry, createMetadata } from '@substrate/txwrapper-polkadot';
 
-
-import {getApi, getKeyPair} from "./utils"
+import { getApi, getKeyPair } from './utils';
 const constructTransfer = async (sender: any) => {
   const api = await getApi();
-  const registry = getRegistry({ chainName: 'Azero', specName:'azero' });
-  registry.setMetadata(createMetadata(registry, await api.rpc.state.getMetadata()));
+  const registry = getRegistry({ chainName: 'Azero', specName: 'azero' });
+  registry.setMetadata(
+    createMetadata(registry, await api.rpc.state.getMetadata()),
+  );
 
-  const { address, meta: { nonce } } = await api.query.system.account(sender.address);
+  const {
+    address,
+    meta: { nonce },
+  } = await api.query.system.account(sender.address);
 
   const tx = registry.createType('Call', {
     args: {
@@ -38,9 +41,14 @@ const constructTransfer = async (sender: any) => {
 const signTransaction = async (transactionData: any, signer: any) => {
   const { api, unsignedTx } = transactionData;
 
-  const { signature } = api.registry.createType('ExtrinsicPayload', unsignedTx, { version: 4 }).sign(signer);
+  const { signature } = api.registry
+    .createType('ExtrinsicPayload', unsignedTx, { version: 4 })
+    .sign(signer);
 
-  const signedTx = api.registry.createType('Extrinsic', { ...unsignedTx, signature });
+  const signedTx = api.registry.createType('Extrinsic', {
+    ...unsignedTx,
+    signature,
+  });
 
   return signedTx.toHex();
 };

@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import { Keyring } from '@polkadot/api';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 import {
   construct,
@@ -11,26 +10,26 @@ import {
   getRegistry,
   methods,
   PolkadotSS58Format,
+  createMetadata,
+  OptionsWithMeta,
 } from '@substrate/txwrapper-polkadot';
-
-import { readFileSync } from 'fs';
 
 import { KeyringPair } from '@polkadot/keyring/types';
 import { EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/v4/Extrinsic';
-import { createMetadata, OptionsWithMeta } from '@substrate/txwrapper-polkadot';
+import { getApi, getKeyPair } from './utils';
 
 const _importDynamic = new Function('modulePath', 'return import(modulePath)');
 
 export const fetch = async function (...args: any) {
-  const {default: fetch} = await _importDynamic('node-fetch');
+  const { default: fetch } = await _importDynamic('node-fetch');
   return fetch(...args);
-}
+};
 
 export function rpcToLocalNode(
   method: string,
   params: any[] = [],
 ): Promise<any> {
-  return fetch('https://test.azero.dev/', {
+  return fetch('http://localhost:9933', {
     body: JSON.stringify({
       id: 1,
       jsonrpc: '2.0',
@@ -44,15 +43,15 @@ export function rpcToLocalNode(
     method: 'POST',
   })
     .then((response: any) => response.json())
-  // .then(({ error, result }: { error: any; result: any }) => {
-  //   if (error) {
-  //     throw new Error(
-  //       `${error.code} ${error.message}: ${JSON.stringify(error.data)}`,
-  //     );
-  //   }
-  //
-  //   return result;
-  // });
+    .then(({ error, result }: { error: any; result: any }) => {
+      if (error) {
+        throw new Error(
+          `${error.code} ${error.message}: ${JSON.stringify(error.data)}`,
+        );
+      }
+
+      return result;
+    });
 }
 
 export function signWith(
@@ -74,17 +73,6 @@ export function signWith(
   return signature as unknown as `0x${string}`;
 }
 
-
-
-const getKeyPair = () => {
-  const json = readFileSync('./test-account.json', 'utf8');
-  const jsonAccount = JSON.parse(json);
-  const keyring = new Keyring({ type: 'sr25519' });
-  const sender = keyring.addFromJson(jsonAccount);
-  sender.unlock('alamakota1');
-  return sender;
-};
-
 async function main(): Promise<void> {
   // Wait for the promise to resolve async WASM
   await cryptoWaitReady();
@@ -98,21 +86,24 @@ async function main(): Promise<void> {
   const blockHash = await rpcToLocalNode('chain_getBlockHash');
   const genesisHash = await rpcToLocalNode('chain_getBlockHash', [0]);
   const metadataRpc = await rpcToLocalNode('state_getMetadata');
-  const { specVersion, transactionVersion, specName } = await rpcToLocalNode(
+  const { specName, specVersion, transactionVersion } = await rpcToLocalNode(
     'state_getRuntimeVersion',
   );
 
   const registry = getRegistry({
-    chainName: 'Polkadot',
+    chainName: 'Aleph Zero Testnet',
     specName,
     specVersion,
     metadataRpc,
   });
 
+  const api = await getApi();
+  const nonce = (await api.derive.balances.account(alice.address)).accountNonce;
+
   const unsigned = methods.balances.transferKeepAlive(
     {
-      value: '10000000000',
-      dest: { id: '14E5nqKAp3oAJcmzgZhUD2RcptBeUBScxKHgJKU4HPNcKVf3' }, // Bob
+      value: '1',
+      dest: { id: alice.address }, // Send to self
     },
     {
       address: deriveAddress(alice.publicKey, PolkadotSS58Format.polkadot),
@@ -123,7 +114,7 @@ async function main(): Promise<void> {
       eraPeriod: 64,
       genesisHash,
       metadataRpc,
-      nonce: 0, // Assuming this is Alice's first tx on the chain
+      nonce: nonce.toNumber(),
       specVersion,
       tip: 0,
       transactionVersion,
@@ -142,7 +133,7 @@ async function main(): Promise<void> {
   console.log(
     `\nDecoded Transaction\n  To: ${
       (decodedUnsigned.method.args.dest as { id: string })?.id
-    }\n` + `  Amount: ${decodedUnsigned.method.args.value}`,
+    }\nAmount: ${decodedUnsigned.method.args.value}`,
   );
 
   // Construct the signing payload from an unsigned transaction.
@@ -157,7 +148,7 @@ async function main(): Promise<void> {
   console.log(
     `\nDecoded Transaction\n  To: ${
       (payloadInfo.method.args.dest as { id: string })?.id
-    }\n` + `  Amount: ${payloadInfo.method.args.value}`,
+    }\nAmount: ${payloadInfo.method.args.value}`,
   );
 
   // Sign a payload. This operation should be performed on an offline device.
@@ -181,7 +172,8 @@ async function main(): Promise<void> {
   // Send the tx to the node. Again, since `txwrapper` is offline-only, this
   // operation should be handled externally. Here, we just send a JSONRPC
   // request directly to the node.
-  const actualTxHash = await rpcToLocalNode('author_submitExtrinsic', [tx]);
+  const actualTxHash = await api.rpc.author.submitExtrinsic(tx);
+  // const actualTxHash = await rpcToLocalNode('author_submitExtrinsic', [tx]);
   console.log(`Actual Tx Hash: ${actualTxHash}`);
 
   // Decode a signed payload.
@@ -192,7 +184,7 @@ async function main(): Promise<void> {
   console.log(
     `\nDecoded Transaction\n  To: ${
       (txInfo.method.args.dest as { id: string })?.id
-    }\n` + `  Amount: ${txInfo.method.args.value}\n`,
+    }\nAmount: ${txInfo.method.args.value}\n`,
   );
 }
 

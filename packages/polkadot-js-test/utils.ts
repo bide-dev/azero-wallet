@@ -1,6 +1,6 @@
-import {readFileSync} from "fs";
-import {Keyring} from "@polkadot/keyring";
-import {ApiPromise, WsProvider} from "@polkadot/api";
+import { readFileSync } from 'fs';
+import { Keyring } from '@polkadot/keyring';
+import { ApiPromise, WsProvider } from '@polkadot/api';
 
 export const getKeyPair = () => {
   const json = readFileSync('./test-account.json', 'utf8');

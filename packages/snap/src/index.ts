@@ -5,9 +5,10 @@ import { initWasm } from '@polkadot/wasm-crypto/initOnlyAsm';
 import { SnapState } from './state';
 import {
   getAccountsHandler,
-  signExtrinsicPayloadHandler, signSignerPayloadHandler,
+  signExtrinsicPayloadHandler,
+  signSignerPayloadHandler,
 } from './handlers';
-import {SubstrateApi} from "./substrate-api";
+import { SubstrateApi } from './substrate-api';
 
 // let entropy: Bip44Node;
 let state: SnapState;
@@ -25,12 +26,28 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   });
   const { method, params } = request;
 
+  const resp = await fetch('https://example.com/');
+  if (resp.ok) {
+    console.info('Fetch successful');
+  } else {
+    console.error('Fetch failed');
+  }
+
   // TODO: Fix CORS failing because of `null` origin set by SES in fetch API
   if (!api) {
     console.info('Initializing Substrate API');
 
+    // TODO: Naked fetch calls to test.azero.dev fails with a CORS error because snaps
+    //   are running in a seperate iframe and so their origin is set to `null`.
     // TODO: Remove before deployment
-    const proxyUrl = 'http://localhost:3000/';
+    // Using localproxy didin't work for me
+    // const proxyUrl = 'http://localhost:3000/';
+    // Using corsproxy.io doesn't work either
+    // const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(
+    //   SubstrateApi.AZERO_DEV_URL,
+    // )}`;
+    // Using a local RPC node also fails for me
+    // const proxyUrl = 'http://localhost:9933';
     api = new SubstrateApi(proxyUrl);
 
     await api.init();
