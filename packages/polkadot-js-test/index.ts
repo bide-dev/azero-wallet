@@ -138,7 +138,7 @@ export async function send(
 
 const run = async () => {
   // Connect to the Polkadot node
-  const api = getApi();
+  const api = await getApi();
 
   const payload = await generateTransactionPayload(
     api,
@@ -154,9 +154,6 @@ const run = async () => {
 
   const tx = await send(api, signature.signature as any, payload);
   console.log({ tx });
-
-  await api.disconnect();
-  await wsProvider.disconnect();
 };
 
 run();

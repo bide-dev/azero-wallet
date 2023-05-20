@@ -47,7 +47,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     //   SubstrateApi.AZERO_DEV_URL,
     // )}`;
     // Using a local RPC node also fails for me
-    // const proxyUrl = 'http://localhost:9933';
+    const proxyUrl = 'http://localhost:9933';
     api = new SubstrateApi(proxyUrl);
 
     await api.init();
