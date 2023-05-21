@@ -1,8 +1,8 @@
 import * as azeroSnap from 'azero-snap-adapter';
 
+import { generateTransactionPayload, getApi } from './polkadot';
 import { defaultSnapOrigin } from '../config';
 import { GetSnapsResponse, Snap } from '../types';
-import { generateTransactionPayload, getApi } from './polkadot';
 
 // TODO: Add to snap adapter
 /**

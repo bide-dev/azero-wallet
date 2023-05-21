@@ -1,8 +1,6 @@
-import { resolve } from 'path';
 import SnapsWebpackPlugin from '@metamask/snaps-webpack-plugin';
-import ESLintPlugin from 'eslint-webpack-plugin';
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import { Configuration, ProvidePlugin, DefinePlugin } from 'webpack';
+import { resolve } from 'path';
+import { Configuration } from 'webpack';
 import { merge } from 'webpack-merge';
 import WebpackBarPlugin from 'webpackbar';
 
@@ -20,54 +18,20 @@ const common: Configuration = {
   },
   resolve: {
     extensions: ['.ts', '.js'],
-    fallback: {
-      //   buffer: require.resolve('buffer/'),
-      //   crypto: require.resolve('crypto-browserify/'),
-      //   http: false,
-      //   path: false,
-      //   stream: false,
-      //   zlib: false,
-      //   https: false,
-    },
   },
   module: {
     rules: [
-      // {
-      //   test: /@chainsafe\/as-sha256/u,
-      //   use: 'null-loader',
-      // },
       {
         test: /\.(m?js|ts)x?$/u,
         use: [
           {
             loader: 'babel-loader',
-            // options: {
-            //   cacheDirectory: true,
-            // },
           },
         ],
       },
-      // { test: /.json$/, type: 'json' },
     ],
   },
-  plugins: [
-    new WebpackBarPlugin(),
-    new ProvidePlugin({
-      // Buffer: ['buffer', 'Buffer'],
-    }),
-    // new ESLintPlugin({
-    //   extensions: ['ts'],
-    // }),
-    // new ForkTsCheckerWebpackPlugin({
-    //   typescript: {
-    //     diagnosticOptions: {
-    //       semantic: true,
-    //       syntactic: true,
-    //     },
-    //     configFile: 'tsconfig.build.json',
-    //   },
-    // }),
-  ],
+  plugins: [new WebpackBarPlugin()],
   watchOptions: {
     ignored: ['**/snap.manifest.json'],
   },

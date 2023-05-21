@@ -77,6 +77,13 @@ export const getDefaultKeyringPair = async (): Promise<KeyringPair> => {
   return keyring;
 };
 
+/**
+ *
+ * @param api
+ * @param from
+ * @param to
+ * @param amount
+ */
 export async function generateTransactionPayload(
   api: ApiPromise,
   from: string,
@@ -131,6 +138,12 @@ export const signAndSendExtrinsicTransaction = async (
   return await api.sendTransactionWithSignature(txPayload, signed);
 };
 
+/**
+ *
+ * @param api
+ * @param signerPayload
+ * @param showConfirmDialog
+ */
 export async function signSignerPayloadJSON(
   api: PolkadotAPI,
   signerPayload: SignerPayloadJSON,

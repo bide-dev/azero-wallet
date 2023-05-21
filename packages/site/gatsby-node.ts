@@ -1,5 +1,5 @@
-import webpack from 'webpack';
 import NodePolyfillPlugin from 'node-polyfill-webpack-plugin';
+import webpack from 'webpack';
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({

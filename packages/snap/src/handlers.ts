@@ -6,12 +6,12 @@ import {
   signAndSendExtrinsicTransaction,
   signSignerPayloadJSON,
 } from './account';
-import { SnapState } from './state';
 import { PolkadotAPI } from './polkadot-api';
+import { SnapState } from './state';
 
 type HandlerParams = unknown[] | Record<string, unknown>;
 
-export const importAccountFromSeedHandler = (
+export const importAccountFromSeedHandler = async (
   state: SnapState,
   params: HandlerParams,
 ) => {

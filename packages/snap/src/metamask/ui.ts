@@ -1,5 +1,5 @@
-import { SignerPayloadJSON } from '@polkadot/types/types';
 import { divider, heading, Panel, panel, text } from '@metamask/snaps-ui';
+import { SignerPayloadJSON } from '@polkadot/types/types';
 
 export const stringify = (record: Record<string, unknown>): string =>
   JSON.stringify(record, null, 2);

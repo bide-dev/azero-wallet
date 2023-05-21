@@ -1,6 +1,6 @@
-import { ethErrors } from 'eth-rpc-errors';
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
 import { initWasm } from '@polkadot/wasm-crypto/initOnlyAsm';
+import { ethErrors } from 'eth-rpc-errors';
 
 import {
   getAccountsHandler,

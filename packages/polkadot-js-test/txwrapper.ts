@@ -1,6 +1,7 @@
 import { getRegistry, createMetadata } from '@substrate/txwrapper-polkadot';
 
 import { getApi, getKeyPair } from './utils';
+
 const constructTransfer = async (sender: any) => {
   const api = await getApi();
   const registry = getRegistry({ chainName: 'Azero', specName: 'azero' });

@@ -1,7 +1,8 @@
-import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { ApiPromise } from '@polkadot/api';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
 import { hexToU8a, u8aToHex } from '@polkadot/util';
+
 import { getApi, getKeyPair } from './utils';
 
 type Transaction = {
@@ -18,6 +19,13 @@ type TxPayload = {
   payload: SignerPayloadJSON;
 };
 
+/**
+ *
+ * @param api
+ * @param from
+ * @param to
+ * @param amount
+ */
 export async function generateTransactionPayload(
   api: ApiPromise,
   from: string,
@@ -61,6 +69,11 @@ export async function generateTransactionPayload(
   };
 }
 
+/**
+ *
+ * @param api
+ * @param payload
+ */
 export async function signPayloadJSON(
   api: ApiPromise,
   payload: SignerPayloadJSON,
@@ -72,6 +85,10 @@ export async function signPayloadJSON(
   return extrinsic.sign(keyPair);
 }
 
+/**
+ *
+ * @param payload
+ */
 export async function signPayloadRaw(
   payload: SignerPayloadRaw,
 ): Promise<{ signature: string } | void> {
@@ -82,6 +99,12 @@ export async function signPayloadRaw(
   };
 }
 
+/**
+ *
+ * @param api
+ * @param signature
+ * @param txPayload
+ */
 export async function send(
   api: ApiPromise,
   signature: Uint8Array | `0x${string}`,
