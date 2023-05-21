@@ -213,7 +213,7 @@ const Index = () => {
             title: 'Active Aleph-Zero Account',
             description: `Account derived from your MetaMask account: ${
               account ?? '...'
-            }`,
+            }\nMake sure to fund it with some testnet $AZERO to be able to send transactions.`,
           }}
           disabled={!state.installedSnap}
           fullWidth={
