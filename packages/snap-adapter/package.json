@@ -1,40 +1,40 @@
 {
-    "name": "azero-snap-adapter",
-    "version": "0.1.0",
-    "description": "Access Aleph Zero Snap through a typed API",
-    "author": "Piotr Roslaniec <p.roslaniec@gmail.com>",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/piotr-roslaniec/aleph-zero-snap"
-    },
-    "main": "build/index.js",
-    "types": "build/index.d.ts",
-    "files": [
-        "build/"
-    ],
-    "license": "GPL-3.0",
-    "scripts": {
-        "build": "tsc && yarn post-build",
-        "post-build": "ts-node scripts/post-build.ts",
-        "build-dev": "NODE_ENV=development yarn build",
-        "start": "yarn build-dev",
-        "dev": "yarn nodemon --watch src/ --ext ts --exec 'yarn build-dev'",
-        "clean": "rm -r build/",
-        "typecheck": "tsc --noEmit",
-        "lint": "yarn lint:eslint && yarn lint:misc --check",
-        "lint:eslint": "eslint . --cache --ext js,ts",
-        "lint:fix": "yarn lint:eslint --fix && yarn lint:misc --write"
-    },
-    "dependencies": {
-        "replace-in-file": "6.3.5"
-    },
-    "devDependencies": {
-        "@types/node": "^18.0.6",
-        "eslint": "8.19.0",
-        "nodemon": "2.0.19",
-        "prettier": "2.7.1",
-        "ts-node": "10.8.2",
-        "tsc-alias": "1.6.11",
-        "typescript": "4.7.4"
-    }
+  "name": "azero-snap-adapter",
+  "version": "0.1.0",
+  "description": "Access Aleph Zero Snap through a typed API",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/piotr-roslaniec/aleph-zero-snap"
+  },
+  "license": "GPL-3.0",
+  "author": "Piotr Roslaniec <p.roslaniec@gmail.com>",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "files": [
+    "build/"
+  ],
+  "scripts": {
+    "build": "tsc && yarn post-build",
+    "build-dev": "NODE_ENV=development yarn build",
+    "clean": "rm -r build/",
+    "dev": "yarn nodemon --watch src/ --ext ts --exec 'yarn build-dev'",
+    "lint": "yarn lint:eslint && yarn lint:misc --check",
+    "lint:eslint": "eslint . --cache --ext js,ts",
+    "lint:fix": "yarn lint:eslint --fix && yarn lint:misc --write",
+    "post-build": "ts-node scripts/post-build.ts",
+    "start": "yarn build-dev",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "replace-in-file": "6.3.5"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.6",
+    "eslint": "8.19.0",
+    "nodemon": "2.0.19",
+    "prettier": "2.7.1",
+    "ts-node": "10.8.2",
+    "tsc-alias": "1.6.11",
+    "typescript": "4.7.4"
+  }
 }
