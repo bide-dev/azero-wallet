@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 import { Keyring } from '@polkadot/keyring';
-import { ApiPromise, WsProvider } from '@polkadot/api';
+import { ApiPromise, HttpProvider, WsProvider } from '@polkadot/api';
 
 export const getKeyPair = () => {
   const json = readFileSync('./test-account.json', 'utf8');
@@ -12,6 +12,8 @@ export const getKeyPair = () => {
 };
 
 export const getApi = async () => {
-  const wsProvider = new WsProvider('wss://ws.test.azero.dev/');
-  return ApiPromise.create({ provider: wsProvider });
+  // const provider = new WsProvider('wss://ws.test.azero.dev/');
+  // const provider = new HttpProvider('http://18.224.252.107:9933');
+  const provider = new HttpProvider('http://localhost:9933');
+  return ApiPromise.create({ provider });
 };

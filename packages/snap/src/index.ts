@@ -2,17 +2,16 @@ import { ethErrors } from 'eth-rpc-errors';
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
 import { initWasm } from '@polkadot/wasm-crypto/initOnlyAsm';
 
-import { SnapState } from './state';
 import {
   getAccountsHandler,
-  signExtrinsicPayloadHandler,
-  signSignerPayloadHandler,
+  signAndSendExtrinsicTransactionHandler,
+  signSignerPayloadJSONHandler,
 } from './handlers';
-import { SubstrateApi } from './substrate-api';
+import { PolkadotAPI } from './polkadot-api';
 
 // let entropy: Bip44Node;
-let state: SnapState;
-let api: SubstrateApi;
+// let state: SnapState;
+let api: PolkadotAPI;
 
 initWasm().catch((err) => console.error(err));
 
@@ -27,16 +26,13 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   const { method, params } = request;
 
   if (!api) {
-    console.info('Initializing Substrate API');
-
     // TODO: Naked fetch calls to test.azero.dev fails with a CORS error because snaps
     //   are running in a seperate iframe and so their origin is set to `null`.
     // TODO: Remove before deployment
-    const localNode = 'http://localhost:9933';
-    api = new SubstrateApi(localNode);
+    const localNode = 'http://18.224.252.107:9933';
+    api = new PolkadotAPI(localNode);
 
     await api.init();
-    console.info('Initialized Substrate API');
   }
 
   // TODO: We don't persist any state yet
@@ -50,16 +46,13 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     // case 'importAccountFromSeed':
     //   return await importAccountFromSeedHandler(state, params);
     case 'getAccounts':
-      return getAccountsHandler(state);
+      return getAccountsHandler();
 
     // Transaction methods
-    case 'signExtrinsicPayload':
-      return await signExtrinsicPayloadHandler(params);
-    // case 'signAndSendExtrinsicTransaction':
-    //   return await signAndSendExtrinsicTransactionHandler(state, params, api);
-
-    case 'signSignerPayload':
-      return await signSignerPayloadHandler(params, api);
+    case 'signAndSendTransactionPayload':
+      return await signAndSendExtrinsicTransactionHandler(api, params);
+    case 'signSignerPayloadJSON':
+      return await signSignerPayloadJSONHandler(api, params);
 
     default:
       throw ethErrors.rpc.methodNotFound({

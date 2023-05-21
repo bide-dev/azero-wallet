@@ -2456,17 +2456,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/key-tree@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "@metamask/key-tree@npm:3.0.1"
-  dependencies:
-    bip39: ^3.0.4
-    keccak: ^3.0.2
-    secp256k1: ^4.0.2
-  checksum: 83705fde3b1c4e2fccceba761117a887cbc13cc75db3a66e327741638b8146b732f8b6d8839f5156ba0bf089964d1d855952c0bd0805a9f34aca4f3f8ef6c13d
-  languageName: node
-  linkType: hard
-
 "@metamask/key-tree@npm:^7.0.0":
   version: 7.0.0
   resolution: "@metamask/key-tree@npm:7.0.0"
@@ -6079,7 +6068,7 @@ __metadata:
     "@metamask/eslint-config-jest": ^10.0.0
     "@metamask/eslint-config-nodejs": ^10.0.0
     "@metamask/eslint-config-typescript": ^10.0.0
-    "@metamask/key-tree": ^3.0.1
+    "@metamask/key-tree": ^7.0.0
     "@metamask/snaps-cli": ^0.32.2
     "@metamask/snaps-types": ^0.32.2
     "@metamask/snaps-ui": ^0.32.2
@@ -6093,6 +6082,7 @@ __metadata:
     async-mutex: ^0.3.2
     azero-snap-adapter: "workspace:*"
     babel-loader: ^9.1.2
+    bip39: ^3.1.0
     eslint: ^8.21.0
     eslint-config-prettier: ^8.1.0
     eslint-plugin-import: ^2.26.0
@@ -6868,7 +6858,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bip39@npm:^3.0.4":
+"bip39@npm:^3.1.0":
   version: 3.1.0
   resolution: "bip39@npm:3.1.0"
   dependencies:
@@ -13664,7 +13654,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"keccak@npm:^3.0.0, keccak@npm:^3.0.2":
+"keccak@npm:^3.0.0":
   version: 3.0.3
   resolution: "keccak@npm:3.0.3"
   dependencies:
@@ -17660,7 +17650,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"secp256k1@npm:^4.0.1, secp256k1@npm:^4.0.2":
+"secp256k1@npm:^4.0.1":
   version: 4.0.3
   resolution: "secp256k1@npm:4.0.3"
   dependencies:

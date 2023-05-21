@@ -3,11 +3,11 @@ import { ethErrors } from 'eth-rpc-errors';
 import {
   getDefaultKeyringPair,
   recoverAccount,
-  signExtrinsicPayload,
-  signSignerPayload,
+  signAndSendExtrinsicTransaction,
+  signSignerPayloadJSON,
 } from './account';
 import { SnapState } from './state';
-import { SubstrateApi } from './substrate-api';
+import { PolkadotAPI } from './polkadot-api';
 
 type HandlerParams = unknown[] | Record<string, unknown>;
 
@@ -27,44 +27,31 @@ export const importAccountFromSeedHandler = (
   }
 };
 
-export const getAccountsHandler = async (state: SnapState) => {
+export const getAccountsHandler = async () => {
   try {
-    const imported = Object.values(state.wallet.accountMap).map(
-      (a) => a.address,
-    );
+    // TODO: Will return no accounts since we don't persist any state yet
+    // const imported = Object.values(state.wallet.accountMap).map(
+    //   (a) => a.address,
+    // );
     const { address } = await getDefaultKeyringPair();
-    return { imported, address };
+    return [address];
   } catch (e) {
     console.error('Failed to get accounts', e);
     return null;
   }
 };
 
-export const signExtrinsicPayloadHandler = async (params: HandlerParams) => {
-  const payloadJson = params[0];
-  if (!payloadJson) {
-    throw ethErrors.rpc.invalidParams('Missing parameter: payloadJson');
-  }
-
-  try {
-    return await signExtrinsicPayload(payloadJson);
-  } catch (e) {
-    console.error('Failed to sign payload', e);
-    return null;
-  }
-};
-
-export const signSignerPayloadHandler = async (
+export const signSignerPayloadJSONHandler = async (
+  api: PolkadotAPI,
   params: HandlerParams,
-  api: SubstrateApi,
 ) => {
-  const transaction = params[0];
-  if (!transaction) {
-    throw ethErrors.rpc.invalidParams('Missing parameter: transaction');
+  const payload = params[0];
+  if (!payload) {
+    throw ethErrors.rpc.invalidParams('Missing parameter: signerPayloadJSON');
   }
 
   try {
-    return await signSignerPayload(params[0], api);
+    return await signSignerPayloadJSON(api, params[0]);
   } catch (e) {
     console.error('Failed to sign payload', e);
     return null;
@@ -72,17 +59,16 @@ export const signSignerPayloadHandler = async (
 };
 
 export const signAndSendExtrinsicTransactionHandler = async (
-  state: SnapState,
+  api: PolkadotAPI,
   params: HandlerParams,
-  api: SubstrateApi,
 ) => {
-  const transaction = params[0];
-  if (!transaction) {
-    throw ethErrors.rpc.invalidParams('Missing parameter: transaction');
+  const payload = params[0];
+  if (!payload) {
+    throw ethErrors.rpc.invalidParams('Missing parameter: signerPayloadJSON');
   }
 
   try {
-    return await signAndSendExtrinsicTransaction(state, params[0], api);
+    return await signAndSendExtrinsicTransaction(api, payload);
   } catch (e) {
     console.error('Failed to sign transaction', e);
     return null;

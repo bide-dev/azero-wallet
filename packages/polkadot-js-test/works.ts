@@ -1,22 +1,33 @@
 import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { Transaction, TxPayload } from '@chainsafe/metamask-polkadot-types';
 import { ApiPromise } from '@polkadot/api';
 import { SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
 import { hexToU8a, u8aToHex } from '@polkadot/util';
 import { getApi, getKeyPair } from './utils';
 
+type Transaction = {
+  hash: string;
+  block: string;
+  sender: string;
+  destination: string;
+  amount: string | number;
+  fee: string;
+};
+
+type TxPayload = {
+  tx: string;
+  payload: SignerPayloadJSON;
+};
+
 export async function generateTransactionPayload(
   api: ApiPromise,
+  from: string,
   to: string,
   amount: string | number,
 ): Promise<TxPayload> {
-  // fetch last signed block and account address
-  const [signedBlock, address] = await Promise.all([
-    api.rpc.chain.getBlock(),
-    getKeyPair().address,
-  ]);
-  // create signer options
-  const nonce = (await api.derive.balances.account(address)).accountNonce;
+  const signedBlock = await api.rpc.chain.getBlock();
+
+  const account = await api.derive.balances.account(from);
+  const nonce = account.accountNonce;
   const signerOptions = {
     blockHash: signedBlock.block.header.hash,
     era: api.createType('ExtrinsicEra', {
@@ -108,27 +119,26 @@ export async function send(
   const extrinsic = api.createType('Extrinsic', txPayload.tx);
   extrinsic.addSignature(sender, signature, txPayload.payload);
 
-  const amount = extrinsic.args[1].toJSON();
-  if (!amount) {
+  const amountJSON = extrinsic.args[1].toJSON();
+  if (!amountJSON) {
     throw new Error('Amount is empty');
   }
+
+  const amount = Number(amountJSON.toString());
   const paymentInfo = await api.tx.balances
-    .transfer(destination, Number(amount.toString()))
+    .transfer(destination, amount)
     .paymentInfo(sender);
 
   const txHash = await api.rpc.author.submitExtrinsic(extrinsic);
 
-  const tx = {
+  return {
     amount,
     block: txHash.toHex(),
     destination,
     fee: paymentInfo.partialFee.toJSON(),
     hash: extrinsic.hash.toHex(),
     sender,
-  } as Transaction;
-
-  // await saveTxToState(snap, tx);
-  return tx;
+  };
 }
 
 const run = async () => {
@@ -136,6 +146,7 @@ const run = async () => {
 
   const payload = await generateTransactionPayload(
     api,
+    getKeyPair().address,
     getKeyPair().address,
     1,
   );
@@ -146,7 +157,6 @@ const run = async () => {
   }
 
   const tx = await send(api, signature.signature as any, payload);
-
   console.log({ tx });
 
   await api.disconnect();

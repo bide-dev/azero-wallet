@@ -2,7 +2,8 @@ import { SignerPayloadJSON } from '@polkadot/types/types';
 
 export type RpcRequest = {
   getAccounts: () => string[];
-  signExtrinsicPayload: (payloadJSON: SignerPayloadJSON) => Promise<{ signature: string }>;
+  signAndSendTransactionPayload: (payload: TransactionPayload) => Promise<TransactionInfo>;
+  signSignerPayloadJSON: (payload: SignerPayloadJSON) => Promise<string>;
 };
 
 export type RpcParams = {
@@ -11,3 +12,18 @@ export type RpcParams = {
         params: Parameters<RpcRequest[Key]>;
     };
 }[keyof RpcRequest];
+
+
+export type TransactionPayload = {
+  transaction: string;
+  payload: SignerPayloadJSON;
+};
+
+export type TransactionInfo = {
+  hash: string;
+  block: string;
+  sender: string;
+  destination: string;
+  amount: string | number;
+  fee: string;
+};
