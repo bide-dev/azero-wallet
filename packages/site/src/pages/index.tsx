@@ -186,7 +186,7 @@ const Index = () => {
         <Card
           content={{
             title: 'Send a transaction',
-            description: 'Sends a transfer to itself',
+            description: 'Sends a transfer to self',
             button: (
               <SendTxButton
                 onClick={sendTransferToSelf}
