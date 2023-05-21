@@ -1,16 +1,16 @@
+import { JsonBIP44CoinTypeNode } from '@metamask/key-tree';
 import { ApiPromise, Keyring } from '@polkadot/api';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { KeyringPair } from '@polkadot/keyring/types';
-import { hexToU8a, stringToU8a, u8aToHex } from '@polkadot/util';
-import { SnapState } from 'state';
-import bip39 from 'bip39';
-
 import { SignerPayloadJSON } from '@polkadot/types/types';
+import { hexToU8a, stringToU8a, u8aToHex } from '@polkadot/util';
 import { HexString } from '@polkadot/util/types';
 import { TransactionInfo, TransactionPayload } from 'azero-snap-adapter';
-import { JsonBIP44CoinTypeNode } from '@metamask/key-tree';
-import { getBip44Entropy } from './metamask';
+import { SnapState } from 'state';
+
+import { getBip44Entropy } from './metamask/bip';
+import { showConfirmTransactionDialog } from './metamask/ui';
 import { PolkadotAPI } from './polkadot-api';
-import { SubmittableExtrinsic } from '@polkadot/api/types';
 
 export type PrivateAccount = {
   seed: string;
@@ -124,14 +124,6 @@ export const signAndSendExtrinsicTransaction = async (
   api: PolkadotAPI,
   txPayload: TransactionPayload,
 ): Promise<TransactionInfo | void> => {
-  // const sender = (await getDefaultKeyringPair()).address;
-  // const destination = sender;
-  // const txPayload = await generateTransactionPayload(
-  //   api.inner,
-  //   sender,
-  //   destination,
-  //   '1',
-  // );
   const signed = await signSignerPayloadJSON(api, txPayload.payload);
   if (!signed) {
     return;
@@ -142,32 +134,23 @@ export const signAndSendExtrinsicTransaction = async (
 export async function signSignerPayloadJSON(
   api: PolkadotAPI,
   signerPayload: SignerPayloadJSON,
+  showConfirmDialog = true,
 ): Promise<HexString | void> {
   const keyPair = await getDefaultKeyringPair();
-  // const confirmation = await showConfirmationDialog(snap, {
-  //   description: `It will be signed with address: ${keyPair.address}`,
-  //   prompt: `Do you want to sign this message?`,
-  //   textAreaContent: messageCreator([
-  //     { message: 'address', value: signerPayload.address },
-  //     { message: 'tip', value: signerPayload.tip },
-  //     { message: 'block number', value: signerPayload.blockNumber },
-  //     { message: 'block hash', value: signerPayload.blockHash },
-  //     { message: 'genesis hash', value: signerPayload.genesisHash },
-  //     { message: 'era', value: signerPayload.era },
-  //     { message: 'nonce', value: signerPayload.nonce },
-  //     { message: 'spec version', value: signerPayload.specVersion },
-  //     { message: 'transaction version', value: signerPayload.transactionVersion },
-  //   ]),
-  // });
-  // if (confirmation) {
-  const extrinsic = api.inner.registry.createType(
-    'ExtrinsicPayload',
-    signerPayload,
-    {
-      version: signerPayload.version,
-    },
-  );
-  const { signature } = extrinsic.sign(keyPair);
-  return signature;
-  // }
+
+  const confirmation = showConfirmDialog
+    ? await showConfirmTransactionDialog(signerPayload, keyPair.address)
+    : false;
+
+  if (confirmation) {
+    const extrinsic = api.inner.registry.createType(
+      'ExtrinsicPayload',
+      signerPayload,
+      {
+        version: signerPayload.version,
+      },
+    );
+    const { signature } = extrinsic.sign(keyPair);
+    return signature;
+  }
 }

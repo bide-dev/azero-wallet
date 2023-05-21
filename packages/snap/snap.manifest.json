@@ -7,7 +7,7 @@
     "url": "https://github.com/piotr-roslaniec/aleph-zero-snap"
   },
   "source": {
-    "shasum": "dydFU2ZNwz85GrIpT2UaHooz8dS3eYjlem9mGLmTkGk=",
+    "shasum": "TZBd+zPcxBPQDTIkTENEax530cXV5c3Ups0YZx985ho=",
     "location": {
       "npm": {
         "filePath": "dist/index.js",
@@ -21,6 +21,7 @@
     "endowment:network-access": {},
     "endowment:webassembly": {},
     "snap_manageState": {},
+    "snap_dialog": {},
     "snap_getBip44Entropy": [
       {
         "coinType": 434

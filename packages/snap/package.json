@@ -38,6 +38,8 @@
   "dependencies": {
     "@metamask/browser-passworder": "^3.0.0",
     "@metamask/key-tree": "^7.0.0",
+    "@metamask/snaps-types": "^0.32.2",
+    "@metamask/snaps-ui": "^0.32.2",
     "@polkadot/api": "^9.9.4",
     "@polkadot/keyring": "^10.1.14",
     "@polkadot/util": "^10.1.14",
