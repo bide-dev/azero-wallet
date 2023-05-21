@@ -1,12 +1,8 @@
-import { useContext } from 'react';
+import * as azeroSnap from 'azero-snap-adapter';
+import { TransactionInfo } from 'azero-snap-adapter';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { MetamaskActions, MetaMaskContext } from '../hooks';
-import {
-  connectSnap,
-  getSnap,
-  sendTxTransferToSelf,
-  shouldDisplayReconnectButton,
-} from '../utils';
+
 import {
   ConnectButton,
   InstallFlaskButton,
@@ -14,6 +10,13 @@ import {
   SendHelloButton as SendTxButton,
   Card,
 } from '../components';
+import { MetamaskActions, MetaMaskContext } from '../hooks';
+import {
+  connectSnap,
+  getSnap,
+  sendTxTransferToSelf,
+  shouldDisplayReconnectButton,
+} from '../utils';
 
 const Container = styled.div`
   display: flex;
@@ -22,6 +25,7 @@ const Container = styled.div`
   flex: 1;
   margin-top: 7.6rem;
   margin-bottom: 7.6rem;
+
   ${({ theme }) => theme.mediaQueries.small} {
     padding-left: 2.4rem;
     padding-right: 2.4rem;
@@ -46,6 +50,7 @@ const Subtitle = styled.p`
   font-weight: 500;
   margin-top: 0;
   margin-bottom: 0;
+
   ${({ theme }) => theme.mediaQueries.small} {
     font-size: ${({ theme }) => theme.fontSizes.text};
   }
@@ -75,6 +80,7 @@ const Notice = styled.div`
   & > * {
     margin: 0;
   }
+
   ${({ theme }) => theme.mediaQueries.small} {
     margin-top: 1.2rem;
     padding: 1.6rem;
@@ -91,6 +97,7 @@ const ErrorMessage = styled.div`
   margin-top: 2.4rem;
   max-width: 60rem;
   width: 100%;
+
   ${({ theme }) => theme.mediaQueries.small} {
     padding: 1.6rem;
     margin-bottom: 1.2rem;
@@ -101,6 +108,25 @@ const ErrorMessage = styled.div`
 
 const Index = () => {
   const [state, dispatch] = useContext(MetaMaskContext);
+
+  const [account, setAccount] = useState<string | null>(null);
+  const [txInfo, setTxInfo] = useState<TransactionInfo | null>(null);
+
+  useEffect(() => {
+    const fetchAccount = async () => {
+      const accounts = await azeroSnap.getAccounts();
+      if (accounts.length > 0) {
+        setAccount(accounts[0]);
+      }
+    };
+
+    if (state.installedSnap) {
+      fetchAccount().catch((e) => {
+        console.error(e);
+        dispatch({ type: MetamaskActions.SetError, payload: e });
+      });
+    }
+  }, [state.installedSnap]);
 
   const handleConnectClick = async () => {
     try {
@@ -119,7 +145,8 @@ const Index = () => {
 
   const sendTransferToSelf = async () => {
     try {
-      await sendTxTransferToSelf();
+      const txInfo = await sendTxTransferToSelf();
+      setTxInfo(txInfo);
     } catch (e) {
       console.error(e);
       dispatch({ type: MetamaskActions.SetError, payload: e });
@@ -129,11 +156,9 @@ const Index = () => {
   return (
     <Container>
       <Heading>
-        Welcome to <Span>template-snap</Span>
+        Welcome to <Span>azero-wallet</Span>
       </Heading>
-      <Subtitle>
-        Get started by editing <code>src/index.ts</code>
-      </Subtitle>
+      <Subtitle>Get started by editing by installing the snap:</Subtitle>
       <CardContainer>
         {state.error && (
           <ErrorMessage>
@@ -185,6 +210,20 @@ const Index = () => {
         )}
         <Card
           content={{
+            title: 'Active Aleph-Zero Account',
+            description: `Account derived from your MetaMask account: ${
+              account ?? '...'
+            }`,
+          }}
+          disabled={!state.installedSnap}
+          fullWidth={
+            state.isFlask &&
+            Boolean(state.installedSnap) &&
+            !shouldDisplayReconnectButton(state.installedSnap)
+          }
+        />
+        <Card
+          content={{
             title: 'Send a transaction',
             description: 'Sends a transfer to self',
             button: (
@@ -201,17 +240,28 @@ const Index = () => {
             !shouldDisplayReconnectButton(state.installedSnap)
           }
         />
+
+        {txInfo && (
+          <Card
+            content={{
+              title: 'Transaction Info',
+              description: JSON.stringify(txInfo, null, 2),
+            }}
+            fullWidth={
+              state.isFlask &&
+              Boolean(state.installedSnap) &&
+              !shouldDisplayReconnectButton(state.installedSnap)
+            }
+          />
+        )}
         <Notice>
           <p>
-            Please note that the <b>snap.manifest.json</b> and{' '}
-            <b>package.json</b> must be located in the server root directory and
-            the bundle must be hosted at the location specified by the location
-            field.
+            Please note that this is a prototype and may be <b>unsafe</b>.
+            Consider using a new MetaMask profile for testing.
           </p>
         </Notice>
       </CardContainer>
     </Container>
   );
 };
-
 export default Index;

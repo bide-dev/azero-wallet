@@ -57,7 +57,7 @@ export const getSnap = async (version?: string): Promise<Snap | undefined> => {
 export const sendTxTransferToSelf = async () => {
   const accounts = await azeroSnap.getAccounts();
   if (accounts.length === 0) {
-    return;
+    throw new Error('No accounts found');
   }
   const recipient = accounts[0];
   console.log({ recipient });
@@ -72,6 +72,7 @@ export const sendTxTransferToSelf = async () => {
 
   const txInfo = await azeroSnap.signAndSendTransactionPayload(txPayload);
   console.log({ txInfo });
+  return txInfo;
 };
 
 export const isLocalSnap = (snapId: string) => snapId.startsWith('local:');

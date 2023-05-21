@@ -43,6 +43,7 @@ const Title = styled.h2`
 const Description = styled.div`
   margin-top: 2.4rem;
   margin-bottom: 2.4rem;
+  overflow-wrap: break-word;
 `;
 
 export const Card = ({ content, disabled = false, fullWidth }: CardProps) => {
