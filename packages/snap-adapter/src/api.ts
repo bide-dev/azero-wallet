@@ -16,6 +16,6 @@ export const signAndSendTransactionPayload = async (
   return await requestSnap('signAndSendTransactionPayload', [payload]);
 };
 
-export const signSignerPayloadJSON = async (): Promise<string> => {
-  return await requestSnap('signSignerPayloadJSON');
+export const signSignerPayloadJSON = async (payload: SignerPayloadJSON): Promise<string> => {
+  return await requestSnap('signSignerPayloadJSON', [payload]);
 };
