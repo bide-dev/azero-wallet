@@ -3,4 +3,4 @@
  * Will default to the local hosted snap if no value is provided in environment.
  */
 export const defaultSnapOrigin =
-  process.env.SNAP_ORIGIN ?? 'npm:aleph-zero-snap';
+  process.env.SNAP_ORIGIN ?? 'npm:azero-wallet';

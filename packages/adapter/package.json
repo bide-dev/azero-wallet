@@ -1,5 +1,5 @@
 {
-  "name": "azero-snap-adapter",
+  "name": "azero-wallet-adapter",
   "version": "0.1.0",
   "description": "Access Aleph Zero Snap through a typed API",
   "repository": {

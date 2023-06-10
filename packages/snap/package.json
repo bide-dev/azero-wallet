@@ -1,6 +1,6 @@
 {
-  "name": "aleph-zero-snap",
-  "version": "0.3.3",
+  "name": "azero-wallet",
+  "version": "0.1.0",
   "description": "Aleph Zero Snap",
   "repository": {
     "type": "git",
@@ -45,7 +45,7 @@
     "@polkadot/util": "^10.1.14",
     "@polkadot/wasm-crypto": "^7.2.1",
     "async-mutex": "^0.3.2",
-    "azero-snap-adapter": "workspace:*",
+    "azero-wallet-adapter": "workspace:*",
     "eth-rpc-errors": "^4.0.3",
     "sha3": "^2.1.4"
   },

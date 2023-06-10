@@ -1,5 +1,5 @@
-import * as azeroSnap from 'azero-snap-adapter';
-import { TransactionInfo } from 'azero-snap-adapter';
+import * as azeroSnap from 'azero-wallet-adapter';
+import { TransactionInfo } from 'azero-wallet-adapter';
 import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 

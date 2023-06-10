@@ -1,4 +1,4 @@
-import * as azeroSnap from 'azero-snap-adapter';
+import * as azeroSnap from 'azero-wallet-adapter';
 
 import { generateTransactionPayload, getApi } from './polkadot';
 import { defaultSnapOrigin } from '../config';

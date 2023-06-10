@@ -5,7 +5,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { SignerPayloadJSON } from '@polkadot/types/types';
 import { hexToU8a, stringToU8a, u8aToHex } from '@polkadot/util';
 import { HexString } from '@polkadot/util/types';
-import { TransactionInfo, TransactionPayload } from 'azero-snap-adapter';
+import { TransactionInfo, TransactionPayload } from 'azero-wallet-adapter';
 import { SnapState } from 'state';
 
 import { getBip44Entropy } from './metamask/bip';

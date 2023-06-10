@@ -6083,59 +6083,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aleph-zero-snap@workspace:packages/snap":
-  version: 0.0.0-use.local
-  resolution: "aleph-zero-snap@workspace:packages/snap"
-  dependencies:
-    "@babel/core": ^7.21.3
-    "@babel/plugin-syntax-import-assertions": ^7.20.0
-    "@babel/preset-env": ^7.21.5
-    "@babel/preset-typescript": ^7.21.0
-    "@babel/register": ^7.21.0
-    "@lavamoat/allow-scripts": ^2.0.3
-    "@metamask/browser-passworder": ^3.0.0
-    "@metamask/eslint-config": ^10.0.0
-    "@metamask/eslint-config-jest": ^10.0.0
-    "@metamask/eslint-config-nodejs": ^10.0.0
-    "@metamask/eslint-config-typescript": ^10.0.0
-    "@metamask/key-tree": ^7.0.0
-    "@metamask/snaps-cli": ^0.32.2
-    "@metamask/snaps-types": ^0.32.2
-    "@metamask/snaps-ui": ^0.32.2
-    "@metamask/snaps-webpack-plugin": ^0.32.2
-    "@polkadot/api": ^9.9.4
-    "@polkadot/keyring": ^10.1.14
-    "@polkadot/types": ^9.14.2
-    "@polkadot/util": ^10.1.14
-    "@polkadot/wasm-crypto": ^7.2.1
-    "@typescript-eslint/eslint-plugin": ^5.33.0
-    "@typescript-eslint/parser": ^5.33.0
-    async-mutex: ^0.3.2
-    azero-snap-adapter: "workspace:*"
-    babel-loader: ^9.1.2
-    eslint: ^8.21.0
-    eslint-config-prettier: ^8.1.0
-    eslint-plugin-import: ^2.26.0
-    eslint-plugin-jest: ^26.8.2
-    eslint-plugin-jsdoc: ^39.2.9
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^4.2.1
-    eth-rpc-errors: ^4.0.3
-    fork-ts-checker-webpack-plugin: ^8.0.0
-    nodemon: ^2.0.16
-    prettier: ^2.3.2
-    prettier-plugin-packagejson: ^2.2.11
-    rimraf: ^3.0.2
-    sha3: ^2.1.4
-    standard-version: ^9.5.0
-    typescript: ^4.7.4
-    webpack: ^5.82.0
-    webpack-cli: ^5.1.0
-    webpack-merge: ^5.8.0
-    webpackbar: ^5.0.2
-  languageName: unknown
-  linkType: soft
-
 "anser@npm:^2.1.0":
   version: 2.1.1
   resolution: "anser@npm:2.1.1"
@@ -6563,9 +6510,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"azero-snap-adapter@workspace:*, azero-snap-adapter@workspace:packages/snap-adapter":
+"azero-wallet-adapter@workspace:*, azero-wallet-adapter@workspace:packages/adapter":
   version: 0.0.0-use.local
-  resolution: "azero-snap-adapter@workspace:packages/snap-adapter"
+  resolution: "azero-wallet-adapter@workspace:packages/adapter"
   dependencies:
     "@types/node": ^18.0.6
     eslint: 8.19.0
@@ -6575,6 +6522,59 @@ __metadata:
     ts-node: 10.8.2
     tsc-alias: 1.6.11
     typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
+"azero-wallet@workspace:packages/snap":
+  version: 0.0.0-use.local
+  resolution: "azero-wallet@workspace:packages/snap"
+  dependencies:
+    "@babel/core": ^7.21.3
+    "@babel/plugin-syntax-import-assertions": ^7.20.0
+    "@babel/preset-env": ^7.21.5
+    "@babel/preset-typescript": ^7.21.0
+    "@babel/register": ^7.21.0
+    "@lavamoat/allow-scripts": ^2.0.3
+    "@metamask/browser-passworder": ^3.0.0
+    "@metamask/eslint-config": ^10.0.0
+    "@metamask/eslint-config-jest": ^10.0.0
+    "@metamask/eslint-config-nodejs": ^10.0.0
+    "@metamask/eslint-config-typescript": ^10.0.0
+    "@metamask/key-tree": ^7.0.0
+    "@metamask/snaps-cli": ^0.32.2
+    "@metamask/snaps-types": ^0.32.2
+    "@metamask/snaps-ui": ^0.32.2
+    "@metamask/snaps-webpack-plugin": ^0.32.2
+    "@polkadot/api": ^9.9.4
+    "@polkadot/keyring": ^10.1.14
+    "@polkadot/types": ^9.14.2
+    "@polkadot/util": ^10.1.14
+    "@polkadot/wasm-crypto": ^7.2.1
+    "@typescript-eslint/eslint-plugin": ^5.33.0
+    "@typescript-eslint/parser": ^5.33.0
+    async-mutex: ^0.3.2
+    azero-wallet-adapter: "workspace:*"
+    babel-loader: ^9.1.2
+    eslint: ^8.21.0
+    eslint-config-prettier: ^8.1.0
+    eslint-plugin-import: ^2.26.0
+    eslint-plugin-jest: ^26.8.2
+    eslint-plugin-jsdoc: ^39.2.9
+    eslint-plugin-node: ^11.1.0
+    eslint-plugin-prettier: ^4.2.1
+    eth-rpc-errors: ^4.0.3
+    fork-ts-checker-webpack-plugin: ^8.0.0
+    nodemon: ^2.0.16
+    prettier: ^2.3.2
+    prettier-plugin-packagejson: ^2.2.11
+    rimraf: ^3.0.2
+    sha3: ^2.1.4
+    standard-version: ^9.5.0
+    typescript: ^4.7.4
+    webpack: ^5.82.0
+    webpack-cli: ^5.1.0
+    webpack-merge: ^5.8.0
+    webpackbar: ^5.0.2
   languageName: unknown
   linkType: soft
 
@@ -17988,7 +17988,7 @@ __metadata:
     "@types/styled-components": ^5.1.25
     "@typescript-eslint/eslint-plugin": ^5.33.0
     "@typescript-eslint/parser": ^5.33.0
-    azero-snap-adapter: "workspace:*"
+    azero-wallet-adapter: "workspace:*"
     cross-env: ^7.0.3
     eslint: ^8.21.0
     eslint-config-prettier: ^8.1.0

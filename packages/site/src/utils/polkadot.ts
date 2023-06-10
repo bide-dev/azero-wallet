@@ -1,6 +1,6 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { TransactionPayload } from 'azero-snap-adapter';
+import { TransactionPayload } from 'azero-wallet-adapter';
 
 export const getApi = async () => {
   const wsProvider = new WsProvider('wss://ws.test.azero.dev/');

@@ -1,5 +1,5 @@
 {
-  "version": "0.3.3",
+  "version": "0.1.0",
   "description": "Aleph Zero Snap",
   "proposedName": "Aleph Zero Snap",
   "repository": {
@@ -7,12 +7,12 @@
     "url": "https://github.com/piotr-roslaniec/azero-snap"
   },
   "source": {
-    "shasum": "tbeXrhKIjaOe5M8amEK4i8rIx65HGWK06pwvIOk0rns=",
+    "shasum": "SXL/j/ulUo1uDf3RDNUCtWlRlsdKKFUIgFRAZ/TYQ2k=",
     "location": {
       "npm": {
         "filePath": "dist/index.js",
         "iconPath": "images/icon.svg",
-        "packageName": "aleph-zero-snap",
+        "packageName": "azero-wallet",
         "registry": "https://registry.npmjs.org/"
       }
     }

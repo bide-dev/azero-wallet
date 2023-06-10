@@ -1,6 +1,6 @@
 import { ApiPromise, HttpProvider } from '@polkadot/api';
 import { HexString } from '@polkadot/util/types';
-import { TransactionInfo, TransactionPayload } from 'azero-snap-adapter';
+import { TransactionInfo, TransactionPayload } from 'azero-wallet-adapter';
 
 import { getDefaultKeyringPair } from './account';
 

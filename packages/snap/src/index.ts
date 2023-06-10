@@ -29,7 +29,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     // TODO: Naked fetch calls to test.azero.dev fails with a CORS error because snaps
     //   are running in a seperate iframe and so their origin is set to `null`.
     // TODO: Remove before deployment
-    const localNode = 'http://18.224.252.107:9933';
+    const localNode = 'http://3.144.134.163:9933';
     api = new PolkadotAPI(localNode);
 
     await api.init();
