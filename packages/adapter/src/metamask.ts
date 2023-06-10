@@ -53,7 +53,6 @@ export const connect = async (
   snapId: string = SNAP_ID,
   params: Record<'version' | string, unknown> = {},
 ) => {
-  console.log({ snapId, params });
   try {
     await window.ethereum.request({
       method: 'wallet_requestSnaps',

@@ -2,9 +2,7 @@ import { requestSnap } from './metamask';
 import { SignerPayloadJSON } from '@polkadot/types/types';
 import { TransactionInfo, TransactionPayload } from './types';
 
-// export const importAccountFromSeed = async (seed: string): Promise<PublicAccount> => {
-//     return await requestSnap("importAccountFromSeed", [seed]);
-// }
+// TODO: Add docs
 
 export const getAccounts = async (): Promise<string[]> => {
   return await requestSnap('getAccounts');
