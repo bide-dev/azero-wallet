@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Aleph Zero Snap",
   "proposedName": "Aleph Zero Snap",
   "repository": {
@@ -7,7 +7,7 @@
     "url": "https://github.com/piotr-roslaniec/azero-snap"
   },
   "source": {
-    "shasum": "QOFgCvAPMiwK7BsrVMc+m7ZfdAOZ/0j8rWwRo48YCVQ=",
+    "shasum": "3kbjo/bXsK2SZnma7648ixpc8WC0gylRXS1eQ6j4LmU=",
     "location": {
       "npm": {
         "filePath": "dist/index.js",
