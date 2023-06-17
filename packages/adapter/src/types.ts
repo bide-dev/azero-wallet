@@ -4,8 +4,12 @@ export type RpcRequest = {
   getAccounts: () => string[];
   signAndSendTransactionPayload: (
     payload: TransactionPayload,
+    rpcUrl?: string,
   ) => Promise<TransactionInfo>;
-  signSignerPayloadJSON: (payload: SignerPayloadJSON) => Promise<string>;
+  signSignerPayloadJSON: (
+    payload: SignerPayloadJSON,
+    rpcUrl?: string,
+  ) => Promise<string>;
 };
 
 export type RpcParams = {

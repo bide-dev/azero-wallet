@@ -21,8 +21,8 @@ export const importAccountFromSeedHandler = async (
 
   try {
     return recoverAccount(state, params[0]);
-  } catch (e) {
-    console.error('Failed to get account from seed', e);
+  } catch (error: unknown) {
+    console.error('Failed to get account from seed', error);
     return null;
   }
 };
@@ -35,7 +35,7 @@ export const getAccountsHandler = async () => {
     // );
     const { address } = await getDefaultKeyringPair();
     return [address];
-  } catch (e) {
+  } catch (error: unknown) {
     console.error('Failed to get accounts', e);
     return null;
   }
@@ -50,10 +50,13 @@ export const signSignerPayloadJSONHandler = async (
     throw ethErrors.rpc.invalidParams('Missing parameter: signerPayloadJSON');
   }
 
+  const rpcUrl = params[1];
+  const selectedApi = rpcUrl ? new PolkadotAPI(rpcUrl) : api;
+
   try {
-    return await signSignerPayloadJSON(api, params[0]);
-  } catch (e) {
-    console.error('Failed to sign payload', e);
+    return await signSignerPayloadJSON(selectedApi, payload);
+  } catch (error: unknown) {
+    console.error('Failed to sign payload', error);
     return null;
   }
 };
@@ -67,10 +70,13 @@ export const signAndSendExtrinsicTransactionHandler = async (
     throw ethErrors.rpc.invalidParams('Missing parameter: signerPayloadJSON');
   }
 
+  const rpcUrl = params[1];
+  const selectedApi = rpcUrl ? new PolkadotAPI(rpcUrl) : api;
+
   try {
-    return await signAndSendExtrinsicTransaction(api, payload);
-  } catch (e) {
-    console.error('Failed to sign transaction', e);
+    return await signAndSendExtrinsicTransaction(selectedApi, payload);
+  } catch (error: unknown) {
+    console.error('Failed to sign transaction', error);
     return null;
   }
 };

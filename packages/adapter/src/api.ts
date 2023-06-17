@@ -10,10 +10,14 @@ export const getAccounts = async (): Promise<string[]> => {
 
 export const signAndSendTransactionPayload = async (
   payload: TransactionPayload,
+  rpcUrl?: string,
 ): Promise<TransactionInfo> => {
-  return await requestSnap('signAndSendTransactionPayload', [payload]);
+  return await requestSnap('signAndSendTransactionPayload', [payload, rpcUrl]);
 };
 
-export const signSignerPayloadJSON = async (payload: SignerPayloadJSON): Promise<string> => {
-  return await requestSnap('signSignerPayloadJSON', [payload]);
+export const signSignerPayloadJSON = async (
+  payload: SignerPayloadJSON,
+  rpcUrl?: string,
+): Promise<string> => {
+  return await requestSnap('signSignerPayloadJSON', [payload, rpcUrl]);
 };
