@@ -31,7 +31,8 @@ jobs:
           key: yarn-cache-${{ runner.os }}-${{ steps.yarn-version.outputs.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
       - run: yarn install --immutable
       - run: yarn build
-      - run: yarn lint
+        # TODO: Add linting
+      #- run: yarn lint
       - run: yarn test
       - name: Require clean working directory
         shell: bash

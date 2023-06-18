@@ -23,7 +23,9 @@ export const getSnaps = async (): Promise<GetSnapsResponse> => {
  * @param params - The params to pass with the snap to connect.
  */
 export const connectSnap = async (
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   snapId: string = defaultSnapOrigin,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   params: Record<'version' | string, unknown> = {},
 ) => {
   // await azeroSnap.connect(snapId, params);

@@ -19,8 +19,8 @@
     "clean": "rm -r build/",
     "dev": "yarn nodemon --watch src/ --ext ts --exec 'yarn build-dev'",
     "lint": "yarn lint:eslint && yarn lint:misc --check",
-    "lint:eslint": "eslint . --cache --ext js,ts",
-    "lint:fix": "yarn lint:eslint --fix && yarn lint:misc --write",
+    "lint:eslint": "eslint .",
+    "lint:fix": "yarn lint:eslint --fix",
     "post-build": "ts-node scripts/post-build.ts",
     "start": "yarn build-dev",
     "typecheck": "tsc --noEmit"
