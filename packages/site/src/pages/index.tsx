@@ -114,10 +114,8 @@ const Index = () => {
 
   useEffect(() => {
     const fetchAccount = async () => {
-      const accounts = await azeroSnap.getAccounts();
-      if (accounts.length > 0) {
-        setAccount(accounts[0]);
-      }
+      const account = await azeroSnap.getAccount();
+      setAccount(account);
     };
 
     if (state.installedSnap) {

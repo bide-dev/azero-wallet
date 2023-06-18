@@ -3,7 +3,7 @@ import { initWasm } from '@polkadot/wasm-crypto/initOnlyAsm';
 import { ethErrors } from 'eth-rpc-errors';
 
 import {
-  getAccountsHandler,
+  getAccountHandler,
   signAndSendExtrinsicTransactionHandler,
   signSignerPayloadJSONHandler,
 } from './handlers';
@@ -13,7 +13,7 @@ import { PolkadotAPI } from './polkadot-api';
 // let state: SnapState;
 let api: PolkadotAPI;
 
-initWasm().catch((err) => console.error(err));
+initWasm().catch(console.error);
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
@@ -45,8 +45,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     // TODO: Support account recovery
     // case 'importAccountFromSeed':
     //   return await importAccountFromSeedHandler(state, params);
-    case 'getAccounts':
-      return getAccountsHandler();
+    case 'getAccount':
+      return getAccountHandler();
 
     // Transaction methods
     case 'signAndSendTransactionPayload':

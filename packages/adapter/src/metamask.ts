@@ -91,3 +91,24 @@ export const isFlask = async () => {
     return false;
   }
 };
+
+/**
+ * Detect if the snap is installed.
+ *
+ * @returns True if the snap is installed, false otherwise.
+ */
+export const isInstalled = async (): Promise<boolean> => {
+  try {
+    const result = await window.ethereum.request({
+      method: 'wallet_requestSnaps',
+      params: {
+        SNAP_ID: {},
+      },
+    });
+    console.log({result});
+    return !!result;
+  } catch (error) {
+    console.log(error);
+  }
+  return false;
+}

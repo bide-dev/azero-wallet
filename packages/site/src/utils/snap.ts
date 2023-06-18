@@ -48,25 +48,20 @@ export const getSnap = async (version?: string): Promise<Snap | undefined> => {
       (snap) =>
         snap.id === defaultSnapOrigin && (!version || snap.version === version),
     );
-  } catch (e) {
-    console.log('Failed to obtain installed snap', e);
+  } catch (error: unknown) {
+    console.log('Failed to obtain installed snap', error);
     return undefined;
   }
 };
 
 export const sendTxTransferToSelf = async () => {
-  const accounts = await azeroSnap.getAccounts();
-  if (accounts.length === 0) {
-    throw new Error('No accounts found');
-  }
-  const recipient = accounts[0];
-  console.log({ recipient });
+  const account = await azeroSnap.getAccount();
 
   const api = await getApi();
   const txPayload = await generateTransactionPayload(
     api,
-    recipient,
-    recipient,
+    account,
+    account,
     '1',
   );
 

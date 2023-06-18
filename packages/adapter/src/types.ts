@@ -1,7 +1,7 @@
 import { SignerPayloadJSON } from '@polkadot/types/types';
 
 export type RpcRequest = {
-  getAccounts: () => string[];
+  getAccount: () => string;
   signAndSendTransactionPayload: (
     payload: TransactionPayload,
     rpcUrl?: string,

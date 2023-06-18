@@ -27,16 +27,16 @@ export const importAccountFromSeedHandler = async (
   }
 };
 
-export const getAccountsHandler = async () => {
+export const getAccountHandler = async () => {
   try {
     // TODO: Will return no accounts since we don't persist any state yet
     // const imported = Object.values(state.wallet.accountMap).map(
     //   (a) => a.address,
     // );
     const { address } = await getDefaultKeyringPair();
-    return [address];
+    return address;
   } catch (error: unknown) {
-    console.error('Failed to get accounts', e);
+    console.error('Failed to get accounts', error);
     return null;
   }
 };
