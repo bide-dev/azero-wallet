@@ -1,4 +1,10 @@
 import { ethErrors } from 'eth-rpc-errors';
+import {
+  ark_bench,
+  bench_ark,
+  bench_jf_withdraw,
+  jf_bench_withdraw,
+} from 'wasmarking';
 
 import {
   getDefaultKeyringPair,
@@ -79,4 +85,31 @@ export const signAndSendExtrinsicTransactionHandler = async (
     console.error('Failed to sign transaction', error);
     return null;
   }
+};
+
+export const benchmarkProverArkXor = async (params: HandlerParams) => {
+  bench_ark('xor');
+};
+export const benchmarkProverArkWithdraw = async (params: HandlerParams) => {
+  bench_ark('withdraw');
+};
+
+export const benchmarkProverJfWithdraw = async (params: HandlerParams) => {
+  bench_jf_withdraw();
+};
+
+export const benchmarkKeyGenerationArkXor = async (params: HandlerParams) => {
+  ark_bench('xor');
+};
+
+export const benchmarkKeyGenerationArkWithdraw = async (
+  params: HandlerParams,
+) => {
+  ark_bench('withdraw');
+};
+
+export const benchmarkKeyGenerationJfWithdraw = async (
+  params: HandlerParams,
+) => {
+  jf_bench_withdraw();
 };

@@ -94,9 +94,15 @@ export const ReconnectButton = (props: ComponentProps<typeof Button>) => {
   );
 };
 
-export const SendHelloButton = (props: ComponentProps<typeof Button>) => {
-  return <Button {...props}>Send Transaction</Button>;
+const ButtonWithText = (
+  text: string,
+  props: ComponentProps<typeof Button>,
+) => {
+  return <Button {...props}>`${text}`</Button>;
 };
+
+export const SendTxButton = (props: ComponentProps<typeof Button>) => ButtonWithText("Send Transaction", props);
+export const BenchmarkButton = (props: ComponentProps<typeof Button>) => ButtonWithText("Benchmark", props);
 
 export const HeaderButtons = ({
   state,

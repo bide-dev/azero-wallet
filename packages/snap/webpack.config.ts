@@ -18,6 +18,10 @@ const common: Configuration = {
   },
   resolve: {
     extensions: ['.ts', '.js'],
+    fallback: {
+      path: false,
+      fs: false,
+    },
   },
   module: {
     rules: [

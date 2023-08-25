@@ -1,6 +1,6 @@
-import {requestSnap} from './metamask';
-import {SignerPayloadJSON} from '@polkadot/types/types';
-import {TransactionInfo, TransactionPayload} from './types';
+import { requestSnap } from './metamask';
+import { SignerPayloadJSON } from '@polkadot/types/types';
+import { TransactionInfo, TransactionPayload } from './types';
 
 // TODO: Add docs
 

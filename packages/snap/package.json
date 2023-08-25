@@ -15,11 +15,12 @@
     "snap.manifest.json"
   ],
   "scripts": {
-    "build": "yarn clean && yarn build:fix-deps && yarn build:snap && yarn build:fix-bundle && cp snap.manifest.json dist/",
+    "build": "yarn clean && yarn build:fix-deps && yarn build:wasm && yarn build:snap && yarn build:fix-bundle && cp snap.manifest.json dist/",
     "build:clean": "rm -rf node_modules/wasm-bundler && yarn install --check-files && yarn clean && yarn build",
     "build:fix-bundle": "node scripts/fix-bundle.js && mm-snap manifest --fix && mm-snap eval --verboseErrors --bundle dist/index.js && cp snap.manifest.json ../site/",
     "build:fix-deps": "node scripts/fix-smoldot.js",
     "build:snap": "yarn webpack",
+    "build:wasm": "node ./scripts/wasm-hex.js",
     "build:webpack": "webpack",
     "clean": "rimraf dist build",
     "dev": "nodemon --watch src/ --ext ts --ignore src/wasm.ts --exec 'yarn start'",
@@ -47,7 +48,8 @@
     "async-mutex": "^0.3.2",
     "azero-wallet-adapter": "workspace:*",
     "eth-rpc-errors": "^4.0.3",
-    "sha3": "^2.1.4"
+    "sha3": "^2.1.4",
+    "wasmarking": "../../../wasmarking/pkg"
   },
   "devDependencies": {
     "@babel/core": "^7.21.3",

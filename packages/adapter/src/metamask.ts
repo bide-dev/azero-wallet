@@ -105,10 +105,9 @@ export const isInstalled = async (): Promise<boolean> => {
         SNAP_ID: {},
       },
     });
-    console.log({result});
     return !!result;
   } catch (error) {
     console.log(error);
   }
   return false;
-}
+};

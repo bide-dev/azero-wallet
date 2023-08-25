@@ -3,7 +3,13 @@ const path = require('path');
 
 const bundlePath = path.join(__dirname, '../dist/index.js');
 
-const missingTypes = ['window.addEventListener = function(){};'];
+const missingTypes = [
+  'window.addEventListener = function(){};', // Fixes `window.addEventListener is not a function`
+  `window.location = {
+    href: '',
+  }`, // Fixes `window.location.href is not a function`
+  'let document = {};', // Fixes `document is not defined`,
+];
 
 /**
  *
@@ -18,7 +24,7 @@ async function fixBundle() {
 
   // Looking for a first break-line after the first line of the file
   // This is where we can safely inject our code
-  const fixed = contents.replace('\n\n', prefixedMissingTypeStubs);
+  const fixed = contents.replace('\n', prefixedMissingTypeStubs);
   await fs.writeFile(bundlePath, fixed);
 }
 

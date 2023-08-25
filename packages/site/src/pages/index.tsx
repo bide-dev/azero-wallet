@@ -1,5 +1,6 @@
 import * as azeroSnap from 'azero-wallet-adapter';
 import { TransactionInfo } from 'azero-wallet-adapter';
+import { requestSnap } from 'azero-wallet-adapter/build/metamask';
 import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -7,7 +8,8 @@ import {
   ConnectButton,
   InstallFlaskButton,
   ReconnectButton,
-  SendHelloButton as SendTxButton,
+  SendTxButton,
+  BenchmarkButton,
   Card,
 } from '../components';
 import { MetamaskActions, MetaMaskContext } from '../hooks';
@@ -151,6 +153,15 @@ const Index = () => {
     }
   };
 
+  const runBenchmarks = async () => {
+    await requestSnap('benchmarkProverArkXor'); // works
+    await requestSnap('benchmarkProverArkWithdraw'); // works
+    await requestSnap('benchmarkProverJfWithdraw'); // works
+    await requestSnap('benchmarkKeyGenerationArkXor'); // works
+    await requestSnap('benchmarkKeyGenerationArkWithdraw'); // works
+    await requestSnap('benchmarkKeyGenerationJfWithdraw'); // 2 work, last one breaks: jf_bench("keys generation", job);
+  };
+
   return (
     <Container>
       <Heading>
@@ -227,6 +238,26 @@ const Index = () => {
             button: (
               <SendTxButton
                 onClick={sendTransferToSelf}
+                disabled={!state.installedSnap}
+              />
+            ),
+          }}
+          disabled={!state.installedSnap}
+          fullWidth={
+            state.isFlask &&
+            Boolean(state.installedSnap) &&
+            !shouldDisplayReconnectButton(state.installedSnap)
+          }
+        />
+
+        <Card
+          content={{
+            title: 'Run benchmarks',
+            description:
+              'Runs wasmarking benchmarks one by one, results are visible in snap console.',
+            button: (
+              <BenchmarkButton
+                onClick={runBenchmarks}
                 disabled={!state.installedSnap}
               />
             ),
