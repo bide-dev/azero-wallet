@@ -1,36 +1,41 @@
-import {requestSnap} from './metamask';
-import {SignerPayloadJSON} from '@polkadot/types/types';
-import {TransactionInfo, TransactionPayload} from './types';
+import {
+  SignAndSendTransactionPayloadRequestParams,
+  SignSignerPayloadJSONRequestParams,
+  TransactionInfo,
+} from 'azero-wallet-types';
 
-// TODO: Add docs
+import { sendSnapMethod } from './metamask';
 
 /**
  * Get the account address from snap.
  */
-export const getAccount = async (): Promise<string> => {
-  return await requestSnap('getAccount');
-};
+export const getAccount = async (): Promise<string> =>
+  sendSnapMethod({
+    method: 'getAccount',
+  });
 
 /**
  * Sign and send a transaction payload. Returns the transaction info.
- * @param payload - The transaction payload to sign and send.
- * @param [rpcUrl] - The RPC URL to use for sending the transaction.
+ *
+ * @param params - The transaction payload to sign and send.
  */
 export const signAndSendTransactionPayload = async (
-  payload: TransactionPayload,
-  rpcUrl?: string,
-): Promise<TransactionInfo> => {
-  return await requestSnap('signAndSendTransactionPayload', [payload, rpcUrl]);
-};
+  params: SignAndSendTransactionPayloadRequestParams,
+): Promise<TransactionInfo> =>
+  sendSnapMethod({
+    method: 'signAndSendTransactionPayload',
+    params,
+  });
 
 /**
  * Sign a transaction payload. Returns the signed transaction.
- * @param payload - The transaction payload to sign.
- * @param [rpcUrl] - The RPC URL to use for signing the transaction.
+ *
+ * @param params - The transaction payload to sign.
  */
 export const signSignerPayloadJSON = async (
-  payload: SignerPayloadJSON,
-  rpcUrl?: string,
-): Promise<string> => {
-  return await requestSnap('signSignerPayloadJSON', [payload, rpcUrl]);
-};
+  params: SignSignerPayloadJSONRequestParams,
+): Promise<string> =>
+  sendSnapMethod({
+    method: 'signSignerPayloadJSON',
+    params,
+  });

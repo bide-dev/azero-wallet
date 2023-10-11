@@ -1,74 +1,55 @@
-import { RpcParams } from './types';
+import { AlephRPCRequest } from 'azero-wallet-types';
+
+import { MetaMaskInpageProvider } from '@metamask/providers';
+
+import { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import { SNAP_ID } from './consts';
 
 declare global {
-  interface Window {
-    ethereum: {
-      isMetaMask: boolean;
-      request: (
-        request: unknown | { method: string; params?: any[] },
-      ) => Promise<any>;
-    };
-  }
+  type Window = {
+    ethereum?: MetaMaskInpageProvider;
+  };
 }
 
-const request = async (
-  method: string,
-  params: {
-    snapId: string;
-    request: { method: string; params?: unknown[] | Record<string, unknown> };
-  },
-): Promise<any> => {
-  if (!window.ethereum || !window.ethereum.isMetaMask) {
+const walletRequest = async (requestArgs: RequestArguments): Promise<any> => {
+  if (!window.ethereum?.isMetaMask) {
     throw new Error('MetaMask is not installed');
   }
-  console.log({ method, params });
-  const result = await window.ethereum.request({ method, params });
-  console.log({ result });
-  return result;
+  return window.ethereum.request(requestArgs);
 };
 
-export async function requestSnap<T extends RpcParams, U>(
-  method: T['method'],
-  params?: T['params'],
-): Promise<U> {
-  console.log({
-    snapId: SNAP_ID,
-    request: { method, params },
-  });
-  return await request('wallet_invokeSnap', {
-    snapId: SNAP_ID,
-    request: { method, params },
+/**
+ * Send a AlephRPCRequest to snap.
+ *
+ * @param request - The `AlephRPCRequest` request to send.
+ */
+export async function sendSnapMethod<T>(request: AlephRPCRequest): Promise<T> {
+  return walletRequest({
+    method: 'wallet_invokeSnap',
+    params: {
+      snapId: SNAP_ID,
+      request,
+    },
   });
 }
 
 /**
  * Connect to snap. Attempts to install the snap if needed.
+ *
  * @param snapId - The ID of the snap.
  * @param params - The params to pass with the snap to connect.
- * @returns
  * @throws If fails to connect to snap or install the snap.
  */
 export const connect = async (
   snapId: string = SNAP_ID,
   params: Record<'version' | string, unknown> = {},
 ) => {
-  try {
-    await window.ethereum.request({
-      method: 'wallet_requestSnaps',
-      params: {
-        [snapId]: params,
-      },
-    });
-  } catch (error) {
-    // The `wallet_requestSnaps` call will throw if the requested permissions are rejected.
-    if ((error as any).code === 4001) {
-      console.error('The user rejected the request.');
-    } else {
-      console.error(error);
-    }
-    throw error;
-  }
+  await walletRequest({
+    method: 'wallet_requestSnaps',
+    params: {
+      [snapId]: params,
+    },
+  });
 };
 
 /**
@@ -99,16 +80,14 @@ export const isFlask = async () => {
  */
 export const isInstalled = async (): Promise<boolean> => {
   try {
-    const result = await window.ethereum.request({
+    const result = await walletRequest({
       method: 'wallet_requestSnaps',
       params: {
         SNAP_ID: {},
       },
     });
-    console.log({result});
-    return !!result;
+    return Boolean(result);
   } catch (error) {
-    console.log(error);
+    return false;
   }
-  return false;
-}
+};

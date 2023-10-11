@@ -1,8 +1,9 @@
-// All of these are defaults except singleQuote, but we specify them
-// for explicitness
 module.exports = {
-  quoteProps: 'as-needed',
-  singleQuote: true,
+  printWidth: 80,
   tabWidth: 2,
+  semi: true,
+  singleQuote: true,
   trailingComma: 'all',
+  proseWrap: 'always',
+  plugins: ['prettier-plugin-organize-imports', 'prettier-plugin-packagejson'],
 };

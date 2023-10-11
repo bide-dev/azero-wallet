@@ -1,40 +1,50 @@
 {
   "name": "azero-wallet-adapter",
   "version": "0.1.2",
-  "description": "Access Aleph Zero Snap through a typed API",
+  "description": "Access Aleph Zero Wallet snap through a typed API",
+  "keywords": [
+    "aleph-zero",
+    "wallet",
+    "metamask",
+    "snap"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/piotr-roslaniec/aleph-zero-snap"
   },
   "license": "GPL-3.0",
   "author": "Piotr Roslaniec <p.roslaniec@gmail.com>",
-  "main": "build/index.js",
-  "types": "build/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/es/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/es/index.js",
+  "types": "./dist/cjs/index.d.ts",
   "files": [
-    "build/"
+    "dist"
   ],
   "scripts": {
-    "build": "tsc && yarn post-build",
-    "build-dev": "NODE_ENV=development yarn build",
-    "clean": "rm -r build/",
-    "dev": "yarn nodemon --watch src/ --ext ts --exec 'yarn build-dev'",
-    "lint": "yarn lint:eslint && yarn lint:misc --check",
-    "lint:eslint": "eslint .",
-    "lint:fix": "yarn lint:eslint --fix",
+    "prebuild": "pnpm clean",
+    "build": "run-p build:module build:cjs && pnpm post-build",
+    "build:cjs": "tsc --build ./tsconfig.cjs.json --verbose",
+    "build:module": "tsc --build ./tsconfig.es.json --verbose",
+    "clean": "rimraf dist",
+    "lint": "run-p lint:exports lint:eslint",
+    "lint:eslint": "eslint src",
+    "lint:exports": "ts-unused-exports tsconfig.json --ignoreFiles src/index.ts",
+    "lint:fix": "pnpm lint:eslint --fix",
+    "package-check": "package-check",
     "post-build": "ts-node scripts/post-build.ts",
-    "start": "yarn build-dev",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "replace-in-file": "6.3.5"
+    "azero-wallet-types": "workspace:*",
+    "@metamask/providers": "^13.0.0"
   },
   "devDependencies": {
-    "@types/node": "^18.0.6",
-    "eslint": "8.19.0",
-    "nodemon": "2.0.19",
-    "prettier": "2.7.1",
-    "ts-node": "10.8.2",
-    "tsc-alias": "1.6.11",
-    "typescript": "4.7.4"
+    "replace-in-file": "^6.3.5"
   }
 }

@@ -3,7 +3,7 @@ import SHA3 from 'sha3';
 export const RNG_SEED_SIZE = 32;
 
 export const getRandomBytes = (byteCount: number): Int32Array => {
-  if (!window.crypto || !window.crypto.getRandomValues) {
+  if (!window.crypto?.getRandomValues) {
     throw new Error('window.crypto.getRandomValues not available');
   }
   const randomBytes = new Int32Array(byteCount);
@@ -18,8 +18,8 @@ export const uint8ArrayFromHex = (hexString: string) => {
     .buffer;
 };
 
-export const sha256 = (msg: string): Buffer => {
+export const sha256 = (message: string): Uint8Array => {
   const hash = new SHA3(256);
-  hash.update(msg);
+  hash.update(message);
   return hash.digest();
 };

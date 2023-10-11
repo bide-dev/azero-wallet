@@ -1,14 +1,17 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "lib": ["ES2018", "dom"],
     "module": "CommonJS",
     "moduleResolution": "node",
-    "useUnknownInCatchVariables": false,
-    "sourceMap": true,
     "strict": true,
-    "target": "ES2017"
+    "target": "ES2022",
+    "sourceMap": true,
+    "composite": true,
+    "incremental": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true
   },
-  "exclude": ["**/__snapshots__/**", "**/test/**", "**/*.test.ts"]
+  "include": ["**/*.ts", "**/*.js", "**/.*.js", "scripts/.common.ts"],
+  "exclude": ["**/node_modules"]
 }

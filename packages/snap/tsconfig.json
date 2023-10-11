@@ -1,25 +1,16 @@
 {
+  "extends": "../../tsconfig.json",
+  "include": ["src", "test"],
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "CommonJS",
-    "moduleResolution": "node",
-
-    "sourceMap": true,
-    "outDir": "build",
-    "baseUrl": "src",
-
     "esModuleInterop": true,
-    "allowJs": true,
-
-    // TODO: Enable before release
-    // "strict": true,
-    // "noImplicitAny": true,
-    // "noImplicitReturns": true,
-
-    "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true,
-
-    "typeRoots": ["../../node_modules/@types", "src/types"]
-  }
+    "skipLibCheck": true
+  },
+  "references": [
+    {
+      "path": "../packages/adapter/tsconfig.es.json"
+    },
+    {
+      "path": "../packages/types/tsconfig.es.json"
+    }
+  ]
 }

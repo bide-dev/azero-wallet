@@ -1,0 +1,10 @@
+- [ ] unify tsconfig
+- [ ] unify tslint
+- [ ] unify prettier
+- [ ] unify jest
+- [ ] readmes
+- [ ] package.json
+- [ ] .gitignore
+- [ ] setup ci
+- [ ] setup semantic-release,
+- [ ] changesets

@@ -1,0 +1,47 @@
+{
+  "name": "azero-wallet-types",
+  "version": "0.1.0",
+  "description": "Types for azero-wallet-snap",
+  "keywords": [
+    "aleph-zero",
+    "wallet",
+    "metamask",
+    "snap"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/piotr-roslaniec/aleph-zero-snap"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "import": "./dist/es/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/es/index.js",
+  "types": "./dist/cjs/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prebuild": "pnpm clean",
+    "build": "pnpm build:module && pnpm build:cjs",
+    "build:cjs": "tsc --build ./tsconfig.cjs.json --verbose",
+    "build:module": "tsc --build ./tsconfig.es.json --verbose",
+    "clean": "rimraf dist",
+    "lint": "run-p lint:exports lint:eslint",
+    "lint:eslint": "eslint src",
+    "lint:exports": "ts-unused-exports tsconfig.json --ignoreFiles src/index.ts",
+    "lint:fix": "pnpm lint:eslint --fix",
+    "package-check": "package-check",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@polkadot/types": "^10.9.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,62 +1,29 @@
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
 import { initWasm } from '@polkadot/wasm-crypto/initOnlyAsm';
-import { ethErrors } from 'eth-rpc-errors';
+import { ResultObject } from 'azero-wallet-types';
 
-import {
-  getAccountHandler,
-  signAndSendExtrinsicTransactionHandler,
-  signSignerPayloadJSONHandler,
-} from './handlers';
-import { PolkadotAPI } from './polkadot-api';
+import { PolkadotService } from './services/polkadot';
+import { SnapService } from './services/snap';
+import { StorageService } from './services/storage';
 
-// let entropy: Bip44Node;
-// let state: SnapState;
-let api: PolkadotAPI;
-
+// Catching the error here to make sure that we print the error to the console
+// before the snap crashes
+// eslint-disable-next-line no-console
 initWasm().catch(console.error);
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
   request,
 }): Promise<any> => {
-  console.info({
-    origin: JSON.stringify(origin),
-    request: JSON.stringify(request),
-  });
-  const { method, params } = request;
+  try {
+    const { method, params } = request;
 
-  if (!api) {
-    // TODO: Naked fetch calls to test.azero.dev fails with a CORS error because snaps
-    //   are running in a seperate iframe and so their origin is set to `null`.
-    // TODO: Remove before deployment
-    const defaultNode = 'http://3.140.2.107:9933';
-    api = new PolkadotAPI(defaultNode);
+    await StorageService.init();
 
-    await api.init();
-  }
+    await PolkadotService.init(PolkadotService.testAzeroDevURL);
 
-  // TODO: We don't persist any state yet
-  // console.info('Creating SnapState from persisted data');
-  // state = await SnapState.fromPersisted(entropy);
-  // console.info('Created SnapState from persisted data');
-
-  switch (method) {
-    // Account methods
-    // TODO: Support account recovery
-    // case 'importAccountFromSeed':
-    //   return await importAccountFromSeedHandler(state, params);
-    case 'getAccount':
-      return getAccountHandler();
-
-    // Transaction methods
-    case 'signAndSendTransactionPayload':
-      return await signAndSendExtrinsicTransactionHandler(api, params);
-    case 'signSignerPayloadJSON':
-      return await signSignerPayloadJSONHandler(api, params);
-
-    default:
-      throw ethErrors.rpc.methodNotFound({
-        data: { request: { method, params } },
-      });
+    return await SnapService.handleRpcRequest(origin, method, params);
+  } catch (error) {
+    return ResultObject.error((error as Error).toString());
   }
 };

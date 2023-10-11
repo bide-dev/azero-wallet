@@ -1,0 +1,1 @@
+# `azero-wallet-snap`

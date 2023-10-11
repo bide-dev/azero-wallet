@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "lib": ["ES2018"],
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "strict": true,
+    "target": "ES2018",
+    "sourceMap": true,
+    "composite": true,
+    "incremental": true,
+    "stripInternal": true
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./packages/adapter/tsconfig.es.json"
+    },
+    {
+      "path": "./packages/adapter/tsconfig.cjs.json"
+    },
+    {
+      "path": "./packages/snap/tsconfig.es.json"
+    },
+    {
+      "path": "./packages/snap/tsconfig.cjs.json"
+    },
+    {
+      "path": "./packages/types/tsconfig.es.json"
+    },
+    {
+      "path": "./packages/types/tsconfig.cjs.json"
+    }
+  ]
+}
