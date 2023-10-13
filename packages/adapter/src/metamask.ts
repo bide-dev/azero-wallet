@@ -1,15 +1,6 @@
-import { AlephRPCRequest } from 'azero-wallet-types';
-
-import { MetaMaskInpageProvider } from '@metamask/providers';
-
 import { RequestArguments } from '@metamask/providers/dist/BaseProvider';
+import { AlephRPCRequest } from 'azero-wallet-types';
 import { SNAP_ID } from './consts';
-
-declare global {
-  type Window = {
-    ethereum?: MetaMaskInpageProvider;
-  };
-}
 
 const walletRequest = async (requestArgs: RequestArguments): Promise<any> => {
   if (!window.ethereum?.isMetaMask) {
@@ -43,7 +34,7 @@ export async function sendSnapMethod<T>(request: AlephRPCRequest): Promise<T> {
 export const connect = async (
   snapId: string = SNAP_ID,
   params: Record<'version' | string, unknown> = {},
-) => {
+): Promise<void> => {
   await walletRequest({
     method: 'wallet_requestSnaps',
     params: {
@@ -57,7 +48,7 @@ export const connect = async (
  *
  * @returns True if the MetaMask version is Flask, false otherwise.
  */
-export const isFlask = async () => {
+export const isFlask = async (): Promise<boolean> => {
   const provider = window.ethereum;
 
   try {
@@ -83,7 +74,7 @@ export const isInstalled = async (): Promise<boolean> => {
     const result = await walletRequest({
       method: 'wallet_requestSnaps',
       params: {
-        SNAP_ID: {},
+        [SNAP_ID]: {},
       },
     });
     return Boolean(result);

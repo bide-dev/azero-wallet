@@ -43,3 +43,8 @@ export const generateKeyringFromBip44Entropy =
 
 export const getDefaultKeyringPair = async (): Promise<KeyringPair> =>
   generateKeyringFromBip44Entropy();
+
+export const getDefaultAddress = async (): Promise<string> => {
+  const keyringPair = await getDefaultKeyringPair();
+  return keyringPair.address;
+};

@@ -2,7 +2,6 @@ import { AlephState, AlephWalletState } from 'azero-wallet-types';
 
 import { CURRENT_STATE_VERSION } from '../const';
 import { SnapStorage } from '../metamask/storage';
-import { PolkadotService } from './polkadot';
 
 const clone = (object: any) => JSON.parse(JSON.stringify(object));
 
@@ -15,7 +14,7 @@ const initialSnapState: AlephState = {
     walletState: {},
     currentAccount: '',
     config: {
-      rpcUrl: PolkadotService.azeroDevUrl,
+      domainConfig: {},
     },
   },
 };
@@ -43,7 +42,7 @@ export class StorageService {
       );
     }
 
-    this.instance = state as AlephState;
+    this.instance = state;
   }
 
   static get(): AlephState {
@@ -58,9 +57,10 @@ export class StorageService {
     await SnapStorage.save(this.instance);
   }
 
-  static getWalletState(): AlephWalletState {
-    return this.instance[CURRENT_STATE_VERSION].walletState[
-      this.instance[CURRENT_STATE_VERSION].currentAccount
-    ];
+  static async setRpcUrl(origin: string, rpcUrl: string): Promise<void> {
+    const domainConfig = this.instance.v1.config.domainConfig[origin] ?? {};
+    domainConfig.rpcUrl = rpcUrl;
+    this.instance.v1.config.domainConfig[origin] = domainConfig;
+    await this.save();
   }
 }

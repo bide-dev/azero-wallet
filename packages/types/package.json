@@ -39,7 +39,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@polkadot/types": "^10.9.1"
+    "@polkadot/types": "^10.9.1",
+    "@polkadot/util": "^10.1.14"
   },
   "publishConfig": {
     "access": "public"

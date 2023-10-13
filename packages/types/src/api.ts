@@ -1,15 +1,15 @@
 import type {
-  SignAndSendTransactionPayloadRequestParams,
-  SignSignerPayloadJSONRequestParams,
+  SignAndSendTransactionRequestParams,
+  SignSignerPayloadRequestParams,
 } from './params.js';
 import type { Result, TransactionInfo } from './results.js';
 
 export type AlephApi = {
   getAccount(): Promise<Result<string>>;
   signAndSendTransaction(
-    payload: SignAndSendTransactionPayloadRequestParams,
+    payload: SignAndSendTransactionRequestParams,
   ): Promise<Result<TransactionInfo>>;
-  signSignerPayloadJSON(
-    payload: SignSignerPayloadJSONRequestParams,
+  signSignerPayload(
+    payload: SignSignerPayloadRequestParams,
   ): Promise<Result<string>>;
 };

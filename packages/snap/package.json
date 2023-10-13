@@ -54,7 +54,7 @@
     "@polkadot/keyring": "^10.1.14",
     "@polkadot/util": "^10.1.14",
     "@polkadot/util-crypto": "^10.1.14",
-    "@polkadot/wasm-crypto": "^7.2.1",
+    "@polkadot/wasm-crypto": "^6.3.1",
     "azero-wallet-adapter": "workspace:*",
     "azero-wallet-types": "workspace:*",
     "@metamask/snaps-types": "^1.0.2",

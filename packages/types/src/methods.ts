@@ -1,20 +1,32 @@
 import type {
-  SignAndSendTransactionPayloadRequestParams,
-  SignSignerPayloadJSONRequestParams,
+  SetRpcUrlRequestParams,
+  SignAndSendTransactionRequestParams,
+  SignSignerPayloadRequestParams,
+  TransferNativeAssetRequestParams,
 } from './params';
 
 export type GetAccountRequest = {
   method: 'getAccount';
 };
 
-export type SignSignerPayloadJSONRequest = {
-  method: 'signSignerPayloadJSON';
-  params: SignSignerPayloadJSONRequestParams;
+export type SignSignerPayloadRequest = {
+  method: 'signSignerPayload';
+  params: SignSignerPayloadRequestParams;
 };
 
 export type SignAndSendTransactionRequest = {
-  method: 'signAndSendTransactionPayload';
-  params: SignAndSendTransactionPayloadRequestParams;
+  method: 'signAndSendTransaction';
+  params: SignAndSendTransactionRequestParams;
+};
+
+export type TransferNativeAssetRequest = {
+  method: 'transferNativeAsset';
+  params: TransferNativeAssetRequestParams;
+};
+
+export type SetRpcUrlRequest = {
+  method: 'setRpcUrl';
+  params: SetRpcUrlRequestParams;
 };
 
 // TODO: Add "set rpc url method"

@@ -1,12 +1,14 @@
+import { AlephState } from 'azero-wallet-types';
+
 export class SnapStorage {
-  static async load(): Promise<unknown> {
+  static async load(): Promise<AlephState> {
     return snap.request({
       method: 'snap_manageState',
       params: { operation: 'get' },
-    });
+    }) as Promise<AlephState>;
   }
 
-  static async save(state: any): Promise<void> {
+  static async save(state: AlephState): Promise<void> {
     await snap.request({
       method: 'snap_manageState',
       params: {

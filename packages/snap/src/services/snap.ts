@@ -1,24 +1,27 @@
 import {
+  GetAccountResult,
   ResultObject,
-  SignAndSendTransactionPayloadRequestParams,
-  SignSignerPayloadJSONRequestParams,
+  SetRpcUrlRequestParams,
+  SignAndSendExtrinsicTransactionResult,
+  SignAndSendTransactionRequestParams,
+  SignSignerPayloadRequestParams,
+  SignSignerPayloadResult,
+  TransferNativeAssetRequestParams,
+  TransferNativeAssetResult,
 } from 'azero-wallet-types';
 import { ethErrors } from 'eth-rpc-errors';
 
-import { getDefaultKeyringPair } from '../account';
+import { getDefaultAddress } from '../account';
 import { PolkadotService } from './polkadot';
+import { StorageService } from './storage';
 
 export class SnapService {
   public static async handleRpcRequest(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     origin: string,
     method: string,
     params: any,
   ) {
-    // const state = StorageService.get();
-
     let res;
-
     switch (method) {
       // Account methods
       // TODO: Support account recovery
@@ -29,12 +32,20 @@ export class SnapService {
         return ResultObject.success(res);
 
       // Transaction methods
-      case 'signAndSendTransactionPayload':
+      case 'signAndSendTransaction':
         res = await SnapService.signAndSendExtrinsicTransaction(params);
         return ResultObject.success(res);
 
-      case 'signSignerPayloadJSON':
-        res = await SnapService.signSignerPayloadJSONHandler(params);
+      case 'signSignerPayload':
+        res = await SnapService.signSignerPayloadHandler(params);
+        return ResultObject.success(res);
+
+      case 'transferNativeAsset':
+        res = await SnapService.transferNativeAsset(params);
+        return ResultObject.success(res);
+
+      case 'setRpcUrl':
+        res = await SnapService.setRpcUrl(origin, params);
         return ResultObject.success(res);
 
       default:
@@ -61,20 +72,48 @@ export class SnapService {
   //   }
   // }
 
-  private static async getAccount() {
-    const { address } = await getDefaultKeyringPair();
-    return address;
+  private static async getAccount(): Promise<GetAccountResult> {
+    const address = await getDefaultAddress();
+    return { address };
   }
 
-  private static async signSignerPayloadJSONHandler({
+  private static async signSignerPayloadHandler({
     payload,
-  }: SignSignerPayloadJSONRequestParams) {
-    return PolkadotService.signSignerPayloadJSON(payload);
+  }: SignSignerPayloadRequestParams): Promise<SignSignerPayloadResult> {
+    const signature = await PolkadotService.signSignerPayload(payload);
+    return { signature };
   }
 
   private static async signAndSendExtrinsicTransaction({
     payload,
-  }: SignAndSendTransactionPayloadRequestParams) {
-    return PolkadotService.signAndSendExtrinsicTransaction(payload);
+  }: SignAndSendTransactionRequestParams): Promise<SignAndSendExtrinsicTransactionResult> {
+    const transaction = await PolkadotService.signAndSendExtrinsicTransaction(
+      payload,
+    );
+    return { transaction };
+  }
+
+  private static async transferNativeAsset({
+    amount,
+    recipient,
+  }: TransferNativeAssetRequestParams): Promise<TransferNativeAssetResult> {
+    const sender = await getDefaultAddress();
+    const payload = await PolkadotService.makeTransferTxPayload(
+      sender,
+      recipient,
+      amount,
+    );
+    const transaction = await PolkadotService.signAndSendExtrinsicTransaction(
+      payload,
+    );
+    return { transaction };
+  }
+
+  private static async setRpcUrl(
+    origin: string,
+    { rpcUrl }: SetRpcUrlRequestParams,
+  ) {
+    await StorageService.setRpcUrl(origin, rpcUrl);
+    await PolkadotService.init(rpcUrl);
   }
 }

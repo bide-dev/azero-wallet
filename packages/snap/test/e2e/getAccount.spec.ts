@@ -31,7 +31,6 @@ describe('getAccount', () => {
     if (isError(res)) {
       throw new Error(res.error);
     }
-
     expect(res.success).toBe(true);
     expect(res.data).toBeDefined();
   });

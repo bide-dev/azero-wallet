@@ -1,16 +1,23 @@
 import { SignerPayloadJSON } from '@polkadot/types/types';
 
-// TODO: Rename everywhere to signAndSendTransaction instead of signAndSendTransactionPayload
-
 export type TransactionPayload = {
-  transaction: string;
+  transaction: string; // TODO HexString?
   payload: SignerPayloadJSON;
 };
 
-export type SignAndSendTransactionPayloadRequestParams = {
+export type SignAndSendTransactionRequestParams = {
   payload: TransactionPayload;
 };
 
-export type SignSignerPayloadJSONRequestParams = {
+export type SignSignerPayloadRequestParams = {
   payload: SignerPayloadJSON;
+};
+
+export type TransferNativeAssetRequestParams = {
+  recipient: string;
+  amount: string;
+};
+
+export type SetRpcUrlRequestParams = {
+  rpcUrl: string;
 };

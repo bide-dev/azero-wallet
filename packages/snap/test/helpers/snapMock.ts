@@ -9,7 +9,7 @@ import { cryptoWaitReady } from '@polkadot/util-crypto';
 import { initWasm } from '@polkadot/wasm-crypto/initOnlyAsm';
 import { AlephState } from 'azero-wallet-types';
 
-import { account, mnemonic } from '../data/constants';
+import { mnemonic } from '../data/constants';
 
 type ISnapMock = {
   request<T>(args: RequestArguments): Promise<Maybe<T>>;
@@ -21,7 +21,7 @@ type SnapManageState = {
 };
 
 export class SnapMock implements ISnapMock {
-  private snapState: AlephState | null = null;
+  public snapState: AlephState | null = null;
 
   private snapManageState(params: SnapManageState): AlephState | null {
     if (!params) {
@@ -57,26 +57,8 @@ export class SnapMock implements ISnapMock {
     }
   }
 
-  // private async snapEthCall(data: any[]): Promise<string> {
-  //   const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
-  //   const provider = new AlchemyProvider('goerli', apiKey);
-  //   return provider.call({
-  //     ...data[0],
-  //     blockTag: data[1],
-  //   } as TransactionRequest);
-  // }
-
-  // private async snapEthLogs(data: any[]): Promise<unknown> {
-  //   const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
-  //   const provider = new AlchemyProvider('goerli', apiKey);
-  //   return provider.getLogs(data[0] as Filter);
-  // }
-
   readonly rpcMocks = {
     snap_dialog: jest.fn().mockReturnValue(true),
-    eth_requestAccounts: jest.fn().mockResolvedValue([account]),
-    eth_chainId: jest.fn().mockResolvedValue('0x1'),
-    net_version: jest.fn().mockResolvedValue('5'),
     snap_getBip44Entropy: jest
       .fn()
       .mockImplementation(async (params: { coinType: number }) => {

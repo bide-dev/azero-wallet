@@ -1,11 +1,4 @@
-export type TransactionInfo = {
-  hash: string;
-  block: string;
-  sender: string;
-  destination: string;
-  amount: string | number;
-  fee: string;
-};
+import { HexString } from '@polkadot/util/types';
 
 export type Result<T> = {
   success: boolean;
@@ -37,3 +30,28 @@ export class ResultObject {
     return { success: false, error };
   }
 }
+
+export type GetAccountResult = {
+  address: string; // TODO: HexString?
+};
+
+export type SignSignerPayloadResult = {
+  signature: HexString;
+};
+
+export type TransactionInfo = {
+  hash: string;
+  block: string;
+  sender: string;
+  destination: string;
+  amount: string | number;
+  fee: string;
+};
+
+export type SignAndSendExtrinsicTransactionResult = {
+  transaction: TransactionInfo;
+};
+
+export type TransferNativeAssetResult = {
+  transaction: TransactionInfo;
+};

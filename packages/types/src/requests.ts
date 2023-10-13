@@ -1,13 +1,17 @@
 import type {
   GetAccountRequest,
+  SetRpcUrlRequest,
   SignAndSendTransactionRequest,
-  SignSignerPayloadJSONRequest,
+  SignSignerPayloadRequest,
+  TransferNativeAssetRequest,
 } from './methods';
 
 export type AlephRPCRequest =
   | GetAccountRequest
-  | SignSignerPayloadJSONRequest
-  | SignAndSendTransactionRequest;
+  | SignSignerPayloadRequest
+  | SignAndSendTransactionRequest
+  | TransferNativeAssetRequest
+  | SetRpcUrlRequest;
 
 export type Method = AlephRPCRequest['method'];
 
