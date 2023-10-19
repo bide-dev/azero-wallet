@@ -1,6 +1,5 @@
 import { AlephState, AlephWalletState } from 'azero-wallet-types';
 
-import { PolkadotService } from '../../src/services/polkadot';
 import { getEmptyAccountState } from '../../src/services/storage';
 
 const defaultSnapState = (address: string): AlephState => {
@@ -12,7 +11,7 @@ const defaultSnapState = (address: string): AlephState => {
       walletState,
       currentAccount: address,
       config: {
-        rpcUrl: PolkadotService.testAzeroDevURL,
+        domainConfig: {},
       },
     },
   };

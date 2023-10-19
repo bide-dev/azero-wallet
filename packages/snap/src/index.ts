@@ -1,6 +1,10 @@
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
 import { initWasm } from '@polkadot/wasm-crypto/initOnlyAsm';
-import { ResultObject } from 'azero-wallet-types';
+import {
+  RequestMethod,
+  RequestParameters,
+  ResultObject,
+} from 'azero-wallet-types';
 
 import { PolkadotService } from './services/polkadot';
 import { SnapService } from './services/snap';
@@ -19,10 +23,13 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     const { method, params } = request;
 
     await StorageService.init();
+    await PolkadotService.init();
 
-    await PolkadotService.init(PolkadotService.testAzeroDevURL);
-
-    return await SnapService.handleRpcRequest(origin, method, params);
+    return await SnapService.handleRpcRequest(
+      origin,
+      method as RequestMethod,
+      params as RequestParameters,
+    );
   } catch (error) {
     return ResultObject.error((error as Error).toString());
   }

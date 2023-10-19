@@ -1,8 +1,12 @@
 import {
   GetAccountResult,
+  SetRpcUrlRequestParams,
   SignAndSendExtrinsicTransactionResult,
   SignAndSendTransactionRequestParams,
   SignSignerPayloadRequestParams,
+  SignSignerPayloadResult,
+  TransferNativeAssetRequestParams,
+  TransferNativeAssetResult,
 } from 'azero-wallet-types';
 
 import { sendSnapMethod } from './metamask';
@@ -13,6 +17,7 @@ import { sendSnapMethod } from './metamask';
 export const getAccount = async (): Promise<GetAccountResult> =>
   sendSnapMethod({
     method: 'getAccount',
+    params: undefined,
   });
 
 /**
@@ -31,14 +36,38 @@ export const signAndSendExtrinsicTransactionPayload = async (
 /**
  * Sign a transaction payload.
  *
- * This function takes a transaction payload as a parameter and returns a promise that resolves to a signed transaction.
- *
  * @param params - The transaction payload to sign.
  */
 export const signSignerPayload = async (
   params: SignSignerPayloadRequestParams,
-): Promise<string> =>
+): Promise<SignSignerPayloadResult> =>
   sendSnapMethod({
     method: 'signSignerPayload',
+    params,
+  });
+
+/**
+ * Transfer native asset.
+ *
+ * @param params - The parameters to transfer native asset.
+ */
+export const transferNativeAsset = async (
+  params: TransferNativeAssetRequestParams,
+): Promise<TransferNativeAssetResult> =>
+  sendSnapMethod({
+    method: 'transferNativeAsset',
+    params,
+  });
+
+/**
+ * Set the RPC URL for the current domain.
+ *
+ * @param params - The parameters to set the RPC URL.
+ */
+export const setRpcUrl = async (
+  params: SetRpcUrlRequestParams,
+): Promise<void> =>
+  sendSnapMethod({
+    method: 'setRpcUrl',
     params,
   });

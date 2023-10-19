@@ -17,7 +17,7 @@
     "packages/*"
   ],
   "scripts": {
-    "postinstall": "pnpm build || true",
+    "postinstall": "pnpm build",
     "build": "tsc --build --verbose ./tsconfig.prod.json",
     "lint": "pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/**' lint",
     "lint:eslint": "pnpm run --parallel --aggregate-output --reporter append-only --filter './packages/**' lint:eslint",
@@ -58,7 +58,7 @@
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.1",
     "ts-unused-exports": "^10.0.1",
-    "typescript": "^5.2.0",
+    "typescript": "^5.2.2",
     "typescript-eslint": "0.0.1-alpha.0"
   },
   "packageManager": "pnpm@3.2.1",

@@ -13,7 +13,9 @@ export type AlephRPCRequest =
   | TransferNativeAssetRequest
   | SetRpcUrlRequest;
 
-export type Method = AlephRPCRequest['method'];
+export type RequestMethod = AlephRPCRequest['method'];
+
+export type RequestParameters = AlephRPCRequest['params'];
 
 export type WalletEnableRequest = {
   method: 'wallet_enable';

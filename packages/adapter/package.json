@@ -28,9 +28,9 @@
   ],
   "scripts": {
     "prebuild": "pnpm clean",
-    "build": "run-p build:module build:cjs && pnpm post-build",
+    "build": "run-p build:es build:cjs && pnpm post-build",
     "build:cjs": "tsc --build ./tsconfig.cjs.json --verbose",
-    "build:module": "tsc --build ./tsconfig.es.json --verbose",
+    "build:es": "tsc --build ./tsconfig.es.json --verbose",
     "clean": "rimraf dist",
     "lint": "run-p lint:exports lint:eslint",
     "lint:eslint": "eslint src",

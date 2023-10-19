@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 import styled, { useTheme } from 'styled-components';
 
-import { MetamaskActions, MetaMaskContext } from '../hooks';
-import { connectSnap, getSnap, getThemePreference } from '../utils';
 import { HeaderButtons } from './Buttons';
 import { SnapLogo } from './SnapLogo';
 import { Toggle } from './Toggle';
+import { MetamaskActions, MetaMaskContext } from '../hooks';
+import { connectSnap, getSnap, getThemePreference } from '../utils';
 
 const HeaderWrapper = styled.header`
   display: flex;
@@ -55,9 +55,9 @@ export const Header = ({
         type: MetamaskActions.SetInstalled,
         payload: installedSnap,
       });
-    } catch (e) {
-      console.error(e);
-      dispatch({ type: MetamaskActions.SetError, payload: e });
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: MetamaskActions.SetError, payload: error });
     }
   };
   return (

@@ -71,6 +71,7 @@ const reducer: Reducer<MetamaskState, MetamaskDispatch> = (state, action) => {
  * @returns JSX.
  */
 export const MetaMaskProvider = ({ children }: { children: ReactNode }) => {
+  // eslint-disable-next-line no-restricted-globals
   if (typeof window === 'undefined') {
     return <>{children}</>;
   }
@@ -95,17 +96,21 @@ export const MetaMaskProvider = ({ children }: { children: ReactNode }) => {
       });
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     detectFlask();
 
     if (state.isFlask) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       detectSnapInstalled();
     }
+    // eslint-disable-next-line no-restricted-globals
   }, [state.isFlask, window.ethereum]);
 
   useEffect(() => {
     let timeoutId: number;
 
     if (state.error) {
+      // eslint-disable-next-line no-restricted-globals
       timeoutId = window.setTimeout(() => {
         dispatch({
           type: MetamaskActions.SetError,
@@ -116,6 +121,7 @@ export const MetaMaskProvider = ({ children }: { children: ReactNode }) => {
 
     return () => {
       if (timeoutId) {
+        // eslint-disable-next-line no-restricted-globals
         window.clearTimeout(timeoutId);
       }
     };

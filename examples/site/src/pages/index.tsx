@@ -14,7 +14,7 @@ import { MetamaskActions, MetaMaskContext } from '../hooks';
 import {
   connectSnap,
   getSnap,
-  sendTxTransferToSelf,
+  sendTransferToSelfUsingLocalPayload,
   shouldDisplayReconnectButton,
 } from '../utils';
 
@@ -115,13 +115,13 @@ const Index = () => {
   useEffect(() => {
     const fetchAccount = async () => {
       const accountAddress = await azeroSnap.getAccount();
-      setAccount(accountAddress);
+      setAccount(accountAddress.address);
     };
 
     if (state.installedSnap) {
-      fetchAccount().catch((e) => {
-        console.error(e);
-        dispatch({ type: MetamaskActions.SetError, payload: e });
+      fetchAccount().catch((error) => {
+        console.error(error);
+        dispatch({ type: MetamaskActions.SetError, payload: error });
       });
     }
   }, [state.installedSnap]);
@@ -135,19 +135,21 @@ const Index = () => {
         type: MetamaskActions.SetInstalled,
         payload: installedSnap,
       });
-    } catch (e) {
-      console.error(e);
-      dispatch({ type: MetamaskActions.SetError, payload: e });
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: MetamaskActions.SetError, payload: error });
     }
   };
 
   const sendTransferToSelf = async () => {
     try {
-      const transactionInfo = await sendTxTransferToSelf();
-      setTxInfo(transactionInfo);
-    } catch (e) {
-      console.error(e);
-      dispatch({ type: MetamaskActions.SetError, payload: e });
+      const transactionInfo = await sendTransferToSelfUsingLocalPayload();
+      // Alternatively, use:
+      // const transactionInfo = await sendTransferToSelfUsingSnapPayload();
+      setTxInfo(transactionInfo.transaction);
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: MetamaskActions.SetError, payload: error });
     }
   };
 

@@ -8,13 +8,8 @@ import { getDefaultAddress, getDefaultKeyringPair } from '../account';
 import { showConfirmTransactionDialog } from '../metamask/ui';
 
 export class PolkadotService {
-  // TODO: Naked fetch calls to test.azero.dev fails with a CORS error because snaps
-  //   are running in a separate iframe and so their origin is set to `null`.
-  // TODO: Remove before deployment
-  public static testAzeroDevURL = 'http://3.140.2.107:9933';
-
-  // public static TEST_AZERO_DEV_URL = 'https://test.azero.dev/';
-  public static azeroDevUrl = 'https://azero.dev/';
+  // public static azeroDevUrl = 'https://azero.dev/';
+  public static azeroDevUrl = 'http://159.223.154.187';
 
   public static api: ApiPromise;
 

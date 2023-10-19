@@ -1,37 +1,26 @@
-import * as azeroSnap from 'azero-wallet-adapter';
+import {
+  connect,
+  getAccount,
+  signAndSendExtrinsicTransactionPayload,
+  transferNativeAsset,
+} from 'azero-wallet-adapter';
+import {
+  TransferNativeAssetRequestParams,
+  SignAndSendTransactionRequestParams,
+} from 'azero-wallet-types';
 
-import { SignAndSendTransactionPayloadRequestParams } from 'azero-wallet-types';
+import { generateTransactionPayload, getApi } from './polkadot';
 import { defaultSnapOrigin } from '../config';
 import { GetSnapsResponse, Snap } from '../types';
-import { generateTransactionPayload, getApi } from './polkadot';
 
-// TODO: Add to snap adapter
-/**
- * Get the installed snaps in MetaMask.
- *
- * @returns The snaps installed in MetaMask.
- */
 export const getSnaps = async (): Promise<GetSnapsResponse> => {
+  // eslint-disable-next-line no-restricted-globals
   return (await window.ethereum.request({
     method: 'wallet_getSnaps',
   })) as unknown as GetSnapsResponse;
 };
 
-/**
- * Connect a snap to MetaMask.
- *
- * @param snapId - The ID of the snap.
- * @param params - The params to pass with the snap to connect.
- */
-export const connectSnap = async (
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  snapId: string = defaultSnapOrigin,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  params: Record<'version' | string, unknown> = {},
-) => {
-  // await azeroSnap.connect(snapId, params);
-  await azeroSnap.connect();
-};
+export const connectSnap = async () => connect();
 
 // TODO: Add to snap adapter
 /**
@@ -57,18 +46,28 @@ export const getSnap = async (version?: string): Promise<Snap | undefined> => {
   }
 };
 
-export const sendTxTransferToSelf = async () => {
-  const account = await azeroSnap.getAccount();
-
+export const sendTransferToSelfUsingLocalPayload = async () => {
+  const myAccount = await getAccount();
   const api = await getApi();
-  const payload = await generateTransactionPayload(api, account, account, '1');
-
-  const params: SignAndSendTransactionPayloadRequestParams = {
+  const payload = await generateTransactionPayload(
+    api,
+    myAccount.address,
+    myAccount.address,
+    '1',
+  );
+  const params: SignAndSendTransactionRequestParams = {
     payload,
   };
-  const txInfo = await azeroSnap.signAndSendTransactionPayload(params);
-  console.log({ txInfo });
-  return txInfo;
+  return await signAndSendExtrinsicTransactionPayload(params);
+};
+
+export const sendTransferToSelfUsingSnapPayload = async () => {
+  const myAccount = await getAccount();
+  const params: TransferNativeAssetRequestParams = {
+    recipient: myAccount.address,
+    amount: '1',
+  };
+  return await transferNativeAsset(params);
 };
 
 export const isLocalSnap = (snapId: string) => snapId.startsWith('local:');

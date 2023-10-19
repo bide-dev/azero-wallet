@@ -1,5 +1,7 @@
 import {
   GetAccountResult,
+  RequestMethod,
+  RequestParameters,
   ResultObject,
   SetRpcUrlRequestParams,
   SignAndSendExtrinsicTransactionResult,
@@ -18,34 +20,40 @@ import { StorageService } from './storage';
 export class SnapService {
   public static async handleRpcRequest(
     origin: string,
-    method: string,
-    params: any,
-  ) {
+    method: RequestMethod,
+    params: RequestParameters,
+  ): Promise<ResultObject> {
     let res;
+
     switch (method) {
-      // Account methods
-      // TODO: Support account recovery
-      // case 'importAccountFromSeed':
-      //   return await importAccountFromSeedHandler(state, params);
       case 'getAccount':
         res = await SnapService.getAccount();
         return ResultObject.success(res);
 
       // Transaction methods
       case 'signAndSendTransaction':
-        res = await SnapService.signAndSendExtrinsicTransaction(params);
+        res = await SnapService.signAndSendExtrinsicTransaction(
+          params as SignAndSendTransactionRequestParams,
+        );
         return ResultObject.success(res);
 
       case 'signSignerPayload':
-        res = await SnapService.signSignerPayloadHandler(params);
+        res = await SnapService.signSignerPayloadHandler(
+          params as SignSignerPayloadRequestParams,
+        );
         return ResultObject.success(res);
 
       case 'transferNativeAsset':
-        res = await SnapService.transferNativeAsset(params);
+        res = await SnapService.transferNativeAsset(
+          params as TransferNativeAssetRequestParams,
+        );
         return ResultObject.success(res);
 
       case 'setRpcUrl':
-        res = await SnapService.setRpcUrl(origin, params);
+        res = await SnapService.setRpcUrl(
+          origin,
+          params as SetRpcUrlRequestParams,
+        );
         return ResultObject.success(res);
 
       default:
@@ -54,23 +62,6 @@ export class SnapService {
         });
     }
   }
-
-  // TODO: Implement account recovery/import
-  // private static async importAccountFromSeed(
-  //   state: SnapState,
-  //   params: HandlerParams,
-  // ) {
-  //   if (!params[0]) {
-  //     throw ethErrors.rpc.invalidParams('Missing parameter: seed');
-  //   }
-  //
-  //   try {
-  //     return recoverAccount(state, params[0]);
-  //   } catch (error: unknown) {
-  //     console.error('Failed to get account from seed', error);
-  //     return null;
-  //   }
-  // }
 
   private static async getAccount(): Promise<GetAccountResult> {
     const address = await getDefaultAddress();

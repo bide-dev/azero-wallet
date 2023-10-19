@@ -87,7 +87,7 @@ importers:
         specifier: ^10.0.1
         version: 10.0.1(typescript@5.2.2)
       typescript:
-        specifier: ^5.2.0
+        specifier: ^5.2.2
         version: 5.2.2
       typescript-eslint:
         specifier: 0.0.1-alpha.0
@@ -242,6 +242,9 @@ importers:
       '@rollup/plugin-sucrase':
         specifier: ^5.0.2
         version: 5.0.2(rollup@4.0.2)
+      '@rollup/plugin-terser':
+        specifier: ^0.4.4
+        version: 0.4.4(rollup@4.0.2)
       '@rollup/plugin-typescript':
         specifier: ^11.1.5
         version: 11.1.5(rollup@4.0.2)(typescript@5.2.2)
@@ -4126,6 +4129,21 @@ packages:
       '@rollup/pluginutils': 5.0.5(rollup@4.0.2)
       rollup: 4.0.2
       sucrase: 3.34.0
+    dev: true
+
+  /@rollup/plugin-terser@0.4.4(rollup@4.0.2):
+    resolution: {integrity: sha512-XHeJC5Bgvs8LfukDwWZp7yeqin6ns8RTl2B9avbejt6tZqsqvVoWI7ZTQrcNsfKEDWBTnTxM8nMDkO2IFFbd0A==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^2.0.0||^3.0.0||^4.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      rollup: 4.0.2
+      serialize-javascript: 6.0.1
+      smob: 1.4.1
+      terser: 5.21.0
     dev: true
 
   /@rollup/plugin-typescript@11.1.5(rollup@4.0.2)(typescript@5.2.2):
@@ -15246,6 +15264,10 @@ packages:
   /smart-buffer@4.2.0:
     resolution: {integrity: sha512-94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg==}
     engines: {node: '>= 6.0.0', npm: '>= 3.0.0'}
+    dev: true
+
+  /smob@1.4.1:
+    resolution: {integrity: sha512-9LK+E7Hv5R9u4g4C3p+jjLstaLe11MDsL21UpYaCNmapvMkYhqCV4A/f/3gyH8QjMyh6l68q9xC85vihY9ahMQ==}
     dev: true
 
   /sockjs@0.3.24:

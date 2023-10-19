@@ -5,6 +5,7 @@
  * @returns The value stored at the key provided if the key exists.
  */
 export const getLocalStorage = (key: string) => {
+  // eslint-disable-next-line no-restricted-globals
   const { localStorage: ls } = window;
 
   if (ls !== null) {
@@ -21,6 +22,7 @@ export const getLocalStorage = (key: string) => {
  * @param value - The value to set.
  */
 export const setLocalStorage = (key: string, value: string) => {
+  // eslint-disable-next-line no-restricted-globals
   const { localStorage: ls } = window;
 
   if (ls !== null) {

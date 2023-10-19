@@ -14,22 +14,19 @@
   "files": [],
   "references": [
     {
+      "path": "./packages/types/tsconfig.es.json"
+    },
+    {
+      "path": "./packages/types/tsconfig.cjs.json"
+    },
+    {
       "path": "./packages/adapter/tsconfig.es.json"
     },
     {
       "path": "./packages/adapter/tsconfig.cjs.json"
     },
     {
-      "path": "./packages/snap/tsconfig.es.json"
+      "path": "./packages/snap/tsconfig.json"
     },
-    {
-      "path": "./packages/snap/tsconfig.cjs.json"
-    },
-    {
-      "path": "./packages/types/tsconfig.es.json"
-    },
-    {
-      "path": "./packages/types/tsconfig.cjs.json"
-    }
   ]
 }

@@ -4,6 +4,7 @@
  * @returns True if the MetaMask version is Flask, false otherwise.
  */
 export const isFlask = async () => {
+  // eslint-disable-next-line no-restricted-globals
   const provider = window.ethereum;
 
   try {

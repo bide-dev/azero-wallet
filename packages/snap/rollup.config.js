@@ -25,11 +25,11 @@ export default defineConfig({
     }),
     // @ts-ignore
     snaps.default({
-      eval: true,
+      eval: false,
       stripComments: true,
       manifestPath: './snap.manifest.json',
       writeManifest: true,
     }),
-    terser(),
+    // terser(),
   ],
 });

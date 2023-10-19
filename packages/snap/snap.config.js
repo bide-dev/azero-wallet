@@ -4,6 +4,6 @@ module.exports = {
     transpilationMode: 'localAndDeps',
     dist: 'dist',
     outfileName: 'index.js',
-    src: 'src/index.ts',
+    src: 'dist/snap.js',
   },
 };
