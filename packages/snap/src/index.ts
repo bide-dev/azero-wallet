@@ -20,10 +20,16 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   request,
 }): Promise<any> => {
   try {
+    console.log({ origin, request });
     const { method, params } = request;
 
+    console.log('Initiating StorageService');
     await StorageService.init();
+    console.log('StorageService initiated');
+
+    console.log('Initiating PolkadotService');
     await PolkadotService.init();
+    console.log('PolkadotService initiated');
 
     return await SnapService.handleRpcRequest(
       origin,

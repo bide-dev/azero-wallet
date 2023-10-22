@@ -1,5 +1,4 @@
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
-import { JsonRpcRequest } from '@metamask/snaps-types';
 import { isError, Result, SetRpcUrlRequestParams } from 'azero-wallet-types';
 
 import { onRpcRequest } from '../../src';

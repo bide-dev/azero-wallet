@@ -1,5 +1,5 @@
 import * as azeroSnap from 'azero-wallet-adapter';
-import { TransactionInfo } from 'azero-wallet-types';
+import { isSuccess, TransactionInfo } from 'azero-wallet-types';
 import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -116,8 +116,15 @@ const Index = () => {
 
   useEffect(() => {
     const fetchAccount = async () => {
-      const accountAddress = await azeroSnap.getAccount();
-      setAccount(accountAddress.address);
+      const accountResult = await azeroSnap.getAccount();
+      if (isSuccess(accountResult)) {
+        setAccount(accountResult.data.address);
+      } else {
+        dispatch({
+          type: MetamaskActions.SetError,
+          payload: accountResult.error,
+        });
+      }
     };
 
     if (state.installedSnap) {
@@ -131,11 +138,11 @@ const Index = () => {
   const handleConnectClick = async () => {
     try {
       await connectSnap();
-      const installedSnap = await getSnap();
+      const maybeInstalledSnap = await getSnap();
 
       dispatch({
         type: MetamaskActions.SetInstalled,
-        payload: installedSnap,
+        payload: maybeInstalledSnap,
       });
     } catch (error) {
       console.error(error);
@@ -145,10 +152,17 @@ const Index = () => {
 
   const sendTransferToSelf = async () => {
     try {
-      const transactionInfo = await sendTransferToSelfUsingLocalPayload();
+      const sendTxResult = await sendTransferToSelfUsingLocalPayload();
       // Alternatively, use:
-      // const transactionInfo = await sendTransferToSelfUsingSnapPayload();
-      setTxInfo(transactionInfo.transaction);
+      // const sendTxResult = await sendTransferToSelfUsingSnapPayload();
+      if (isSuccess(sendTxResult)) {
+        setTxInfo(sendTxResult.data.transaction);
+      } else {
+        dispatch({
+          type: MetamaskActions.SetError,
+          payload: sendTxResult.error,
+        });
+      }
     } catch (error) {
       console.error(error);
       dispatch({ type: MetamaskActions.SetError, payload: error });
@@ -235,7 +249,7 @@ const Index = () => {
               />
             ),
           }}
-          disabled={!state.installedSnap}
+          disabled={!state.installedSnap || !account}
           fullWidth={
             state.isFlask &&
             Boolean(state.installedSnap) &&

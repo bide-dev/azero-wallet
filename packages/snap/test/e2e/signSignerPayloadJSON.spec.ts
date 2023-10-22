@@ -1,5 +1,4 @@
-import type { SnapsGlobalObject } from '@metamask/snaps-types';
-import { JsonRpcRequest } from '@metamask/snaps-types';
+import type { Json, SnapsGlobalObject } from '@metamask/snaps-types';
 import { isError, Result } from 'azero-wallet-types';
 
 import { onRpcRequest } from '../../src';
@@ -40,7 +39,7 @@ describe('signSignerPayload', () => {
         id: 'test-id',
         jsonrpc: '2.0',
         method: 'signAndSendTransaction',
-        params: fakeTransactionPayload,
+        params: fakeTransactionPayload as unknown as Json,
       },
     })) as Result<unknown>;
 

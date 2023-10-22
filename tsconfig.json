@@ -12,6 +12,6 @@
     "exactOptionalPropertyTypes": true,
     "noImplicitOverride": true
   },
-  "include": ["**/*.ts", "**/*.js", "**/.*.js", "scripts/.common.ts"],
-  "exclude": ["**/node_modules"]
+  "include": ["**/*.ts", "**/*.js", "**/.*.js"],
+  "exclude": ["**/node_modules", "**/dist", "**/build", "**/.*.d.ts"]
 }

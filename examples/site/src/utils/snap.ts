@@ -7,6 +7,7 @@ import {
 import {
   TransferNativeAssetRequestParams,
   SignAndSendTransactionRequestParams,
+  isSuccess,
 } from 'azero-wallet-types';
 
 import { generateTransactionPayload, getApi } from './polkadot';
@@ -51,14 +52,14 @@ export const getSnap = async (version?: string): Promise<Snap | undefined> => {
 };
 
 export const sendTransferToSelfUsingLocalPayload = async () => {
-  const myAccount = await getAccount();
+  const getAccountResult = await getAccount();
+  if (!isSuccess(getAccountResult)) {
+    throw new Error(getAccountResult.error);
+  }
+
+  const { address } = getAccountResult.data;
   const api = await getApi();
-  const payload = await generateTransactionPayload(
-    api,
-    myAccount.address,
-    myAccount.address,
-    '1',
-  );
+  const payload = await generateTransactionPayload(api, address, address, '1');
   const params: SignAndSendTransactionRequestParams = {
     payload,
   };
@@ -66,9 +67,14 @@ export const sendTransferToSelfUsingLocalPayload = async () => {
 };
 
 export const sendTransferToSelfUsingSnapPayload = async () => {
-  const myAccount = await getAccount();
+  const getAccountResult = await getAccount();
+  if (!isSuccess(getAccountResult)) {
+    throw new Error(getAccountResult.error);
+  }
+
+  const { address } = getAccountResult.data;
   const params: TransferNativeAssetRequestParams = {
-    recipient: myAccount.address,
+    recipient: address,
     amount: '1',
   };
   return await transferNativeAsset(params);

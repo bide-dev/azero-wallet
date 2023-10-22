@@ -9,7 +9,8 @@ import { showConfirmTransactionDialog } from '../metamask/ui';
 
 export class PolkadotService {
   // public static azeroDevUrl = 'https://azero.dev/';
-  public static azeroDevUrl = 'http://159.223.154.187';
+  public static azeroDevUrl = 'http://159.223.154.187:9933';
+  // public static azeroDevUrl = 'https://test.azero.dev/';
 
   public static api: ApiPromise;
 

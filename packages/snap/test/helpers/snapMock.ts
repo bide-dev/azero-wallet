@@ -57,7 +57,7 @@ export class SnapMock implements ISnapMock {
     }
   }
 
-  readonly rpcMocks = {
+  readonly rpcMocks: Record<string, jest.Mock> = {
     snap_dialog: jest.fn().mockReturnValue(true),
     snap_getBip44Entropy: jest
       .fn()

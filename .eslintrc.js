@@ -2,6 +2,7 @@ module.exports = {
   root: true,
   parserOptions: {
     sourceType: 'module',
+    project: './tsconfig.build.json'
   },
   parser: '@typescript-eslint/parser',
   extends: [

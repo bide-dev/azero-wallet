@@ -8,3 +8,5 @@
 - [ ] setup ci
 - [ ] setup semantic-release,
 - [ ] changesets
+
+- [ ] add a confirmation message to setting rpc url

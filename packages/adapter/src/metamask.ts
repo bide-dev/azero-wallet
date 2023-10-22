@@ -1,10 +1,10 @@
 import { RequestArguments } from '@metamask/providers/dist/BaseProvider';
-import { AlephRPCRequest } from 'azero-wallet-types';
+import { AlephRPCRequest, Result } from 'azero-wallet-types';
 import { SNAP_ID } from './consts';
 
 const walletRequest = async (requestArgs: RequestArguments): Promise<any> => {
   if (!window.ethereum?.isMetaMask) {
-    throw new Error('MetaMask is not installed');
+    throw new Error('MetaMask is not available');
   }
   return window.ethereum.request(requestArgs);
 };
@@ -13,8 +13,12 @@ const walletRequest = async (requestArgs: RequestArguments): Promise<any> => {
  * Send a AlephRPCRequest to snap.
  *
  * @param request - The `AlephRPCRequest` request to send.
+ * @returns The result of the request.
+ * @throws If fails to send the request.
  */
-export async function sendSnapMethod<T>(request: AlephRPCRequest): Promise<T> {
+export async function sendSnapMethod<T>(
+  request: AlephRPCRequest,
+): Promise<Result<T>> {
   return walletRequest({
     method: 'wallet_invokeSnap',
     params: {

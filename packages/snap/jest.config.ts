@@ -4,7 +4,7 @@ export default {
   clearMocks: false,
   collectCoverage: false,
   coverageDirectory: 'coverage',
-  coveragePathIgnorePatterns: ['/node_modules/', 'tests'],
+  coveragePathIgnorePatterns: ['/node_modules/', 'test'],
   coverageProvider: 'v8',
   moduleFileExtensions: ['js', 'json', 'ts', 'mjs', 'cjs'],
   testEnvironment: 'node',

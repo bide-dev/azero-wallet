@@ -1,5 +1,6 @@
 import {
   GetAccountResult,
+  Result,
   SetRpcUrlRequestParams,
   SignAndSendExtrinsicTransactionResult,
   SignAndSendTransactionRequestParams,
@@ -14,7 +15,7 @@ import { sendSnapMethod } from './metamask';
 /**
  * Get the account address from snap.
  */
-export const getAccount = async (): Promise<GetAccountResult> =>
+export const getAccount = async (): Promise<Result<GetAccountResult>> =>
   sendSnapMethod({
     method: 'getAccount',
     params: undefined,
@@ -27,7 +28,7 @@ export const getAccount = async (): Promise<GetAccountResult> =>
  */
 export const signAndSendExtrinsicTransactionPayload = async (
   params: SignAndSendTransactionRequestParams,
-): Promise<SignAndSendExtrinsicTransactionResult> =>
+): Promise<Result<SignAndSendExtrinsicTransactionResult>> =>
   sendSnapMethod({
     method: 'signAndSendTransaction',
     params,
@@ -40,7 +41,7 @@ export const signAndSendExtrinsicTransactionPayload = async (
  */
 export const signSignerPayload = async (
   params: SignSignerPayloadRequestParams,
-): Promise<SignSignerPayloadResult> =>
+): Promise<Result<SignSignerPayloadResult>> =>
   sendSnapMethod({
     method: 'signSignerPayload',
     params,
@@ -53,7 +54,7 @@ export const signSignerPayload = async (
  */
 export const transferNativeAsset = async (
   params: TransferNativeAssetRequestParams,
-): Promise<TransferNativeAssetResult> =>
+): Promise<Result<TransferNativeAssetResult>> =>
   sendSnapMethod({
     method: 'transferNativeAsset',
     params,
@@ -66,7 +67,7 @@ export const transferNativeAsset = async (
  */
 export const setRpcUrl = async (
   params: SetRpcUrlRequestParams,
-): Promise<void> =>
+): Promise<Result<void>> =>
   sendSnapMethod({
     method: 'setRpcUrl',
     params,
