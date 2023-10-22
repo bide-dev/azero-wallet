@@ -1,6 +1,6 @@
 {
   "name": "azero-wallet",
-  "version": "0.1.2",
+  "version": "0.1.6",
   "description": "Aleph Zero Wallet snap",
   "keywords": [
     "aleph-zero",
@@ -15,9 +15,15 @@
   "license": "GPL-3.0",
   "author": "Piotr Roslaniec <p.roslaniec@gmail.com>",
   "main": "./dist/snap.js",
-  "files": ["dist"],
+  "files": [
+    "dist",
+    "snap.manifest.json",
+    "images",
+    "package.json",
+    "README.md"
+  ],
   "scripts": {
-    "build": "pnpm clean && pnpm build:snap && pnpm build:fix-bundle && cp snap.manifest.json dist/",
+    "build": "pnpm clean && pnpm build:snap && pnpm build:fix-bundle",
     "build:fix-bundle": "node scripts/fix-bundle.mjs && mm-snap manifest --fix && mm-snap eval --verboseErrors --bundle dist/snap.js && cp snap.manifest.json ../../examples/site/",
     "build:snap": "rollup -c",
     "clean": "rimraf dist",
@@ -42,8 +48,7 @@
     "@polkadot/util": "^10.1.14",
     "@polkadot/util-crypto": "^10.1.14",
     "@polkadot/wasm-crypto": "^6.3.1",
-    "azero-wallet-adapter": "workspace:*",
-    "azero-wallet-types": "workspace:*",
+    "azero-wallet-types": "0.1.0",
     "eth-rpc-errors": "^4.0.3",
     "sha3": "^2.1.4"
   },

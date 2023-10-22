@@ -154,7 +154,7 @@ importers:
         specifier: ^13.0.0
         version: 13.1.0
       azero-wallet-types:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../types
     devDependencies:
       replace-in-file:
@@ -193,11 +193,8 @@ importers:
       '@polkadot/wasm-crypto':
         specifier: ^6.3.1
         version: 6.4.1(@polkadot/util@10.4.2)(@polkadot/x-randomvalues@12.5.1)
-      azero-wallet-adapter:
-        specifier: workspace:*
-        version: link:../adapter
       azero-wallet-types:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../types
       eth-rpc-errors:
         specifier: ^4.0.3

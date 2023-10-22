@@ -1,1 +1,1 @@
-# `aleph-zero-snap`
+# `azero-wallet`
