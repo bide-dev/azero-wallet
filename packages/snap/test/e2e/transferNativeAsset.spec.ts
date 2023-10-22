@@ -35,18 +35,17 @@ describe('transferNativeAsset', () => {
 
     const requestParams: TransferNativeAssetRequestParams = {
       recipient: '5FjvBzjJq6x2',
-      amount: '0x0000000', // TODO: Change to a real amount
+      amount: '0x0000000',
     };
-    const request = {
+    const res = (await onRpcRequest({
       origin: 'localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
         method: 'transferNativeAsset',
         params: requestParams,
-      },
-    } as unknown as JsonRpcRequest;
-    const res = (await onRpcRequest(request)) as Result<unknown>;
+      } as JsonRpcRequest<TransferNativeAssetRequestParams>,
+    })) as Result<unknown>;
 
     expect(polkadotInitSpy).toHaveBeenCalled();
     expect(makeTransferTxSpy).toHaveBeenCalled();

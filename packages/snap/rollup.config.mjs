@@ -22,9 +22,11 @@ export default defineConfig({
     sucrase({
       exclude: ['test/**/*'],
       transforms: ['typescript'],
+      include: ['src/**/*'],
     }),
     // @ts-ignore
     snaps.default({
+      // eval: true,
       eval: false,
       stripComments: true,
       manifestPath: './snap.manifest.json',

@@ -30,7 +30,7 @@ describe('setRpcUrl', () => {
     const requestParams: SetRpcUrlRequestParams = {
       rpcUrl: 'wss://rpc.polkadot.io',
     };
-    const request = {
+    const res = (await onRpcRequest({
       origin,
       request: {
         id: 'test-id',
@@ -38,8 +38,7 @@ describe('setRpcUrl', () => {
         method: 'setRpcUrl',
         params: requestParams,
       },
-    } as unknown as JsonRpcRequest;
-    const res = (await onRpcRequest(request)) as Result<unknown>;
+    })) as Result<unknown>;
 
     expect(polkadotInitSpy).toHaveBeenCalledTimes(2); // Once for snap init, and once for setRpcUrl request
     expect(setRpcUrlSpy).toHaveBeenCalled();

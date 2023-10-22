@@ -34,7 +34,7 @@ describe('signSignerPayload', () => {
       .spyOn(PolkadotService, 'sendTransactionWithSignature')
       .mockImplementation(async () => Promise.resolve(fakeTransactionInfo));
 
-    const request = {
+    const res = (await onRpcRequest({
       origin: 'localhost',
       request: {
         id: 'test-id',
@@ -42,8 +42,7 @@ describe('signSignerPayload', () => {
         method: 'signAndSendTransaction',
         params: fakeTransactionPayload,
       },
-    } as unknown as JsonRpcRequest;
-    const res = (await onRpcRequest(request)) as Result<unknown>;
+    })) as Result<unknown>;
 
     expect(polkadotInitSpy).toHaveBeenCalled();
     expect(polkadotSignPayload).toHaveBeenCalled();

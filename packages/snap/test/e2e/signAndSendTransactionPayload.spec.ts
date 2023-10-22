@@ -1,6 +1,9 @@
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
-import { JsonRpcRequest } from '@metamask/snaps-types';
-import { isError, Result } from 'azero-wallet-types';
+import {
+  Result,
+  SignAndSendTransactionRequestParams,
+  isError,
+} from 'azero-wallet-types';
 
 import { onRpcRequest } from '../../src';
 import { PolkadotService } from '../../src/services/polkadot';
@@ -9,7 +12,7 @@ import {
   fakeTransactionInfo,
   fakeTransactionPayload,
 } from '../data/mocks';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import { SnapMock, createMockSnap } from '../helpers/snapMock';
 
 jest
   .spyOn(PolkadotService, 'init')
@@ -33,16 +36,18 @@ describe('signAndSendTransaction', () => {
       .spyOn(PolkadotService, 'sendTransactionWithSignature')
       .mockImplementation(async () => Promise.resolve(fakeTransactionInfo));
 
-    const request = {
+    const requestParams: SignAndSendTransactionRequestParams = {
+      payload: fakeTransactionPayload,
+    };
+    const res = (await onRpcRequest({
       origin: 'localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
         method: 'signAndSendTransaction',
-        params: fakeTransactionPayload,
+        params: requestParams,
       },
-    } as unknown as JsonRpcRequest;
-    const res = (await onRpcRequest(request)) as Result<unknown>;
+    })) as Result<unknown>;
 
     expect(polkadotInitSpy).toHaveBeenCalled();
     expect(polkadotSignPayload).toHaveBeenCalled();

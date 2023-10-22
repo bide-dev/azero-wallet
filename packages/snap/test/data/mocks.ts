@@ -8,6 +8,7 @@ export const fakeTransactionInfo: TransactionInfo = {
   amount: '0x0000000',
   fee: '0x0000000',
 };
+
 export const fakeTransactionPayload: TransactionPayload = {
   transaction: '0x0000000',
   payload: {
@@ -25,4 +26,5 @@ export const fakeTransactionPayload: TransactionPayload = {
     version: 0,
   },
 };
+
 export const fakeSignature = '0x0000000';

@@ -14,6 +14,7 @@ describe('getAccount', () => {
 
   beforeAll(async () => {
     snapMock = await createMockSnap();
+    // eslint-disable-next-line no-restricted-globals
     global.snap = snapMock;
   });
 

@@ -7,10 +7,10 @@
     "url": "https://github.com/piotr-roslaniec/azero-snap"
   },
   "source": {
-    "shasum": "CGJMHgg2Cje3zt3/oI/VWifQJmbAdh9mVvqFmrBC9s0=",
+    "shasum": "kvD1AZG1gUS0TIOCOJsTi0Uy0dlxAzMqFiPmEdXHp7s=",
     "location": {
       "npm": {
-        "filePath": "dist/index.js",
+        "filePath": "dist/snap.js",
         "iconPath": "images/icon.svg",
         "packageName": "azero-wallet",
         "registry": "https://registry.npmjs.org/"

@@ -9,6 +9,7 @@ import {
   InstallFlaskButton,
   ReconnectButton,
   SendHelloButton as SendTxButton,
+  SetRpcUrlButton,
 } from '../components';
 import { MetamaskActions, MetaMaskContext } from '../hooks';
 import {
@@ -111,6 +112,7 @@ const Index = () => {
 
   const [account, setAccount] = useState<string | null>(null);
   const [txInfo, setTxInfo] = useState<TransactionInfo | null>(null);
+  const [rpcUrl, setRpcUrl] = useState<string>('https://test.azero.dev/');
 
   useEffect(() => {
     const fetchAccount = async () => {
@@ -228,6 +230,31 @@ const Index = () => {
             description: 'Sends a transfer to self',
             button: (
               <SendTxButton
+                onClick={sendTransferToSelf}
+                disabled={!state.installedSnap}
+              />
+            ),
+          }}
+          disabled={!state.installedSnap}
+          fullWidth={
+            state.isFlask &&
+            Boolean(state.installedSnap) &&
+            !shouldDisplayReconnectButton(state.installedSnap)
+          }
+        />
+        <Card
+          content={{
+            title: 'Set RPC URL',
+            description: 'Set the RPC URL to use for the snap',
+            input: (
+              <input
+                type="text"
+                value={rpcUrl}
+                onChange={(ev) => setRpcUrl(ev.target.value)}
+              />
+            ),
+            button: (
+              <SetRpcUrlButton
                 onClick={sendTransferToSelf}
                 disabled={!state.installedSnap}
               />

@@ -10,19 +10,20 @@ import {
 } from 'azero-wallet-types';
 
 import { generateTransactionPayload, getApi } from './polkadot';
-import { defaultSnapOrigin } from '../config';
+import { defaultSnapOrigin } from '../config/snap';
 import { GetSnapsResponse, Snap } from '../types';
 
-export const getSnaps = async (): Promise<GetSnapsResponse> => {
+export const getSnaps = async (): Promise<
+  Partial<GetSnapsResponse> | null | undefined
+> => {
   // eslint-disable-next-line no-restricted-globals
-  return (await window.ethereum.request({
+  return await window.ethereum.request({
     method: 'wallet_getSnaps',
-  })) as unknown as GetSnapsResponse;
+  });
 };
 
-export const connectSnap = async () => connect();
+export const connectSnap = async () => await connect();
 
-// TODO: Add to snap adapter
 /**
  * Get the snap from MetaMask.
  *
@@ -33,12 +34,15 @@ export const getSnap = async (version?: string): Promise<Snap | undefined> => {
   console.log('getSnap', version);
   try {
     const snaps = await getSnaps();
+    if (!snaps) {
+      return undefined;
+    }
     console.log({ snaps });
     console.log({ defaultSnapOrigin });
 
     return Object.values(snaps).find(
-      (snap) =>
-        snap.id === defaultSnapOrigin && (!version || snap.version === version),
+      (snap) => snap && snap.id === defaultSnapOrigin, // &&
+      // (!version || snap.version === version),
     );
   } catch (error: unknown) {
     console.log('Failed to obtain installed snap', error);
