@@ -2,7 +2,6 @@ import snaps from '@metamask/snaps-rollup-plugin';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import sucrase from '@rollup/plugin-sucrase';
-import terser from '@rollup/plugin-terser';
 import { defineConfig } from 'rollup';
 
 export default defineConfig({

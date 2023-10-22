@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "description": "Types for azero-wallet-snap",
   "keywords": [
-    "aleph-zero",
+    "aleph",
+    "zero",
     "wallet",
     "metamask",
     "snap"
@@ -32,9 +33,9 @@
     "build:es": "tsc --build ./tsconfig.es.json --verbose",
     "clean": "rimraf dist",
     "lint": "run-p lint:exports lint:eslint",
-    "lint:eslint": "eslint src",
+    "lint:eslint": "eslint .",
     "lint:exports": "ts-unused-exports tsconfig.json --ignoreFiles src/index.ts",
-    "lint:fix": "pnpm lint:eslint --fix",
+    "lint:fix": "eslint . --fix && prettier . --write",
     "package-check": "package-check",
     "typecheck": "tsc --noEmit"
   },

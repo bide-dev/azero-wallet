@@ -3,7 +3,8 @@
   "version": "0.1.6",
   "description": "Aleph Zero Wallet snap",
   "keywords": [
-    "aleph-zero",
+    "aleph",
+    "zero",
     "wallet",
     "metamask",
     "snap"
@@ -31,7 +32,6 @@
     "lint:eslint": "eslint .",
     "lint:exports": "ts-unused-exports tsconfig.json --ignoreFiles src/index.ts",
     "lint:fix": "eslint . --fix && prettier . --write",
-    "package-check": "package-check",
     "serve": "mm-snap serve",
     "start": "pnpm build && pnpm serve",
     "test": "cross-env IS_TESTING=true cross-env NODE_OPTIONS=--max-old-space-size=6144 node --expose-gc --experimental-json-modules ./node_modules/jest/bin/jest.js --runInBand --logHeapUsage",

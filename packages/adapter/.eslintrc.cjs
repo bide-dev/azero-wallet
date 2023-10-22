@@ -2,8 +2,9 @@ module.exports = {
   root: true,
   extends: ['../../.eslintrc.js'],
   parserOptions: {
-    sourceType: 'module',
     tsconfigRootDir: __dirname,
+    project: './tsconfig.eslint.json',
+    sourceType: 'module',
   },
   globals: {
     window: 'readonly',

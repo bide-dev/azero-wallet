@@ -1,9 +1,12 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import replace from 'replace-in-file';
 
+// eslint-disable-next-line node/no-process-env
 const DEV = process.env.NODE_ENV === 'development';
 
 const SNAP_ID = DEV ? 'local:http://localhost:8080' : 'npm:azero-wallet';
 
+// eslint-disable-next-line node/no-sync
 replace.replaceInFileSync({
   files: [
     'dist/cjs/consts.d.ts',
@@ -15,6 +18,7 @@ replace.replaceInFileSync({
   to: SNAP_ID,
 });
 
+// eslint-disable-next-line no-console
 console.log(`\nReplaced __SNAP_ID__ with ${SNAP_ID}\n`);
 
 export {};

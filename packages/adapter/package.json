@@ -3,7 +3,8 @@
   "version": "0.1.3",
   "description": "Access Aleph Zero Wallet snap through a typed API",
   "keywords": [
-    "aleph-zero",
+    "aleph",
+    "zero",
     "wallet",
     "metamask",
     "snap"
@@ -33,16 +34,16 @@
     "build:es": "tsc --build ./tsconfig.es.json --verbose",
     "clean": "rimraf dist",
     "lint": "run-p lint:exports lint:eslint",
-    "lint:eslint": "eslint src",
+    "lint:eslint": "eslint .",
     "lint:exports": "ts-unused-exports tsconfig.json --ignoreFiles src/index.ts",
-    "lint:fix": "pnpm lint:eslint --fix",
+    "lint:fix": "eslint . --fix && prettier . --write",
     "package-check": "package-check",
     "post-build": "ts-node scripts/post-build.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "azero-wallet-types": "0.1.0",
-    "@metamask/providers": "^13.0.0"
+    "@metamask/providers": "^13.0.0",
+    "azero-wallet-types": "0.1.0"
   },
   "devDependencies": {
     "replace-in-file": "^6.3.5"
