@@ -4,7 +4,7 @@
 
 ```bash
 pnpm install
-pnpm build
+pnpm NODE_ENV=development build
 pnpm test
 ```
 

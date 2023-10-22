@@ -1,6 +1,7 @@
 import {
   connect,
   getAccount,
+  setSnapId,
   signAndSendExtrinsicTransactionPayload,
   transferNativeAsset,
 } from 'azero-wallet-adapter';
@@ -16,14 +17,16 @@ import { GetSnapsResponse, Snap } from '../types';
 
 export const getSnaps = async (): Promise<
   Partial<GetSnapsResponse> | null | undefined
-> => {
+> =>
   // eslint-disable-next-line no-restricted-globals
-  return await window.ethereum.request({
+  await window.ethereum.request({
     method: 'wallet_getSnaps',
   });
-};
 
-export const connectSnap = async () => await connect();
+export const connectSnap = async () => {
+  await connect(defaultSnapOrigin);
+  setSnapId(defaultSnapOrigin);
+};
 
 /**
  * Get the snap from MetaMask.
