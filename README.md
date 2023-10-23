@@ -1,20 +1,21 @@
-# `aleph-snap`
+# `azero-wallet`
 
-## Getting started
+This project implements a MetaMask snap that allows you to sign & send transaction on Aleph Zero network.
+
+To learn more about snaps, see the [MetaMask snap documentation](https://docs.metamask.io/guide/snap.html).
+
+## Overview
+
+Normally, you would use [`azero-wallet-adapter`](packages/adapter) to connect to the [`azero-wallet`](packages/snap)
+snap.
+
+See [an integration example](../../examples/site) to learn how to integrate `azero-wallet` into a web app
+using `azero-wallet-adapter`.
+
+## Development
 
 ```bash
-pnpm install
-pnpm NODE_ENV=development build
-pnpm test
-```
-
-## Examples
-
-Please see `./examples/site` for a full integration example. You can run it with:
-
-```bash
-cd examples/site
 pnpm install
 pnpm build
-pnpm start
+pnpm test
 ```

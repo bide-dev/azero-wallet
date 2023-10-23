@@ -12,7 +12,7 @@
     "url": "git+https://github.com/MetaMask/template-snap-monorepo.git"
   },
   "license": "(MIT-0 OR Apache-2.0)",
-  "author": "",
+  "author": "Piotr Roslaniec <p.roslaniec@gmail.com>",
   "workspaces": [
     "packages/*"
   ],

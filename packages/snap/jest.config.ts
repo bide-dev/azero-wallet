@@ -2,7 +2,7 @@ import crypto from 'node:crypto';
 
 export default {
   clearMocks: false,
-  collectCoverage: false,
+  collectCoverage: true,
   coverageDirectory: 'coverage',
   coveragePathIgnorePatterns: ['/node_modules/', 'test'],
   coverageProvider: 'v8',
@@ -32,5 +32,4 @@ export default {
   },
   extensionsToTreatAsEsm: ['.ts'],
   testTimeout: 120000,
-  include: ['./test/globals.d.ts'],
 };

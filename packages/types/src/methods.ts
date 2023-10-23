@@ -29,5 +29,3 @@ export type SetRpcUrlRequest = {
   method: 'setRpcUrl';
   params: SetRpcUrlRequestParams;
 };
-
-// TODO: Add "set rpc url method"
