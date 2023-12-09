@@ -18,7 +18,7 @@ initWasm().catch(console.error);
 export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
   request,
-}): Promise<any> => {
+}): Promise<ResultObject> => {
   try {
     console.log({ origin, request });
     const { method, params } = request;
