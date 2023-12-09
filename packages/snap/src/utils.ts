@@ -11,13 +11,6 @@ export const getRandomBytes = (byteCount: number): Int32Array => {
   return randomBytes;
 };
 
-// Reference: https://stackoverflow.com/a/71083193
-export const uint8ArrayFromHex = (hexString: string) => {
-  const strBytes = hexString.replace(/^0x/iu, '').match(/../gu) ?? [];
-  return new Uint8Array(strBytes.map((byte: string) => parseInt(byte, 16)))
-    .buffer;
-};
-
 export const sha256 = (message: string): Uint8Array => {
   const hash = new SHA3(256);
   hash.update(message);
