@@ -10,8 +10,8 @@ pnpm add azero-wallet-adapter
 
 Follow the integration guide below for method usage and parameter handling.
 
-(Note: For all methods, `params` is the data required by each method. It has different types depending on the function
-being called.)
+(Note: For all methods, `params` is the data required by each method. It has
+different types depending on the function being called.)
 
 ### 1. Get Account Address
 
@@ -30,8 +30,9 @@ async function fetchAccount() {
 
 ### 2. Sign and Send Payload
 
-This method requires the `SignAndSendTransactionRequestParams` type for its params. The response type
-is `Result<SignAndSendExtrinsicTransactionResult>`. The payload includes the transaction (hex string) and payload (
+This method requires the `SignAndSendTransactionRequestParams` type for its
+params. The response type is `Result<SignAndSendExtrinsicTransactionResult>`.
+The payload includes the transaction (hex string) and payload (
 SignerPayloadJSON type).
 
 ```typescript
@@ -48,8 +49,8 @@ signAndSendExtrinsicTransactionPayload(txParams).then(result => {
 
 ### 3. Sign Payload
 
-Like the previous method, but only signs the payload without sending it. This works with
-the `SignSignerPayloadRequestParams`.
+Like the previous method, but only signs the payload without sending it. This
+works with the `SignSignerPayloadRequestParams`.
 
 ```typescript
 const signParams: SignSignerPayloadRequestParams = {payload: /*...*/};
@@ -61,7 +62,8 @@ signSignerPayload(signParams).then(result => {
 
 ### 4. Transfer Native Assets
 
-This function requires the `TransferNativeAssetRequestParams` type for its parameters.
+This function requires the `TransferNativeAssetRequestParams` type for its
+parameters.
 
 ```typescript
 const transferParams: TransferNativeAssetRequestParams = {recipient: /*...*/, amount: /*...*/};
@@ -73,12 +75,13 @@ transferNativeAsset(transferParams).then(result => {
 
 ### 5. Set the RPC URL
 
-To set the RPC URL, you can use the `setRpcUrl` with `SetRpcUrlRequestParams` as its parameters.
+To set the RPC URL, you can use the `setRpcUrl` with `SetRpcUrlRequestParams` as
+its parameters.
 
 ```typescript
-const rpcParams: SetRpcUrlRequestParams = {rpcUrl: "http://my-rpc-url"};
+const rpcParams: SetRpcUrlRequestParams = { rpcUrl: 'http://my-rpc-url' };
 
-setRpcUrl(rpcParams).then(result => {
+setRpcUrl(rpcParams).then((result) => {
   if (isSuccess(result)) {
     // execute callback after RPC URL is set
   } else {

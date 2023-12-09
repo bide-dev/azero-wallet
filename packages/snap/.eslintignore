@@ -1,2 +1,5 @@
 jest.config.ts
 snap.config.js
+coverage
+dist
+node_modules

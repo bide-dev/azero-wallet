@@ -13,8 +13,8 @@
     "type": "git",
     "url": "https://github.com/piotr-roslaniec/aleph-zero-snap"
   },
-  "author": "Piotr Roslaniec <p.roslaniec@gmail.com>",
   "license": "MIT",
+  "author": "Piotr Roslaniec <p.roslaniec@gmail.com>",
   "exports": {
     ".": {
       "import": "./dist/es/index.js",
