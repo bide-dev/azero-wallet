@@ -1,8 +1,7 @@
-import {
+import type {
   GetAccountResult,
   RequestMethod,
   RequestParameters,
-  ResultObject,
   SetRpcUrlRequestParams,
   SignAndSendExtrinsicTransactionResult,
   SignAndSendTransactionRequestParams,
@@ -11,6 +10,7 @@ import {
   TransferNativeAssetRequestParams,
   TransferNativeAssetResult,
 } from 'azero-wallet-types';
+import { ResultObject } from 'azero-wallet-types';
 import { ethErrors } from 'eth-rpc-errors';
 
 import { getDefaultAddress } from '../account';

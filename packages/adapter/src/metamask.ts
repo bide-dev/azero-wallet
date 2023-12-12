@@ -1,5 +1,5 @@
-import { RequestArguments } from '@metamask/providers/dist/BaseProvider';
-import { AlephRPCRequest, Result } from 'azero-wallet-types';
+import type { RequestArguments } from '@metamask/providers/dist/BaseProvider';
+import type { AlephRPCRequest, Result } from 'azero-wallet-types';
 import { getSnapId } from './consts';
 
 const walletRequest = async (requestArgs: RequestArguments): Promise<any> => {
@@ -16,9 +16,9 @@ const walletRequest = async (requestArgs: RequestArguments): Promise<any> => {
  * @returns The result of the request.
  * @throws If fails to send the request.
  */
-export async function sendSnapMethod<T>(
+export async function sendSnapMethod<TData>(
   request: AlephRPCRequest,
-): Promise<Result<T>> {
+): Promise<Result<TData>> {
   return walletRequest({
     method: 'wallet_invokeSnap',
     params: {

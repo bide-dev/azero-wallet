@@ -7,7 +7,7 @@ import type { Maybe } from '@metamask/providers/dist/utils';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 import { initWasm } from '@polkadot/wasm-crypto/initOnlyAsm';
-import { AlephState } from 'azero-wallet-types';
+import type { AlephState } from 'azero-wallet-types';
 
 import { mnemonic } from '../data/constants';
 

@@ -1,10 +1,7 @@
-import { OnRpcRequestHandler } from '@metamask/snaps-types';
+import type { OnRpcRequestHandler } from '@metamask/snaps-types';
 import { initWasm } from '@polkadot/wasm-crypto/initOnlyAsm';
-import {
-  RequestMethod,
-  RequestParameters,
-  ResultObject,
-} from 'azero-wallet-types';
+import type { RequestMethod, RequestParameters } from 'azero-wallet-types';
+import { ResultObject } from 'azero-wallet-types';
 
 import { PolkadotService } from './services/polkadot';
 import { SnapService } from './services/snap';

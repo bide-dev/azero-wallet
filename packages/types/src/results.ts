@@ -1,11 +1,11 @@
-import { HexString } from '@polkadot/util/types';
+import type { HexString } from '@polkadot/util/types';
 
-export type Result<T> = {
+export type Result<TData> = {
   success: boolean;
 } & (
   | {
       success: true;
-      data: T;
+      data: TData;
     }
   | {
       success: false;
@@ -13,20 +13,20 @@ export type Result<T> = {
     }
 );
 
-export const isError = <T>(
-  result: Result<T>,
+export const isError = <TData>(
+  result: Result<TData>,
 ): result is { success: false; error: string } => !result.success;
 
-export const isSuccess = <T>(
-  result: Result<T>,
-): result is { success: true; data: T } => result.success;
+export const isSuccess = <TData>(
+  result: Result<TData>,
+): result is { success: true; data: TData } => result.success;
 
 export class ResultObject {
-  static success<T>(data: T): Result<T> {
+  static success<TData>(data: TData): Result<TData> {
     return { success: true, data };
   }
 
-  static error<T>(error: string): Result<T> {
+  static error<TData>(error: string): Result<TData> {
     return { success: false, error };
   }
 }

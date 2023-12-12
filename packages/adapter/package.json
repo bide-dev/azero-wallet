@@ -42,7 +42,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@metamask/providers": "^13.0.0",
+    "@metamask/providers": "^14.0.2",
     "azero-wallet-types": "0.1.0"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 import { decrypt, encrypt } from '@metamask/browser-passworder';
-import { JsonBIP44CoinTypeNode } from '@metamask/key-tree';
+import type { JsonBIP44CoinTypeNode } from '@metamask/key-tree';
 
-import { AlephState } from 'azero-wallet-types';
+import type { AlephState } from 'azero-wallet-types';
 import { KeyPairFactory } from '../account';
 import { getBip44Entropy } from './bip';
 import { SnapStorage } from './storage';

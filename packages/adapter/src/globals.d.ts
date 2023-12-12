@@ -1,6 +1,6 @@
 /* eslint-disable import/unambiguous */
 
-import { MetaMaskInpageProvider } from '@metamask/providers';
+import type { MetaMaskInpageProvider } from '@metamask/providers';
 
 declare global {
   // Eslint doesn't like this, but it's the only way to extend the window object.

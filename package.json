@@ -32,10 +32,10 @@
     "ci:lint": "run-p lint package:check packages:lint lint:exports"
   },
   "devDependencies": {
-    "@metamask/eslint-config": "^11.0.0",
-    "@metamask/eslint-config-jest": "^11.0.0",
-    "@metamask/eslint-config-nodejs": "^11.0.1",
-    "@metamask/eslint-config-typescript": "^11.0.0",
+    "@metamask/eslint-config": "^12.2.0",
+    "@metamask/eslint-config-jest": "^12.1.0",
+    "@metamask/eslint-config-nodejs": "^12.1.0",
+    "@metamask/eslint-config-typescript": "^12.1.0",
     "@skypack/package-check": "^0.2.2",
     "@types/node": "^18.0.6",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
@@ -65,5 +65,15 @@
   "packageManager": "pnpm@3.2.1",
   "engines": {
     "node": ">=16.0.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "browserify-sign@>=2.6.0 <=4.2.1": ">=4.2.2",
+      "postcss@<8.4.31": ">=8.4.31",
+      "semver@>=7.0.0 <7.5.2": ">=7.5.2",
+      "nth-check@<2.0.1": ">=2.0.1",
+      "@adobe/css-tools@<4.3.2": ">=4.3.2",
+      "vite@>=4.4.0 <4.4.12": ">=4.4.12"
+    }
   }
 }

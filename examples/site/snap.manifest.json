@@ -7,7 +7,7 @@
     "url": "https://github.com/piotr-roslaniec/azero-snap"
   },
   "source": {
-    "shasum": "+Uo/E1yaHyuGddGD/1l5NSWDOWPCc7O6og7nj60zkhM=",
+    "shasum": "vRb8sePvchQrF18UQsCaxIAD75fvtr3MYaESkx46T08=",
     "location": {
       "npm": {
         "filePath": "dist/snap.js",

@@ -1,16 +1,16 @@
 import { ApiPromise, HttpProvider } from '@polkadot/api';
-import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { HexString } from '@polkadot/util/types';
-import { TransactionInfo, TransactionPayload } from 'azero-wallet-types';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { HexString } from '@polkadot/util/types';
+import type { TransactionInfo, TransactionPayload } from 'azero-wallet-types';
 
-import { SignerPayloadJSON } from '@polkadot/types/types';
+import type { SignerPayloadJSON } from '@polkadot/types/types';
 import { getDefaultAddress, getDefaultKeyringPair } from '../account';
 import { showConfirmTransactionDialog } from '../metamask/ui';
 
 export class PolkadotService {
-  // public static azeroDevUrl = 'https://azero.dev/';
-  public static azeroDevUrl = 'http://159.223.154.187:9933';
-  // public static azeroDevUrl = 'https://test.azero.dev/';
+  // TODO: Replace with a public RPC point after azero.dev integration
+  //  public static defaultRpcUrl = 'https://test.azero.dev/';
+  public static defaultRpcUrl = 'http://147.182.236.254:9944';
 
   public static api: ApiPromise;
 
@@ -28,7 +28,7 @@ export class PolkadotService {
   }
 
   public static async init(
-    rpcUrl: string = PolkadotService.azeroDevUrl,
+    rpcUrl: string = PolkadotService.defaultRpcUrl,
   ): Promise<void> {
     if (this.inner) {
       return;

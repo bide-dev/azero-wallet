@@ -1,4 +1,4 @@
-import { TransactionInfo, TransactionPayload } from 'azero-wallet-types';
+import type { TransactionInfo, TransactionPayload } from 'azero-wallet-types';
 
 export const fakeTransactionInfo: TransactionInfo = {
   hash: '0x0000000',

@@ -1,6 +1,6 @@
-import { JsonBIP44CoinTypeNode } from '@metamask/key-tree';
+import type { JsonBIP44CoinTypeNode } from '@metamask/key-tree';
 import { Keyring } from '@polkadot/keyring';
-import { KeyringPair } from '@polkadot/keyring/types';
+import type { KeyringPair } from '@polkadot/keyring/types';
 import { stringToU8a } from '@polkadot/util';
 
 import { getBip44Entropy } from './metamask/bip';

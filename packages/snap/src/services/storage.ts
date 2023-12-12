@@ -1,4 +1,4 @@
-import { AlephState, AlephWalletState } from 'azero-wallet-types';
+import type { AlephState, AlephWalletState } from 'azero-wallet-types';
 
 import { CURRENT_STATE_VERSION } from '../const';
 import { SnapStorage } from '../metamask/storage';

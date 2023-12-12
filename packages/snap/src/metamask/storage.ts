@@ -1,4 +1,4 @@
-import { AlephState } from 'azero-wallet-types';
+import type { AlephState } from 'azero-wallet-types';
 
 export class SnapStorage {
   static async load(): Promise<AlephState> {

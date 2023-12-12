@@ -1,4 +1,4 @@
-import { SignerPayloadJSON } from '@polkadot/types/types';
+import type { SignerPayloadJSON } from '@polkadot/types/types';
 
 export type TransactionPayload = {
   transaction: string; // TODO HexString?

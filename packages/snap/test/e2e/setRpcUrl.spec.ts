@@ -1,10 +1,12 @@
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
-import { isError, Result, SetRpcUrlRequestParams } from 'azero-wallet-types';
+import type { Result, SetRpcUrlRequestParams } from 'azero-wallet-types';
+import { isError } from 'azero-wallet-types';
 
 import { onRpcRequest } from '../../src';
 import { PolkadotService } from '../../src/services/polkadot';
 import { StorageService } from '../../src/services/storage';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import type { SnapMock } from '../helpers/snapMock';
+import { createMockSnap } from '../helpers/snapMock';
 
 jest
   .spyOn(PolkadotService, 'init')

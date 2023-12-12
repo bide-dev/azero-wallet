@@ -6,6 +6,7 @@ module.exports = {
     project: './tsconfig.eslint.json',
     sourceType: 'module',
   },
+  ignorePatterns: ['scripts/*.ts'],
   globals: {
     window: 'readonly',
   },

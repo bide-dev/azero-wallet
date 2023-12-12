@@ -1,9 +1,11 @@
 import type { Json, SnapsGlobalObject } from '@metamask/snaps-types';
-import { isError, Result } from 'azero-wallet-types';
+import type { Result } from 'azero-wallet-types';
+import { isError } from 'azero-wallet-types';
 
 import { onRpcRequest } from '../../src';
 import { PolkadotService } from '../../src/services/polkadot';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import type { SnapMock } from '../helpers/snapMock';
+import { createMockSnap } from '../helpers/snapMock';
 
 import {
   fakeSignature,

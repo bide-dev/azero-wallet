@@ -25,7 +25,7 @@
     ]
   },
   "dependencies": {
-    "@metamask/providers": "^13.0.0",
+    "@metamask/providers": "^14.0.2",
     "@polkadot/api": "^9.9.4",
     "@polkadot/util": "^10.1.14",
     "azero-wallet-adapter": "workspace:*",

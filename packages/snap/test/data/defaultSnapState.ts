@@ -1,4 +1,4 @@
-import { AlephState, AlephWalletState } from 'azero-wallet-types';
+import type { AlephState, AlephWalletState } from 'azero-wallet-types';
 
 import { getEmptyAccountState } from '../../src/services/storage';
 
