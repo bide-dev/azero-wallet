@@ -3,7 +3,7 @@ module.exports = {
     port: 8080,
     transpilationMode: 'localAndDeps',
     dist: 'dist',
-    outfileName: 'index.js',
+    outfileName: 'snap.js',
     src: 'dist/snap.js',
   },
 };
