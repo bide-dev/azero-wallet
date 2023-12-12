@@ -15,16 +15,16 @@ different types depending on the function being called.)
 
 ### 1. Get Account Address
 
-The getAccount method doesn't need any parameters.
+The `getAccount` method doesn't need any parameters.
 
 ```typescript
-async function fetchAccount() {
-  const result: Result<GetAccountResult> = await getAccount();
-  if (isSuccess(result)) {
-    console.log(result.data); // {address: "account address"}
-  } else {
-    console.error(result.error);
-  }
+import { getAccount, isSuccess } from 'azero-wallet-adapter';
+
+const result: Result<GetAccountResult> = await getAccount();
+if (isSuccess(result)) {
+  console.log(result.data); // {address: "account address"}
+} else {
+  console.error(result.error);
 }
 ```
 
@@ -36,14 +36,22 @@ The payload includes the transaction (hex string) and payload (
 SignerPayloadJSON type).
 
 ```typescript
+import {
+    signAndSendExtrinsicTransactionPayload,
+    SignAndSendTransactionRequestParams,
+    isSuccess
+} from 'azero-wallet-adapter';
+
+mport
+
 const txParams: SignAndSendTransactionRequestParams = {transaction: /*...*/, payload: /*...*/}
 
 signAndSendExtrinsicTransactionPayload(txParams).then(result => {
-  if (isSuccess(result)) {
-    // handle result transaction
-  } else {
-    // handle error
-  }
+    if (isSuccess(result)) {
+        // handle result transaction
+    } else {
+        // handle error
+    }
 });
 ```
 
@@ -53,10 +61,20 @@ Like the previous method, but only signs the payload without sending it. This
 works with the `SignSignerPayloadRequestParams`.
 
 ```typescript
+import {
+    signSignerPayload,
+    SignSignerPayloadRequestParams,
+    isSuccess
+} from 'azero-wallet-adapter';
+
 const signParams: SignSignerPayloadRequestParams = {payload: /*...*/};
 
 signSignerPayload(signParams).then(result => {
-  // handle result or error
+    if (isSuccess(result)) {
+        // handle result transaction
+    } else {
+        // handle error
+    }
 });
 ```
 
@@ -66,10 +84,23 @@ This function requires the `TransferNativeAssetRequestParams` type for its
 parameters.
 
 ```typescript
-const transferParams: TransferNativeAssetRequestParams = {recipient: /*...*/, amount: /*...*/};
+import {
+    transferNativeAsset,
+    TransferNativeAssetRequestParams,
+    isSuccess
+} from 'azero-wallet-adapter';
+
+const transferParams: TransferNativeAssetRequestParams = {
+    recipient: /*...*/,
+    amount: /*...*/
+};
 
 transferNativeAsset(transferParams).then(result => {
-  // handle result or error
+    if (isSuccess(result)) {
+        // handle result transaction
+    } else {
+        // handle error
+    }
 });
 ```
 
@@ -79,6 +110,12 @@ To set the RPC URL, you can use the `setRpcUrl` with `SetRpcUrlRequestParams` as
 its parameters.
 
 ```typescript
+import {
+  setRpcUrl,
+  SetRpcUrlRequestParams,
+  isSuccess,
+} from 'azero-wallet-adapter';
+
 const rpcParams: SetRpcUrlRequestParams = { rpcUrl: 'http://my-rpc-url' };
 
 setRpcUrl(rpcParams).then((result) => {
