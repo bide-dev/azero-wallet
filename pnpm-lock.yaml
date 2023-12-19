@@ -165,7 +165,7 @@ importers:
         specifier: ^14.0.2
         version: 14.0.2
       azero-wallet-types:
-        specifier: 0.1.0
+        specifier: ^0.2.0
         version: link:../types
     devDependencies:
       replace-in-file:
@@ -208,7 +208,7 @@ importers:
         specifier: ^6.3.1
         version: 6.4.1(@polkadot/util@10.4.2)(@polkadot/x-randomvalues@12.5.1)
       azero-wallet-types:
-        specifier: 0.1.0
+        specifier: ^0.2.0
         version: link:../types
       eth-rpc-errors:
         specifier: ^4.0.3
