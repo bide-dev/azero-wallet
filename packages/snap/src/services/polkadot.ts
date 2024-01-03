@@ -8,9 +8,7 @@ import { getDefaultAddress, getDefaultKeyringPair } from '../account';
 import { showConfirmTransactionDialog } from '../metamask/ui';
 
 export class PolkadotService {
-  // TODO: Replace with a public RPC point after azero.dev integration
-  //  public static defaultRpcUrl = 'https://test.azero.dev/';
-  public static defaultRpcUrl = 'http://147.182.236.254:9944';
+  public static defaultRpcUrl = 'https://rpc.azero.dev/';
 
   public static api: ApiPromise;
 
