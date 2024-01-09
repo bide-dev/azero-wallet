@@ -114,6 +114,10 @@ if the API call failed.
 
 [azero-wallet-adapter]:  https://www.npmjs.com/package/azero-wallet-adapter
 
+[azero-wallet-snap]:  https://www.npmjs.com/package/azero-wallet-snap
+
+[azero-wallet-types]:  https://www.npmjs.com/package/azero-wallet-types
+
 [example app]: https://github.com/bide-dev/azero-wallet/tree/main/examples/site
 
 [payload generating example]: https://github.com/bide-dev/azero-wallet/blob/113a9f2b1085c579d31167f79ba1dce2c6a17ef7/examples/site/src/utils/polkadot.ts#L10-L10
