@@ -22,6 +22,11 @@ in `azero-wallet-adapter` and `azero-wallet-types` packages.
 While direct integration with `azero-wallet` is possible, using [azero-wallet-adapter] is recommended for ease and
 efficiency. This package contains the API methods exposed by the snap.
 
+### End-to-end integration example
+
+For a complete end-to-end integration example, see the [example app]. The example app is a React app that uses
+`azero-wallet-adapter` to connect to the snap and sign transactions, sending $AZERO tokens from to itself.
+
 ### Installation
 
 ```bash
@@ -38,6 +43,8 @@ will connect to (and install, if needed) the snap and sign transactions using th
 
 ```typescript
 import {signSignerPayload} from 'azero-wallet-adapter';
+import type {SignerPayloadJSON} from '@polkadot/types/types';
+import {ApiPromise} from '@polkadot/api';
 import {connectSnap} from './snap';
 
 export class MetaMaskSnapSigner {
@@ -57,8 +64,19 @@ export class MetaMaskSnapSigner {
       signature: signingResult.data.signature
     };
   }
+
+  // It is also possible to sing and send a transaction from within the snap using
+  // the `signAndSendExtrinsicTransactionPayload` method.
+  public async signAndSendPayload(api: ApiPromise): Promise<SignerResult> {
+    // We generate the payloud outside of the snap
+    const payload = await generateTransactionPayload(api); // see payload generating example below
+    // We sign and send the payload from within the snap
+    return await signAndSendExtrinsicTransactionPayload({payload});
+  }
 }
 ```
+
+To learn more about generating a signer payload, see this [payload generating example].
 
 For the `signPayload` method to work, the snap connection must be established. Below is the `connectSnap` function which
 connects to the snap and sets up the RPC URL. Here, we use the public testnet RPC URL.
@@ -95,3 +113,7 @@ if the API call failed.
 ---
 
 [azero-wallet-adapter]:  https://www.npmjs.com/package/azero-wallet-adapter
+
+[example app]: https://github.com/bide-dev/azero-wallet/tree/main/examples/site
+
+[payload generating example]: https://github.com/bide-dev/azero-wallet/blob/113a9f2b1085c579d31167f79ba1dce2c6a17ef7/examples/site/src/utils/polkadot.ts#L10-L10
