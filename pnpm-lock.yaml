@@ -165,7 +165,7 @@ importers:
         specifier: ^14.0.2
         version: 14.0.2
       azero-wallet-types:
-        specifier: ^0.2.0
+        specifier: ^0.3.0
         version: link:../types
     devDependencies:
       replace-in-file:
@@ -206,7 +206,7 @@ importers:
         version: 6.4.1(@polkadot/util@10.4.2)(@polkadot/x-randomvalues@12.5.1)
       azero-wallet-types:
         specifier: ^0.2.0
-        version: link:../types
+        version: 0.2.0
       eth-rpc-errors:
         specifier: ^4.0.3
         version: 4.0.3
@@ -6483,6 +6483,13 @@ packages:
     dependencies:
       dequal: 2.0.3
     dev: true
+
+  /azero-wallet-types@0.2.0:
+    resolution: {integrity: sha512-VZU21lycP7vXWgy8x0o/FZ7xFQOmPJEO+Z2y4NvqQ60pD9VTlNhYdQXerANJL0VbRYIYgxrzmXrkPkh6sTteNg==}
+    dependencies:
+      '@polkadot/types': 10.9.1
+      '@polkadot/util': 10.4.2
+    dev: false
 
   /babel-jest@27.5.1(@babel/core@7.23.2):
     resolution: {integrity: sha512-cdQ5dXjGRd0IBRATiQ4mZGlGlRE8kJpjPOixdNRdT+m3UcNqmYWN6rK6nvtXYfY3D76cb8s/O1Ss8ea24PIwcg==}
