@@ -16,17 +16,16 @@ const walletRequest = async (requestArgs: RequestArguments): Promise<any> => {
  * @returns The result of the request.
  * @throws If fails to send the request.
  */
-export async function sendSnapMethod<TData>(
+export const sendSnapMethod = async <TData>(
   request: AlephRPCRequest,
-): Promise<Result<TData>> {
-  return walletRequest({
+): Promise<Result<TData>> =>
+  walletRequest({
     method: 'wallet_invokeSnap',
     params: {
       snapId: getSnapId(),
       request,
     },
-  });
-}
+  }).then(JSON.parse);
 
 /**
  * Connect to snap. Attempts to install the snap if needed.
@@ -37,7 +36,7 @@ export async function sendSnapMethod<TData>(
  */
 export const connect = async (
   snapId: string = getSnapId(),
-  params: Record<'version' | string, unknown> = {},
+  params?: Record<'version' | string, unknown>,
 ): Promise<void> => {
   await walletRequest({
     method: 'wallet_requestSnaps',

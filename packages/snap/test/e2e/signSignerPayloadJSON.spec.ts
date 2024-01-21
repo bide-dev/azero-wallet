@@ -1,5 +1,4 @@
 import type { Json, SnapsGlobalObject } from '@metamask/snaps-types';
-import type { Result } from 'azero-wallet-types';
 import { isError } from 'azero-wallet-types';
 
 import { onRpcRequest } from '../../src';
@@ -35,7 +34,7 @@ describe('signSignerPayload', () => {
       .spyOn(PolkadotService, 'sendTransactionWithSignature')
       .mockImplementation(async () => Promise.resolve(fakeTransactionInfo));
 
-    const res = (await onRpcRequest({
+    const res = await onRpcRequest({
       origin: 'localhost',
       request: {
         id: 'test-id',
@@ -43,7 +42,7 @@ describe('signSignerPayload', () => {
         method: 'signAndSendTransaction',
         params: fakeTransactionPayload as unknown as Json,
       },
-    })) as Result<unknown>;
+    }).then(JSON.parse);
 
     expect(polkadotInitSpy).toHaveBeenCalled();
     expect(polkadotSignPayload).toHaveBeenCalled();

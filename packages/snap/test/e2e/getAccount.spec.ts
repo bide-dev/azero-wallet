@@ -1,5 +1,4 @@
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
-import type { Result } from 'azero-wallet-types';
 import { isError } from 'azero-wallet-types';
 
 import { onRpcRequest } from '../../src';
@@ -21,7 +20,7 @@ describe('getAccount', () => {
   });
 
   it('should return an account', async () => {
-    const res = (await onRpcRequest({
+    const result = await onRpcRequest({
       origin: 'localhost',
       request: {
         id: 'test-id',
@@ -29,12 +28,12 @@ describe('getAccount', () => {
         method: 'getAccount',
         params: {},
       },
-    })) as Result<unknown>;
+    }).then(JSON.parse);
 
-    if (isError(res)) {
-      throw new Error(res.error);
+    if (isError(result)) {
+      throw new Error(result.error);
     }
-    expect(res.success).toBe(true);
-    expect(res.data).toBeDefined();
+    expect(result.success).toBe(true);
+    expect(result.data).toBeDefined();
   });
 });

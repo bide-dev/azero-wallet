@@ -18,7 +18,7 @@ import { sendSnapMethod } from './metamask';
 export const getAccount = async (): Promise<Result<GetAccountResult>> =>
   sendSnapMethod({
     method: 'getAccount',
-    params: undefined,
+    params: [],
   });
 
 /**

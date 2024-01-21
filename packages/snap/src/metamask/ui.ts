@@ -1,5 +1,5 @@
-import type { Panel } from '@metamask/snaps-ui';
-import { divider, heading, panel, text } from '@metamask/snaps-ui';
+import type { Panel } from '@metamask/snaps-sdk';
+import { divider, heading, panel, text } from '@metamask/snaps-sdk';
 import type { SignerPayloadJSON } from '@polkadot/types/types';
 
 export const prettyJson = (record: Record<string, unknown>): string =>
