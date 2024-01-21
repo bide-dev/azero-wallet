@@ -1,8 +1,5 @@
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
-import type {
-  Result,
-  SignAndSendTransactionRequestParams,
-} from 'azero-wallet-types';
+import type { SignAndSendTransactionRequestParams } from 'azero-wallet-types';
 import { isError } from 'azero-wallet-types';
 
 import { onRpcRequest } from '../../src';
@@ -40,7 +37,7 @@ describe('signAndSendTransaction', () => {
     const requestParams: SignAndSendTransactionRequestParams = {
       payload: fakeTransactionPayload,
     };
-    const res = (await onRpcRequest({
+    const res = await onRpcRequest({
       origin: 'localhost',
       request: {
         id: 'test-id',
@@ -48,7 +45,7 @@ describe('signAndSendTransaction', () => {
         method: 'signAndSendTransaction',
         params: requestParams,
       },
-    })) as Result<unknown>;
+    }).then(JSON.parse);
 
     expect(polkadotInitSpy).toHaveBeenCalled();
     expect(polkadotSignPayload).toHaveBeenCalled();

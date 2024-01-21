@@ -1,7 +1,6 @@
 import type { JsonRpcRequest, SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   isError,
-  type Result,
   type TransferNativeAssetRequestParams,
 } from 'azero-wallet-types';
 
@@ -37,7 +36,7 @@ describe('transferNativeAsset', () => {
       recipient: '5FjvBzjJq6x2',
       amount: '0x0000000',
     };
-    const res = (await onRpcRequest({
+    const res = await onRpcRequest({
       origin: 'localhost',
       request: {
         id: 'test-id',
@@ -45,7 +44,7 @@ describe('transferNativeAsset', () => {
         method: 'transferNativeAsset',
         params: requestParams,
       } as JsonRpcRequest<TransferNativeAssetRequestParams>,
-    })) as Result<unknown>;
+    }).then(JSON.parse);
 
     expect(polkadotInitSpy).toHaveBeenCalled();
     expect(makeTransferTxSpy).toHaveBeenCalled();

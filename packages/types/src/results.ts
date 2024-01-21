@@ -23,6 +23,7 @@ export const isSuccess = <TData>(
 
 export class ResultObject {
   static success<TData>(data: TData): Result<TData> {
+    console.log('data: ', data);
     return { success: true, data };
   }
 

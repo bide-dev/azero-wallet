@@ -7,7 +7,7 @@
     "url": "https://github.com/bide-dev/azero-snap"
   },
   "source": {
-    "shasum": "DlXYVMnP6QYJse0e9gjiUMLMebwQV7Z+RKjV15MHQJ4=",
+    "shasum": "furWpVbDRlv+uyh7xXh0VhvIH8BgRt/ENwG1ULqpiJY=",
     "location": {
       "npm": {
         "filePath": "dist/snap.js",

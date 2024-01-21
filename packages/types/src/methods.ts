@@ -7,7 +7,7 @@ import type {
 
 export type GetAccountRequest = {
   method: 'getAccount';
-  params: undefined;
+  params: [];
 };
 
 export type SignSignerPayloadRequest = {

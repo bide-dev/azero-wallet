@@ -1,5 +1,5 @@
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
-import type { Result, SetRpcUrlRequestParams } from 'azero-wallet-types';
+import type { SetRpcUrlRequestParams } from 'azero-wallet-types';
 import { isError } from 'azero-wallet-types';
 
 import { onRpcRequest } from '../../src';
@@ -31,7 +31,7 @@ describe('setRpcUrl', () => {
     const requestParams: SetRpcUrlRequestParams = {
       rpcUrl: 'wss://rpc.polkadot.io',
     };
-    const res = (await onRpcRequest({
+    const res = await onRpcRequest({
       origin,
       request: {
         id: 'test-id',
@@ -39,7 +39,7 @@ describe('setRpcUrl', () => {
         method: 'setRpcUrl',
         params: requestParams,
       },
-    })) as Result<unknown>;
+    }).then(JSON.parse);
 
     expect(polkadotInitSpy).toHaveBeenCalledTimes(2); // Once for snap init, and once for setRpcUrl request
     expect(setRpcUrlSpy).toHaveBeenCalled();

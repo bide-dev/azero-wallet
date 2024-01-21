@@ -24,9 +24,10 @@
     "README.md"
   ],
   "scripts": {
-    "build": "pnpm clean && pnpm build:snap && pnpm build:fix-bundle",
+    "build": "pnpm clean && pnpm build:tsc && pnpm build:snap && pnpm build:fix-bundle",
     "build:fix-bundle": "node scripts/fix-bundle.mjs && mm-snap manifest --fix && mm-snap eval --verboseErrors --bundle dist/snap.js && cp snap.manifest.json ../../examples/site/",
     "build:snap": "rollup -c",
+    "build:tsc": "tsc -p tsconfig.build.json",
     "clean": "rimraf dist",
     "lint": "run-p lint:exports lint:eslint",
     "lint:eslint": "eslint .",
@@ -41,8 +42,7 @@
     "@metamask/approval-controller": "^5.0.0",
     "@metamask/browser-passworder": "^4.3.0",
     "@metamask/key-tree": "^9.0.0",
-    "@metamask/snaps-types": "^3.1.0",
-    "@metamask/snaps-ui": "^3.1.0",
+    "@metamask/snaps-sdk": "^1.4.0",
     "@polkadot/api": "^9.9.4",
     "@polkadot/keyring": "^10.1.14",
     "@polkadot/types": "^10.9.1",
@@ -63,6 +63,7 @@
     "@metamask/providers": "^14.0.2",
     "@metamask/snaps-cli": "^3.0.5",
     "@metamask/snaps-rollup-plugin": "^3.0.1",
+    "@metamask/utils": "^8.3.0",
     "@rollup/plugin-commonjs": "^25.0.5",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-sucrase": "^5.0.2",
@@ -79,7 +80,6 @@
     "metamask-testing-tools": "^1.1.10",
     "nodemon": "^2.0.16",
     "rollup": "^4.0.2",
-    "rollup-plugin-terser": "^7.0.2",
     "standard-version": "^9.5.0",
     "ts-node": "^10.9.1"
   },

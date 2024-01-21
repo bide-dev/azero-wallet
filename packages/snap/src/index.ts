@@ -1,4 +1,5 @@
-import type { OnRpcRequestHandler } from '@metamask/snaps-types';
+import type { Json, OnRpcRequestHandler } from '@metamask/snaps-sdk';
+import type { JsonRpcRequest } from '@metamask/utils';
 import { initWasm } from '@polkadot/wasm-crypto/initOnlyAsm';
 import type { RequestMethod, RequestParameters } from 'azero-wallet-types';
 import { ResultObject } from 'azero-wallet-types';
@@ -15,9 +16,12 @@ initWasm().catch(console.error);
 export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
   request,
-}): Promise<ResultObject> => {
+}: {
+  origin: string;
+  request: JsonRpcRequest;
+}): Promise<Json> => {
   try {
-    console.log({ origin, request });
+    console.log({ origin, request: JSON.stringify(request) });
     const { method, params } = request;
 
     console.log('Initiating StorageService');
@@ -32,8 +36,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       origin,
       method as RequestMethod,
       params as RequestParameters,
-    );
+    ).then(JSON.stringify);
   } catch (error) {
-    return ResultObject.error((error as Error).toString());
+    return JSON.stringify(ResultObject.error((error as Error).toString()));
   }
 };
