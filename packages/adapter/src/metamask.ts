@@ -37,7 +37,7 @@ export async function sendSnapMethod<TData>(
  */
 export const connect = async (
   snapId: string = getSnapId(),
-  params: Record<'version' | string, unknown> = {},
+  params?: Record<'version' | string, unknown>,
 ): Promise<void> => {
   await walletRequest({
     method: 'wallet_requestSnaps',
