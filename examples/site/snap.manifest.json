@@ -1,5 +1,5 @@
 {
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Aleph Zero Snap",
   "proposedName": "Aleph Zero Snap",
   "repository": {
@@ -7,7 +7,7 @@
     "url": "https://github.com/bide-dev/azero-snap"
   },
   "source": {
-    "shasum": "furWpVbDRlv+uyh7xXh0VhvIH8BgRt/ENwG1ULqpiJY=",
+    "shasum": "236mLJWVNOm0vYEJEysapcLsDcLmn1sUpTKQ0cUt+mA=",
     "location": {
       "npm": {
         "filePath": "dist/snap.js",
