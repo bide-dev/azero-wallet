@@ -15,9 +15,9 @@ export type PrivateAccount = {
 };
 
 export class KeyPairFactory {
-  static ss58Format = 42; // kusama
+  static ss58Format = 42;
 
-  static coinType = 434; // kusama
+  static coinType = 643; // See: https://github.com/satoshilabs/slips/blob/master/slip-0044.md
 
   static fromSeed(seed: Uint8Array): KeyringPair {
     const keyring = new Keyring({
