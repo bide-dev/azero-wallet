@@ -7,7 +7,7 @@
     "url": "https://github.com/bide-dev/azero-snap"
   },
   "source": {
-    "shasum": "pqkoZj5C/kaa23SDDRVcWEujjgEtWBJL6dW4wDx9IBU=",
+    "shasum": "ScUPXhN6BoDCdhYT+EjIqM/spX8gabUFKvjpZUiuYcE=",
     "location": {
       "npm": {
         "filePath": "dist/snap.js",
@@ -24,7 +24,7 @@
     "snap_dialog": {},
     "snap_getBip44Entropy": [
       {
-        "coinType": 434
+        "coinType": 643
       }
     ],
     "endowment:rpc": {
