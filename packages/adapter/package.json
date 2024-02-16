@@ -1,6 +1,6 @@
 {
   "name": "azero-wallet-adapter",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Access Aleph Zero Wallet snap through a typed API",
   "keywords": [
     "aleph",
