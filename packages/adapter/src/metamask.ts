@@ -1,6 +1,6 @@
-import type { RequestArguments } from '@metamask/providers/dist/BaseProvider';
-import type { AlephRPCRequest, Result } from 'azero-wallet-types';
-import { getSnapId } from './consts';
+import type {RequestArguments} from '@metamask/providers/dist/BaseProvider';
+import type {AlephRPCRequest, Result} from 'azero-wallet-types';
+import {getSnapId} from './consts';
 
 const walletRequest = async (requestArgs: RequestArguments): Promise<any> => {
   if (!window.ethereum?.isMetaMask) {
@@ -70,18 +70,25 @@ export const isFlask = async (): Promise<boolean> => {
 /**
  * Detect if the snap is installed.
  *
+ * If a version is provided, it will check if the installed version matches the provided version.
+ * If no version is provided, it will check if the snap is installed.
+ * If no snapId is provided, it will use the default snapId.
+ *
+ * @param snapId - The ID of the snap.
+ * @param version - The version of the snap.
  * @returns True if the snap is installed, false otherwise.
  */
-export const isInstalled = async (): Promise<boolean> => {
-  try {
-    const result = await walletRequest({
-      method: 'wallet_requestSnaps',
-      params: {
-        [getSnapId()]: {},
-      },
-    });
-    return Boolean(result);
-  } catch (error) {
-    return false;
+export const isInstalled = async (
+  snapId = getSnapId(),
+  version?: string,
+): Promise<boolean> => {
+  const maybeSnaps = await window?.ethereum?.request({
+    method: 'wallet_getSnaps',
+  });
+  const snaps = (maybeSnaps ?? {}) as Record<string, { version: string }>;
+  const isSnapInstalled = Boolean(snaps[snapId]);
+  if (isSnapInstalled && version) {
+    return snaps[snapId].version === version;
   }
+  return isSnapInstalled;
 };
