@@ -82,18 +82,20 @@ export class PolkadotService {
   ): Promise<HexString> {
     const keyPair = await getDefaultKeyringPair();
 
+    const extrinsic = this.api.registry.createType(
+      'ExtrinsicPayload',
+      signerPayload,
+      {
+        version: signerPayload.version,
+      },
+    );
+
+    const asHumanReadable = extrinsic.toHuman();
     const confirmation = showConfirmDialog
-      ? await showConfirmTransactionDialog(signerPayload, keyPair.address)
+      ? await showConfirmTransactionDialog(asHumanReadable, keyPair.address)
       : false;
 
     if (confirmation) {
-      const extrinsic = this.api.registry.createType(
-        'ExtrinsicPayload',
-        signerPayload,
-        {
-          version: signerPayload.version,
-        },
-      );
       const { signature } = extrinsic.sign(keyPair);
       return signature;
     }
