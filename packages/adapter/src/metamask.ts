@@ -1,6 +1,6 @@
-import type {RequestArguments} from '@metamask/providers/dist/BaseProvider';
-import type {AlephRPCRequest, Result} from 'azero-wallet-types';
-import {getSnapId} from './consts';
+import type { RequestArguments } from '@metamask/providers/dist/BaseProvider';
+import type { AlephRPCRequest, Result } from 'azero-wallet-types';
+import { getSnapId } from './consts';
 
 const walletRequest = async (requestArgs: RequestArguments): Promise<any> => {
   if (!window.ethereum?.isMetaMask) {
