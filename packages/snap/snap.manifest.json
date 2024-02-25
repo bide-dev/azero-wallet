@@ -1,13 +1,13 @@
 {
   "version": "0.3.3",
-  "description": "Aleph Zero Snap",
-  "proposedName": "Aleph Zero Snap",
+  "description": "Aleph Zero Wallet",
+  "proposedName": "Aleph Zero Wallet",
   "repository": {
     "type": "git",
     "url": "https://github.com/bide-dev/azero-snap"
   },
   "source": {
-    "shasum": "Vzhswq0KQ5xIBwghWZ15k1LlUEKgmq0Ltky5VBHx+/o=",
+    "shasum": "zoXjC6554qqLwTo//VygxviHbOVsUYKiyNzaaQ6cTNI=",
     "location": {
       "npm": {
         "filePath": "dist/snap.js",
