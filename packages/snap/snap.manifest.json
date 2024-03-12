@@ -4,10 +4,10 @@
   "proposedName": "Aleph Zero Wallet",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bide-dev/azero-snap"
+    "url": "https://github.com/bide-dev/azero-wallet"
   },
   "source": {
-    "shasum": "jJ9NsXzRgWy81Wizzd9BL8r13oa9Druzg/Kls1F/oqE=",
+    "shasum": "XlsIlrDvNAub3NLHsrHgANYL9ePYa4k23s6EnB9L0sg=",
     "location": {
       "npm": {
         "filePath": "dist/snap.js",
